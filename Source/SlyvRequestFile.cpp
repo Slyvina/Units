@@ -132,7 +132,7 @@ static void beginPanel() {
 				 dir{ "" },
 				 path{ InitDir };
 
-			 path = TReplace(path, '/', '\\');
+			 path = ChReplace(path, '/', '\\');
 
 			 auto i = FindLast(path, '\\');
 			 if (i != -1) {
@@ -147,8 +147,8 @@ static void beginPanel() {
 			 if (p > -1) {
 				 ext = Lower("," + path.substr(p + 1) + ","); // ext = "," + path[p + 1..].toLower() + ","
 				 auto exs = Lower(exts);//Local exs$ = exts.toLower()
-				 exs = TReplace(exs, ":", ":,"); //exs = exs.Replace(":", ":,")
-				 exs = TReplace(exs, ";", ",;"); //exs = exs.Replace(";", ",;")
+				 exs = StReplace(exs, ":", ":,"); //exs = exs.Replace(":", ":,")
+				 exs = StReplace(exs, ";", ",;"); //exs = exs.Replace(";", ",;")
 				 p = FindFirst(exs, ext); //p = exs.find(ext)
 				 if (p > -1) {
 					 auto q = -1;
@@ -166,10 +166,10 @@ static void beginPanel() {
 				 if (exts.find(":") == -1) {
 					 exts = "Files\0*." + exts; // exts = "Files~0*." + exts
 				 } else {
-					 exts = TReplace(exts, ":", "\0*."); //exts = exts.Replace(":", "~0*.")
+					 exts = StReplace(exts, ":", "\0*."); //exts = exts.Replace(":", "~0*.")
 				 } // EndIf
-				 exts = TReplace(exts, ";", "\0"); // exts = exts.Replace(";", "~0")
-				 exts = TReplace(exts, ",", ";*.") + "\0"; //000000110 | exts = exts.Replace(",", ";*.") + "~0"
+				 exts = StReplace(exts, ";", "\0"); // exts = exts.Replace(";", "~0")
+				 exts = StReplace(exts, ",", ";*.") + "\0"; //000000110 | exts = exts.Replace(",", ";*.") + "~0"
 			 } // EndIf
 
 					 // Actual work

@@ -64,14 +64,15 @@ namespace Slyvina {
 			return i;
 		}
 
-		String TReplace(String mystr, char ori, char subst) {
+		// dah fuck?
+		std::string ChReplace(std::string mystr, char ori, char subst) {
 			for (unsigned int i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori) mystr[i] = subst;
 			}
 			return mystr;
 		}
 
-		String TReplace(String mystr, String ori, String subst) {
+		String StReplace(String mystr, String ori, String subst) {
 			{				
 				std::string ret = "";
 				auto olen = mystr.size();
@@ -92,7 +93,7 @@ namespace Slyvina {
 				
 			}
 		}
-		String TReplace(String mystr, char ori, String subst) {
+		String CSReplace(String mystr, char ori, String subst) {
 			String ret;
 			for (unsigned int i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori)
@@ -104,14 +105,14 @@ namespace Slyvina {
 		}
 
 		std::string ExtractDir(std::string file) {
-			file = TReplace(file, '\\', '/');
+			file = ChReplace(file, '\\', '/');
 			int lastslash = FindLast(file, '/');
 			if (lastslash < -1) return "";
 			return Left(file, lastslash);
 		}
 
 		std::string StripDir(std::string file) {
-			file = TReplace(file, '\\', '/');
+			file = ChReplace(file, '\\', '/');
 			int lastslash = FindLast(file, '/');
 			if (lastslash < -1) return file;
 			auto ret = Right(file, file.size() - lastslash);
@@ -120,7 +121,7 @@ namespace Slyvina {
 		}
 
 		String StripExt(String file) {
-			file = TReplace(file, '\\', '/');
+			file = ChReplace(file, '\\', '/');
 			int lastdot = FindLast(file, '.');
 			int lastslash = FindLast(file, '/');
 			if (lastdot < 0 || lastdot < lastslash) return file;
@@ -199,7 +200,7 @@ namespace Slyvina {
 			return -1;
 		}
 		String ExtractExt(std::string file) {
-			file = TReplace(file, '\\', '/');
+			file = ChReplace(file, '\\', '/');
 			int lastdot = FindLast(file, '.');
 			int lastslash = FindLast(file, '/');
 			if (lastdot < 0 || lastdot < lastslash) return "";
