@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.09
+// version: 22.12.10
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -86,7 +86,7 @@ namespace Slyvina {
 	typedef unsigned short int uInt16;
 	typedef unsigned short int uint16;
 	
-	typedef int Int32;
+	typedef int int32;
 	typedef unsigned int uint32;
 	typedef int Int32;
 	typedef unsigned int uInt32;
