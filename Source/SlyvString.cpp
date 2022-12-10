@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvString.cpp
 // Slyvina - Quick String Handler
-// version: 22.12.09
+// version: 22.12.10
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -22,9 +22,9 @@
 
 namespace Slyvina {
 	namespace Units {
-		String Mid(String str, unsigned int start, unsigned int length) {
+		std::string Mid(std::string str, unsigned int start, unsigned int length) {
 			{
-				String ret = "";
+				std::string ret = "";
 				int istart = start - 1;
 				if (start < 1) return ""; // NOT ALLOWED!!!
 				for (int i = istart; i < istart + length && i < str.size(); i++) {
@@ -33,9 +33,9 @@ namespace Slyvina {
 				return ret;
 			}
 		}
-		String Mid(String str, unsigned int start, unsigned int length, String newstring) {
+		std::string Mid(std::string str, unsigned int start, unsigned int length, std::string newstring) {
 			{
-				String ret = str;
+				std::string ret = str;
 				int istart = start - 1;
 				for (int i = 0; i < newstring.size(); i++) {
 					if (i = ret.size())
@@ -47,7 +47,7 @@ namespace Slyvina {
 			}
 		}
 
-		int FindLast(String str, char ch) {
+		int FindLast(std::string str, char ch) {
 			int i = str.size();
 			do {
 				i--;
@@ -55,7 +55,7 @@ namespace Slyvina {
 			return i;
 		}
 
-		int FindLast(String haystack, String needle) {
+		int FindLast(std::string haystack, std::string needle) {
 			int i = haystack.size() - needle.size();
 			if (i < 0) return -1;
 			do {
@@ -72,7 +72,7 @@ namespace Slyvina {
 			return mystr;
 		}
 
-		String StReplace(String mystr, String ori, String subst) {
+		std::string StReplace(std::string mystr, std::string ori, std::string subst) {
 			{				
 				std::string ret = "";
 				auto olen = mystr.size();
@@ -93,8 +93,8 @@ namespace Slyvina {
 				
 			}
 		}
-		String CSReplace(String mystr, char ori, String subst) {
-			String ret;
+		std::string CSReplace(std::string mystr, char ori, std::string subst) {
+			std::string ret;
 			for (unsigned int i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori)
 					ret += subst;
@@ -120,7 +120,7 @@ namespace Slyvina {
 			return ret;
 		}
 
-		String StripExt(String file) {
+		std::string StripExt(std::string file) {
 			file = ChReplace(file, '\\', '/');
 			int lastdot = FindLast(file, '.');
 			int lastslash = FindLast(file, '/');
@@ -128,7 +128,7 @@ namespace Slyvina {
 			return Left(file, lastdot);
 		}
 
-		VecString Split(String str, char spltchar) {
+		VecString Split(std::string str, char spltchar) {
 			auto ret=NewVecString();
 			unsigned int idx = 0;
 			for (int i = 0; i < str.size(); i++) {
@@ -141,7 +141,7 @@ namespace Slyvina {
 			return ret;
 		}
 
-		VecString Split(String str, char spltchar, int max) {
+		VecString Split(std::string str, char spltchar, int max) {
 			auto ret = NewVecString();
 			unsigned int idx = 0;
 			for (int i = 0; i < str.size(); i++) {
@@ -154,7 +154,7 @@ namespace Slyvina {
 			return ret;
 		}
 
-		VecString StringToLines(String str) {
+		VecString StringToLines(std::string str) {
 			auto ret = NewVecString();
 			unsigned int idx = 0;
 			for (int i = 0; i < str.size(); i++) {
@@ -167,8 +167,8 @@ namespace Slyvina {
 			return ret;
 		}
 
-		String Trim(String str) {
-			String ret = "";
+		std::string Trim(std::string str) {
+			std::string ret = "";
 			bool begun = false;
 			// before!
 			for (int i = 0; i < str.size(); ++i) {
@@ -176,7 +176,7 @@ namespace Slyvina {
 				if (begun)
 					ret += str[i];
 			}
-			if (ret == "") return ""; // No need to go on if the string's empty now!
+			if (ret == "") return ""; // No need to go on if the std::string's empty now!
 			
 			while (
 				ret[ret.size() - 1] == ' ' ||
@@ -199,7 +199,7 @@ namespace Slyvina {
 			}
 			return -1;
 		}
-		String ExtractExt(std::string file) {
+		std::string ExtractExt(std::string file) {
 			file = ChReplace(file, '\\', '/');
 			int lastdot = FindLast(file, '.');
 			int lastslash = FindLast(file, '/');
@@ -238,19 +238,19 @@ namespace Slyvina {
 			return p;
 		}
 
-		String TrSPrintF(const char* fmt, ...) {
+		std::string TrSPrintF(const char* fmt, ...) {
 			const char L_ESC{ '%' };
 			const int MAX_FORMAT{ 32 };
 			const int MAX_ITEM{ 120 };
 			const int MAX_ITEMF{ 300 };
 			va_list args;
 			va_start(args, fmt);
-			// Quick Alternate sprintf command (based on the Lua string.format() function)
+			// Quick Alternate sprintf command (based on the Lua std::string.format() function)
 			// int top = lua_gettop(L);
-			String ret{ "" };
+			std::string ret{ "" };
 			//int arg = 1;
 			size_t sfl{ strlen(fmt) };
-			const char* strfrmt = fmt; // luaL_checklstring(L, arg, &sfl);
+			const char* strfrmt = fmt; // luaL_checklstd::string(L, arg, &sfl);
 			const char* strfrmt_end = strfrmt + sfl;
 			//luaL_Buffer b;
 			//luaL_buffinit(L, &b);
@@ -310,7 +310,7 @@ namespace Slyvina {
 							//	const void* p = lua_topointer(L, arg);
 							//	if (p == NULL) {  /* avoid calling 'printf' with argument NULL */
 							//		p = "(null)";  /* result */
-							//		form[strlen(form) - 1] = 's';  /* format it as a string */
+							//		form[strlen(form) - 1] = 's';  /* format it as a std::string */
 							//	}
 							//	nb = l_sprintf(buff, maxitem, form, p);
 							//	break;
@@ -322,24 +322,24 @@ namespace Slyvina {
 							//	break;
 							//}
 					case 's': {
-						const char* s{ va_arg(args,char*) }; //= luaL_tolstring(L, arg, &l);
+						const char* s{ va_arg(args,char*) }; //= luaL_tolstd::string(L, arg, &l);
 						size_t l{ strlen(s) };
 						if (form[2] == '\0') { /* no modifiers? */
-							//luaL_addvalue(&b);  /* keep entire string */
+							//luaL_addvalue(&b);  /* keep entire std::string */
 							std::string s2; s2 = std::string(s);
 							strcpy_s(addret, s2.c_str());
 							//strcpy_s(addret, s);
 						} else {
-							//luaL_argcheck(L, l == strlen(s), arg, "string contains zeros");
+							//luaL_argcheck(L, l == strlen(s), arg, "std::string contains zeros");
 							if (l != strlen(s)) {
-								std::cout << "string contains zeros\n"; va_end(args); return "";
+								std::cout << "std::string contains zeros\n"; va_end(args); return "";
 							}
 							if (!strchr(form, '.') && l >= 100) {
-								/* no precision and string is too long to be formatted */
-								strcpy_s(addret, s); //luaL_addvalue(&b);  /* keep entire string */
-							} else {  /* format the string into 'buff' */
+								/* no precision and std::string is too long to be formatted */
+								strcpy_s(addret, s); //luaL_addvalue(&b);  /* keep entire std::string */
+							} else {  /* format the std::string into 'buff' */
 								//nb = l_sprintf(buff, maxitem, form, s);
-								//lua_pop(L, 1);  /* remove result from 'luaL_tolstring' */
+								//lua_pop(L, 1);  /* remove result from 'luaL_tolstd::string' */
 								sprintf_s(addret, form, s);
 							}
 						}
