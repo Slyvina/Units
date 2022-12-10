@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvTime.cpp
 // Slyvina - Time
-// version: 22.12.09
+// version: 22.12.10
 // Copyright (C) 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -17,6 +17,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #include <string>
 #include <time.h>
 using namespace std;
