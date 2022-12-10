@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.09
+// version: 22.12.10
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -32,7 +32,8 @@ namespace Slyvina {
 		//using namespace std;
 		bool FileExists(char* file);
 		bool FileExists(std::string file);
-		std::string LoadString(std::string file);
+		std::string FLoadString(std::string file); // The F prefix is because MicroSoft has a macro with the same name.
+		VecString LoadLines(std::string file);
 		void LoadChars(std::vector<char>* vec, std::string file);
 		void SaveString(std::string file, std::string stringvalue);
 
