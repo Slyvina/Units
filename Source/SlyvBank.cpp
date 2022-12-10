@@ -1,0 +1,133 @@
+// Lic:
+// Units/Source/SlyvBank.cpp
+// Slyvina - Banking
+// version: 22.12.10
+// Copyright (C) 2022 Jeroen P. Broks
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+// 1. The origin of this software must not be misrepresented; you must not
+// claim that you wrote the original software. If you use this software
+// in a product, an acknowledgment in the product documentation would be
+// appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+// misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+// EndLic
+
+#include <SlyvEndian.hpp>
+#include <SlyvBank.hpp>
+
+using namespace std;
+
+#define MPoke(_position,_type,_fld,_value) \
+	__AllNum O,T;\
+	O._fld = _value;\
+	switch (_endian) {\
+		case Endian::Ignore: T=O; break; \
+		case Endian::Little: T._fld = ToLittle((_type)_value); break; \
+		case Endian::Big: T._fld = ToBig((_type)_value); break; \
+		default: Panic("Illegal Endian While Poking"); return;\
+	}\
+	for(size_t i=0;i<sizeof(_type);i++) PokeChar(i+_position,T.check[i]);\
+
+
+#define MPeek(_position,_type,_fld) \
+	__AllNum O;\
+	for(size_t i=0;i<sizeof(_type);i++) O.check[i] = PeekChar(i+_position);\
+	switch (_endian) {\
+		case Endian::Ignore: return O._fld; break; \
+		case Endian::Little: return FromLittle(O._fld); break; \
+		case Endian::Big: return FromBig(O._fld); break; \
+		default: Panic("Illegal Endian While Peeking"); return 0;\
+	}\
+	
+
+
+namespace Slyvina {
+	namespace Units {
+		static void DefaultPanic(std::string err) { std::cout << "Slyvina Bank Error> " << err << std::endl; }
+
+
+		static BankPanic _DefPanic{ DefaultPanic };
+		_Bank::_Bank(size_t size,Endian E) {
+			_buffer = new char[size];
+			_sz = size;
+			_endian = E;
+			Panic = _DefPanic;
+		}
+		_Bank::~_Bank() {
+			delete[] _buffer;
+		}
+		void _Bank::PokeChar(size_t position, char value) {
+			if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
+			_buffer[position] = value;
+		}
+
+		void _Bank::PokeByte(size_t position, byte value) {
+			__AllNum B; 
+			B.bt = value;
+			PokeChar(position,B.ch);
+		}
+
+		void _Bank::PokeInt16(size_t position, int16 value) { MPoke(position, int16, i16, value); }
+		void _Bank::PokeInt32(size_t position, int32 value) { MPoke(position, int32, i32, value); }
+		void _Bank::PokeInt64(size_t position, int64 value) { MPoke(position, int64, i64, value); }
+		void _Bank::PokeUInt16(size_t position, uint16 value) { MPoke(position, uint16, i16, value); }
+		void _Bank::PokeUInt32(size_t position, uint32 value) { MPoke(position, uint32, i32, value); }
+		void _Bank::PokeUInt64(size_t position, uint64 value) { MPoke(position, uint64, i64, value); }
+
+		char _Bank::PeekChar(size_t position) {
+			if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
+			return _buffer[position];
+		}
+
+		byte _Bank::PeekByte(size_t position) {
+			__AllNum B;
+			B.ch = PeekChar(position);
+			return B.bt;
+		}
+
+		int16 _Bank::PeekInt16(size_t position) { MPeek(position, int16, i16); }
+		int32 _Bank::PeekInt32(size_t position) { MPeek(position, int32, i32); }
+		int64 _Bank::PeekInt64(size_t position) { MPeek(position, int64, i64); }
+		uint16 _Bank::PeekUInt16(size_t position) { MPeek(position, uint16, ui16); }
+		uint32 _Bank::PeekUInt32(size_t position) { MPeek(position, uint32, ui32); }
+		uint64 _Bank::PeekUInt64(size_t position) { MPeek(position, uint64, ui64); }
+
+		void _Bank::chcpy(char* buf, size_t sz) {
+			for (size_t i = 0; i < sz; i++) buf[i] = ReadChar();
+		}
+
+		std::string _Bank::ReadString(size_t sz) {
+			if (!sz) sz = ReadInt();
+			char* c_ret = new char[sz];
+			chcpy(c_ret, sz);
+			std::string ret{ c_ret };
+			delete[] c_ret;
+			return ret;
+		}
+
+		void _Bank::chcpy(char* buf, size_t pos, size_t sz) {
+			for (size_t i = 0; i < sz; i++) buf[i] = PeekChar(pos + i);
+		}
+		
+		Bank CreateBank(size_t size, Endian E) {
+			return std::make_shared<_Bank>(size,E);
+		}
+
+		Bank CreateBank(char* buf, size_t size, Endian E) {
+			auto ret = CreateBank(size, E);
+			for (size_t i = 0; i < size; i++) ret->PokeChar(i,buf[i]);
+		}
+
+		Bank CreateBank(std::vector<char> buf, Endian E) {
+			auto ret = CreateBank(buf.size(), E);
+			for (size_t i = 0; i < buf.size(); i++) ret->PokeChar(i, buf[i]);
+		}
+
+	}
+}
