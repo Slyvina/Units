@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.09
+// version: 22.12.10
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -38,6 +38,7 @@
 
 // Slyvina
 #include <Slyvina.hpp>
+#include <SlyvString.hpp>
 #include <SlyvStream.hpp>
 #include <SlyvTime.hpp>
 
@@ -93,7 +94,7 @@ namespace Slyvina {
 		}
 
 #undef LoadString
-		string LoadString(string file) {
+		string FLoadString(string file) {
 			std::ifstream ifs(file);
 			std::string content((std::istreambuf_iterator<char>(ifs)),
 				(std::istreambuf_iterator<char>()));
@@ -101,7 +102,7 @@ namespace Slyvina {
 			return content;
 		}
 
-		void LoadChars(vector<char>* vec, string file) {
+		void LoadChars(vector<char>* vec, std::string file) {
 			//std::vector<char> vec;
 			vec->clear();
 #ifdef QS4Windows
@@ -194,7 +195,7 @@ namespace Slyvina {
 
 		std::string CurrentDir() {
 			char* cwd = _getcwd(0, 0); // **** microsoft specific ****
-			std::string working_directory{ TReplace(cwd,'\\','/') };
+			std::string working_directory{ ChReplace(cwd,'\\','/') };
 			std::free(cwd);
 			return working_directory;
 
@@ -223,7 +224,7 @@ namespace Slyvina {
 			tm = _localtime(&st.st_mtime);
 			strftime(datestring, sizeof(datestring), "%m-%d-%Y %H.%M.%S", &tm);
 			std::string ret{ datestring };
-			return TReplace(ret, '.', ':');
+			return ChReplace(ret, '.', ':');
 		}
 
 		OutFile WriteFile(string fname, int endian) {
@@ -235,8 +236,8 @@ namespace Slyvina {
 		}
 
 
-		vector<string> LoadLines(string file) {
-			return StringToLines(LoadString(file));
+		VecString LoadLines(string file) {
+			return StringToLines(FLoadString(file));
 		}
 
 		union _ce {
