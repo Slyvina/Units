@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 22.12.10
+// version: 22.12.12
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -37,6 +37,7 @@ namespace Slyvina {
 		public:
 			BankPanic Panic{ nullptr };
 			_Bank(size_t size, Endian SetEndian = Endian::Little); // NEVER create this class regularly! Always use CreateBank() in stead. Otherwise destructors can mess the entire thing up.
+			_Bank(char* buf, size_t size, Endian SetEndian = Endian::Little);
 			~_Bank();
 
 			void PokeChar(size_t position, char value);
@@ -81,6 +82,8 @@ namespace Slyvina {
 			inline uint32 ReadUInt32() { auto r = PeekUInt32(_pos); _pos += sizeof(uint32); return r; }
 			inline uint64 ReadUInt64() { auto r = PeekUInt64(_pos); _pos += sizeof(uint64); return r; }
 			inline int32 ReadInt() { return ReadInt32(); }
+			inline bool ReadBoolean() { return ReadByte() > 0; }
+			inline bool ReadBool() { return ReadByte() > 0; }
 
 			void chcpy(char* buf, size_t pos,size_t sz);
 			void chcpy(char* buf, size_t sz);
@@ -98,6 +101,15 @@ namespace Slyvina {
 	Bank CreateBank(size_t size, Endian E = Endian::Little);
 	Bank CreateBank(char* buf, size_t size, Endian E = Endian::Little);
 	Bank CreateBank(std::vector<char>, Endian E = Endian::Little);
+
+	/// <summary>
+	/// Takes over a buffer and turns it into a bank. Please note! This routine actually copies the pointer to that buffer! Don't use this unless you know what you are doing. Also note that the memory allocated to this pointer will as a result be disposed automatically once this Bank is being disposed. If you do not want all that, this may not be the best way to go!
+	/// </summary>
+	/// <param name="buf"></param>
+	/// <param name="size"></param>
+	/// <param name="E"></param>
+	/// <returns></returns>
+	Bank TurnToBank(char* buf, size_t size, Endian E = Endian::Little);
 	}
 
 }

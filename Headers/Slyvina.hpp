@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.10
+// version: 22.12.12
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -76,8 +76,15 @@
 		#endif		
 
 namespace Slyvina {
-	
+
 	typedef std::string String;
+
+#pragma region Integer
+	// Please note. This only works in x64 (LittleEndian) now. 
+	// If anything changes due to other processors,
+	// #ifdef should be used in detection and then coming up with 
+	// new definitions are in order to make sure the definitions remain correct.
+	
 	typedef char Char;
 	typedef unsigned char Byte;
 	typedef unsigned char byte;
@@ -95,9 +102,13 @@ namespace Slyvina {
 	typedef unsigned long long int uint64;
 	typedef long long int Int64;
 	typedef unsigned long long int uInt64;
+#pragma endregion
 	
 	typedef std::shared_ptr<std::vector<String>> VecString;
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
+
+	typedef std::shared_ptr<std::map<std::string, std::string>> StringMap;
+	inline StringMap NewStringMap() { return std::make_shared<std::map<std::string, std::string>>(); }
 	
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
