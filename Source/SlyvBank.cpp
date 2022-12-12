@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 22.12.10
+// version: 22.12.12
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -52,13 +52,21 @@ namespace Slyvina {
 		static void DefaultPanic(std::string err) { std::cout << "Slyvina Bank Error> " << err << std::endl; }
 
 
-		static BankPanic _DefPanic{ DefaultPanic };
+		BankPanic _Bank::_DefPanic{ DefaultPanic };
+
 		_Bank::_Bank(size_t size,Endian E) {
 			_buffer = new char[size];
 			_sz = size;
 			_endian = E;
 			Panic = _DefPanic;
 		}
+		_Bank::_Bank(char* buf, size_t size, Endian SetEndian) {
+			_buffer = buf;
+			_sz = size;
+			_endian = SetEndian;
+			Panic = _DefPanic;
+		}
+
 		_Bank::~_Bank() {
 			delete[] _buffer;
 		}
@@ -81,7 +89,7 @@ namespace Slyvina {
 		void _Bank::PokeUInt64(size_t position, uint64 value) { MPoke(position, uint64, i64, value); }
 
 		char _Bank::PeekChar(size_t position) {
-			if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
+			if (position > _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
 			return _buffer[position];
 		}
 
@@ -99,13 +107,14 @@ namespace Slyvina {
 		uint64 _Bank::PeekUInt64(size_t position) { MPeek(position, uint64, ui64); }
 
 		void _Bank::chcpy(char* buf, size_t sz) {
-			for (size_t i = 0; i < sz; i++) buf[i] = ReadChar();
+			for (size_t i = 0; i < sz; ++i) buf[i] = ReadChar();
 		}
 
 		std::string _Bank::ReadString(size_t sz) {
 			if (!sz) sz = ReadInt();
-			char* c_ret = new char[sz];
+			char* c_ret = new char[sz+1];
 			chcpy(c_ret, sz);
+			c_ret[sz] = '\0';
 			std::string ret{ c_ret };
 			delete[] c_ret;
 			return ret;
@@ -127,6 +136,10 @@ namespace Slyvina {
 		Bank CreateBank(std::vector<char> buf, Endian E) {
 			auto ret = CreateBank(buf.size(), E);
 			for (size_t i = 0; i < buf.size(); i++) ret->PokeChar(i, buf[i]);
+		}
+
+		Bank TurnToBank(char* buf, size_t size, Endian E) {
+			return std::make_shared<_Bank>(buf, size, E);
 		}
 
 	}
