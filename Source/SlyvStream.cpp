@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.10
+// version: 22.12.12
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -319,6 +319,16 @@ namespace Slyvina {
 		uint64 True_InFile::Size() {
 			return size;
 		}
+
+		void True_InFile::Seek(uint64 position) {
+			//stream.seekg(0,position);
+			stream.seekg(position);
+		}
+
+		uint64 True_InFile::Position() {
+			return stream.tellg();
+		}
+
 		True_InFile::True_InFile(std::string _filename, int endian) {
 			size = FileSize(_filename);
 			stream.open(_filename, std::ios::binary);
@@ -400,13 +410,20 @@ namespace Slyvina {
 		}
 
 		void True_InFile::ReadChars(char* c, int size) {
-			int m = min<int>(sizeof(c), size);
-			for (auto i = 0; i < m; i++) c[i] = ReadChar();
+			//int m = min<int>(sizeof(c), size);
+			//for (auto i = 0; i < m; i++) c[i] = ReadChar();
+			for (auto i = 0; i < size; i++) c[i] = ReadChar();
 		}
 
-		std::vector<char> True_InFile::ReadChars(int size) {
-			std::vector<char>ret{};
-			for (int i = 0; i < size; i++) ret.push_back(ReadChar());
+		std::shared_ptr<std::vector<char>> True_InFile::ReadChars(int size) {
+			auto ret{ std::make_shared<vector<char>>() };
+			for (int i = 0; i < size; i++) ret->push_back(ReadChar());
+			return ret;
+		}
+
+		std::shared_ptr < std::vector<byte>> True_InFile::ReadBytes(int size) {
+			auto ret{ std::make_shared<vector<byte>>() };
+			for (int i = 0; i < size; i++) ret->push_back(ReadByte());
 			return ret;
 		}
 

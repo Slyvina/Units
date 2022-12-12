@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.10
+// version: 22.12.12
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -110,6 +110,9 @@ namespace Slyvina {
 			unsigned long long size{ 0 };
 		public:
 			uint64 Size();
+			void Seek(uint64 position);
+			inline void Position(uint64 p) { Seek(p); }
+			uint64 Position();
 			True_InFile(std::string _filename, int endian = 1);
 			~True_InFile();
 			void Close();
@@ -123,7 +126,8 @@ namespace Slyvina {
 			uint64 ReadUInt64();
 			std::string ReadString(int l = 0);
 			void ReadChars(char* c, int size = 0);
-			std::vector<char> ReadChars(int size);
+			std::shared_ptr<std::vector<char>> ReadChars(int size);
+			std::shared_ptr<std::vector<byte>> ReadBytes(int size);
 			void ReadCString(char* c);
 			void ReadCString(char* c, int size);
 			std::string ReadCString();
