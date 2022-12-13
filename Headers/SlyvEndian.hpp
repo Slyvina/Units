@@ -69,7 +69,7 @@ namespace Slyvina {
 			}\
 		}\
 	inline type ToLittle(type v) { \
-			if (IsBigEndian()) return v; else {\
+			if (IsLittleEndian()) return v; else {\
 				__AllNum O; O.fld=v;\
 				__AllNum T = __Swap(O,sizeof(type));\
 				return T.fld;\
@@ -77,7 +77,7 @@ namespace Slyvina {
 		}\
 		\
 		inline type ToBig(type v) { \
-			if (IsLittleEndian()) return v; else {\
+			if (IsBigEndian()) return v; else {\
 				__AllNum O; O.fld=v;\
 				__AllNum T = __Swap(O,sizeof(type));\
 				return T.fld;\
