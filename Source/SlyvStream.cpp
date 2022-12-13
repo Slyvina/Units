@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.12
+// version: 22.12.13
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -282,6 +282,11 @@ namespace Slyvina {
 			for (int i = 0; i < buf.size(); ++i) Write(buf[i]);
 		}
 
+		void True_OutFile::Write(vector<byte> buf, bool storelength) {
+			if (storelength) Write((unsigned int)buf.size());
+			for (int i = 0; i < buf.size(); ++i) Write(buf[i]);
+		}
+
 		void True_OutFile::WriteCString(const char* str) {
 			unsigned int i = 0;
 			do {
@@ -289,8 +294,15 @@ namespace Slyvina {
 			} while (str[i++]);
 		}
 
+		void True_OutFile::WriteChars(char* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
+		void True_OutFile::WriteBytes(byte* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
+
 		unsigned long long True_OutFile::Size() {
 			return Written;
+		}
+
+		void True_OutFile::Position(uint64 p) {
+			stream.seekp(p);
 		}
 
 		void True_OutFile::Close() {
