@@ -2,3 +2,9 @@
 *.exe
 .vs
 *.recipe
+*.iobj
+*.ipdb
+*.log
+*.pdb
+*.tlog
+Test/TestVolumes/x64/Release/TestVolumes.vcxproj.FileListAbsolute.txt
