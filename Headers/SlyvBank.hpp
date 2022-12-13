@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 22.12.12
+// version: 22.12.13
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -30,6 +30,8 @@ namespace Slyvina {
 		class _Bank {
 		private:
 			char* _buffer;
+			std::shared_ptr<std::vector<char>> _xbuffer;
+			bool _Expandable{ false };
 			size_t _sz;
 			size_t _pos{ 0 };
 			Endian _endian;
@@ -38,6 +40,9 @@ namespace Slyvina {
 			BankPanic Panic{ nullptr };
 			_Bank(size_t size, Endian SetEndian = Endian::Little); // NEVER create this class regularly! Always use CreateBank() in stead. Otherwise destructors can mess the entire thing up.
 			_Bank(char* buf, size_t size, Endian SetEndian = Endian::Little);
+
+			_Bank(Endian SetEndian = Endian::Little);
+
 			~_Bank();
 
 			void PokeChar(size_t position, char value);
@@ -68,9 +73,9 @@ namespace Slyvina {
 			uint32 PeekUInt32(size_t position);
 			uint64 PeekUInt64(size_t position);
 
-			inline size_t Size() { return _sz; }
+			inline size_t Size() { if (_Expandable) return _xbuffer->size(); else return _sz; }
 			inline size_t Position() { return _pos; }
-			inline void Position(size_t p) { _pos = std::min(p, _sz ); }
+			inline void Position(size_t p) { _pos = std::min(p, _sz); }
 			inline bool AtEnd() { return _pos >= _sz; }
 
 			inline char ReadChar() { return PeekChar(_pos++); }
@@ -85,7 +90,7 @@ namespace Slyvina {
 			inline bool ReadBoolean() { return ReadByte() > 0; }
 			inline bool ReadBool() { return ReadByte() > 0; }
 
-			void chcpy(char* buf, size_t pos,size_t sz);
+			void chcpy(char* buf, size_t pos, size_t sz);
 			void chcpy(char* buf, size_t sz);
 
 			/// <summary>
@@ -95,6 +100,68 @@ namespace Slyvina {
 			/// <returns></returns>
 			std::string ReadString(size_t sz = 0);
 
+			inline bool Expandable() { return _Expandable; }
+
+			inline void WriteChar(char c) { PokeChar(_pos++, c); }
+			inline void WriteByte(byte b) { PokeByte(_pos++, b); }
+			inline void WriteInt16(int16 i) { PokeInt16(_pos, i); _pos += sizeof(int16); }
+			inline void WriteInt32(int32 i) { PokeInt32(_pos, i); _pos += sizeof(int32); }
+			inline void WriteInt64(int64 i) { PokeInt64(_pos, i); _pos += sizeof(int64); }
+			inline void WriteInt(int32 i) { WriteInt32(i); }
+
+			inline void WriteString(std::string value, bool raw=false) {
+				if (!raw) WriteInt32(value.size());
+				for (int i = 0; i < value.size(); ++i) WriteChar(value[i]);
+			}
+
+			inline void WriteChars(char* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteChar(cb[i]); }
+			inline void WriteBytes(byte* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteByte(cb[i]); }
+			inline void WriteChars(std::vector<char> cb) { for (auto c : cb) WriteChar(c); }
+			inline void WriteChars(std::vector<char>* cb) { for (auto c : *cb) WriteChar(c); }
+
+			inline void Write(char c) { WriteChar(c); }
+			inline void Write(byte b) { WriteByte(b); }
+			inline void Write(int16 i) {WriteInt16(i); }
+			inline void Write(int32 i) { WriteInt32(i); }
+			inline void Write(int64 i) { WriteInt32(i); }
+			inline void Write(std::string str,bool raw=false) { WriteString(str,raw); }
+			inline void Write(std::vector<char> &vc) { for (char c : vc) WriteChar(c); }
+			inline void Write(std::vector<byte> &vc) { for (char c : vc) WriteByte(c); }
+			inline void Write(char* cb, size_t s) { WriteChars(cb, s); }
+			inline void Write(byte* cb, size_t s) { WriteBytes(cb, s); }
+			
+			void WriteStringMap(StringMap sm);
+			inline void Write(StringMap sm) { WriteStringMap(sm); }
+
+			/// <summary>
+			/// Copy the contents of a buffer into a regular char buffer
+			/// </summary>
+			/// <param name="ch"></param>
+			void ToChar(char* ch);
+
+			/// <summary>
+			/// Copy the contents of a buffer into a regular char buffer! WARNING! This variant actually allocates memory in order to get the job done, but you will have to release it yourself.
+			/// </summary>
+			char* ToChar(); 
+
+			/// <summary>
+			/// Tries to convert the buffer into a string
+			/// </summary>
+			/// <returns></returns>
+			std::string ToString();
+
+
+			/// <summary>
+			/// Will return the buffer pointer used in non-expandable banks. Please note, Banks are shared-pointers and will automatically release the buffer from the memory if there are no more references to this bank
+			/// </summary>
+			/// <returns></returns>
+			inline char* Direct() { if (_Expandable) return nullptr; return _buffer; }
+
+			/// <summary>
+			/// Will return the buffer pointer used in expandable banks. The buffer used in expandable banks hold a shared pointer, so when the bank is disposed this buffer could live on if there are still references to it.
+			/// </summary>
+			/// <returns></returns>
+			inline std::shared_ptr<std::vector<char>> DirectX() { if (_Expandable) return _xbuffer; return nullptr; }
 		};
 
 
@@ -110,6 +177,8 @@ namespace Slyvina {
 	/// <param name="E"></param>
 	/// <returns></returns>
 	Bank TurnToBank(char* buf, size_t size, Endian E = Endian::Little);
+
+	Bank CreateXBank(Endian E = Endian::Little);
 	}
 
 }

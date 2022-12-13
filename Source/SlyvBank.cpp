@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 22.12.12
+// version: 22.12.13
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -33,6 +33,9 @@ using namespace std;
 		default: Panic("Illegal Endian While Poking"); return;\
 	}\
 	for(size_t i=0;i<sizeof(_type);i++) PokeChar(i+_position,T.check[i]);\
+
+//std::cout << "MPoke("<<_position<<",<<"<<sizeof(_type)<<">>,"<<_value<<") -> "<<T._fld<<" \n";\
+//for(size_t i=0;i<sizeof(_type);i++) std::cout<< i+_position<<":"<<(int)T.check[i]<<"\n";
 
 
 #define MPeek(_position,_type,_fld) \
@@ -67,12 +70,26 @@ namespace Slyvina {
 			Panic = _DefPanic;
 		}
 
+		_Bank::_Bank(Endian SetEndian ) {
+			_endian = SetEndian;
+			Panic = _DefPanic;
+			_Expandable = true;
+			_xbuffer = std::make_shared<vector<char>>();			
+		}
+
 		_Bank::~_Bank() {
-			delete[] _buffer;
+			if (!_Expandable)
+				delete[] _buffer;
+			// Expandable uses a shared pointer, so no need to release that.
 		}
 		void _Bank::PokeChar(size_t position, char value) {
-			if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
-			_buffer[position] = value;
+			if (_Expandable) {
+				while (position >= _xbuffer->size()) _xbuffer->push_back('\0');
+				(*_xbuffer)[position] = value;
+			} else {
+				if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
+				_buffer[position] = value;
+			}
 		}
 
 		void _Bank::PokeByte(size_t position, byte value) {
@@ -89,8 +106,14 @@ namespace Slyvina {
 		void _Bank::PokeUInt64(size_t position, uint64 value) { MPoke(position, uint64, i64, value); }
 
 		char _Bank::PeekChar(size_t position) {
-			if (position > _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
-			return _buffer[position];
+			if (_Expandable) {
+				auto _sz = _xbuffer->size();
+				if (position > _sz ) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
+				return (*_xbuffer)[position];
+			} else {
+				if (position > _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
+				return _buffer[position];
+			}
 		}
 
 		byte _Bank::PeekByte(size_t position) {
@@ -120,6 +143,39 @@ namespace Slyvina {
 			return ret;
 		}
 
+		void _Bank::WriteStringMap(StringMap sm) {
+			for (auto ism : *sm) {
+				WriteByte(1);
+				Write(ism.first);
+				Write(ism.second);
+			}
+		}
+
+		void _Bank::ToChar(char* ch) {
+			if (!_Expandable)
+				for (size_t i = 0; i < _sz; i++)
+					ch[i] = _buffer[i];
+			else
+				for (size_t i = 0; i < _xbuffer->size(); i++)
+					ch[i] = (*_xbuffer)[i];
+		}
+
+		char* _Bank::ToChar() {
+			auto ret = new char[Size()];
+			ToChar(ret);
+			return ret;
+		}
+
+		std::string _Bank::ToString() {
+			std::string ret;
+			char* retbuf = new char[Size()+1];
+			ToChar(retbuf);
+			retbuf[Size()] = '\0'; // Make sure there's a null terminator or this won't work!
+			ret = retbuf;
+			delete[] retbuf;
+			return ret;
+		}
+
 		void _Bank::chcpy(char* buf, size_t pos, size_t sz) {
 			for (size_t i = 0; i < sz; i++) buf[i] = PeekChar(pos + i);
 		}
@@ -140,6 +196,10 @@ namespace Slyvina {
 
 		Bank TurnToBank(char* buf, size_t size, Endian E) {
 			return std::make_shared<_Bank>(buf, size, E);
+		}
+
+		Bank CreateXBank(Endian E) {
+			return std::make_shared<_Bank>();
 		}
 
 	}
