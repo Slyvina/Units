@@ -142,12 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\SlyvDir.cpp" />
+    <ClCompile Include="..\..\Source\SlyvQCol.cpp" />
     <ClCompile Include="..\..\Source\SlyvString.cpp" />
     <ClCompile Include="..\..\Source\SlyvVolumes.cpp" />
     <ClCompile Include="TestVolumes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Headers\SlyvDir.hpp" />
+    <ClInclude Include="..\..\Headers\SlyvQCol.hpp" />
     <ClInclude Include="..\..\Headers\SlyvVolumes.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

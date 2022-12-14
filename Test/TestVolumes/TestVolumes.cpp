@@ -19,6 +19,7 @@
 // EndLic
 #include <SlyvVolumes.hpp>
 #include <SlyvDir.hpp>
+#include <SlyvQCol.hpp>
 
 using namespace std;
 using namespace Slyvina::Units;
@@ -34,8 +35,10 @@ int main() {
 
 	auto gt = GetTree(".");
 	for (auto f : *gt) {
-		cout << f << endl;
+		//cout << f << endl;
+		QCol->Doing("Found", f);
 	}
+	QCol->Reset();
 
 	return 0;
 }
