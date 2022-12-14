@@ -15,9 +15,11 @@
 // with basically comes down to the same lack of
 // restriction the public domain offers. (YAY!)
 // ***********************************************************
-// Version 22.12.13
+// Version 22.12.14
 // EndLic
 #include <SlyvVolumes.hpp>
+#include <SlyvDir.hpp>
+
 using namespace std;
 using namespace Slyvina::Units;
 
@@ -29,5 +31,11 @@ int main() {
 
 	string p = "Slyvina:/Folder1/Folder2/Directory3/";
 	cout << p << "\t>>\t"<<AVolPath(p)<<endl;
+
+	auto gt = GetTree(".");
+	for (auto f : *gt) {
+		cout << f << endl;
+	}
+
 	return 0;
 }
