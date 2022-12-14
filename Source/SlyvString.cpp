@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvString.cpp
 // Slyvina - Quick String Handler
-// version: 22.12.10
+// version: 22.12.14
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -22,6 +22,42 @@
 
 namespace Slyvina {
 	namespace Units {
+
+		std::wstring ToWString(const std::string& s) {
+			/*
+			int len;
+			int slength = (int)s.length() + 1;
+			len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+			wchar_t* buf = new wchar_t[len];
+			MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+			std::wstring r(buf);
+			delete[] buf;
+			return r;
+			*/
+			// Not the most beautiful method, but what works that works!
+			auto l = s.size();
+			wchar_t* rbuf = new wchar_t[l + 1];
+			for (size_t i = 0; i < l; ++i) rbuf[i] = (wchar_t)s[i];
+			rbuf[l] = '\0'; // Null Terminator
+			std::wstring ret = rbuf;
+			delete[]rbuf;
+			return ret;
+		}
+
+		
+		std::string FromWString(std::wstring wString) {
+			//std::string convLPCWSTRtoString(LPCWSTR wString) {
+			//auto size = wcslen(wString) + 1;
+			auto size = wString.size();
+			char* cString = new char[size];
+			for (size_t i = 0; i < size; i++) {
+				 cString[i] = wString[i];							
+			}
+			std::string RetString{ cString };
+			delete[] cString;
+			return RetString;			
+		}
+
 		std::string Mid(std::string str, unsigned int start, unsigned int length) {
 			{
 				std::string ret = "";

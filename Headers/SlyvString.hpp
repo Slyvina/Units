@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvString.hpp
 // Slyvina - Quick String Handler (header)
-// version: 22.12.10
+// version: 22.12.14
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -171,5 +171,8 @@ namespace Slyvina {
 		/// <param name="">The values to be parsed in</param>
 		/// <returns>The Formatted string</returns>
 		std::string TrSPrintF(const char* fmt, ...);
+
+		std::wstring ToWString(const std::string& s);
+		std::string FromWString(std::wstring ws);
 	}
 }
