@@ -164,7 +164,12 @@ namespace Slyvina {
 		}
 
 
-		
+		/// <summary>
+		/// A quicker way for sprintf. Having to go trough all the trouble creating a c-string, and converting that into a C++ string class and blah blah blah was getting on my nerves!
+		/// </summary>
+		/// <param name="fmt">C format string</param>
+		/// <param name="">The values to be parsed in</param>
+		/// <returns>The Formatted string</returns>
 		std::string TrSPrintF(const char* fmt, ...);
 	}
 }
