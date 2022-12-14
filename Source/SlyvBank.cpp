@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 22.12.13
+// version: 22.12.14
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -200,6 +200,15 @@ namespace Slyvina {
 
 		Bank CreateXBank(Endian E) {
 			return std::make_shared<_Bank>();
+		}
+
+		UBank CreateUXBank() {
+			return std::make_unique<_Bank>();
+		}
+
+
+		UBank CreateUBank(size_t size, Endian E) {
+			return std::make_unique<_Bank>(size, E);
 		}
 
 	}

@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 22.12.13
+// version: 22.12.14
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -24,6 +24,7 @@
 namespace Slyvina {
 	namespace Units {
 		SlyvClass(_Bank, Bank);
+		typedef std::unique_ptr<_Bank> UBank;
 
 		typedef void(* BankPanic)(std::string error);
 
@@ -179,6 +180,11 @@ namespace Slyvina {
 	Bank TurnToBank(char* buf, size_t size, Endian E = Endian::Little);
 
 	Bank CreateXBank(Endian E = Endian::Little);
+
+	UBank CreateUBank(size_t size, Endian E = Endian::Little);
+	UBank CreateUXBank();
+	
+	
 	}
 
 }
