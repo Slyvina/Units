@@ -51,23 +51,23 @@
 			#else
 				#define SlyvWin32
 			#endif
-		#elif __APPLE__
+		#elif defined(__APPLE__)
 			#define SlyvApple
-			#if TARGET_IPHONE_SIMULATOR
+			#ifdef TARGET_IPHONE_SIMULATOR
 				#define SlyvIPhoneEmulator
 				#define SlyvIPhone
-			#elif TARGET_OS_IPHONE
+			#elif defined(TARGET_OS_IPHONE)
 				#define SlyvIPhone
 				#define SlyvIPhoneReal
-		    #elif TARGET_OS_MAC
+		    #elif defined(TARGET_OS_MAC)
 				#define SlyvMacOS
 				#define SlyvMac
 			#else
-				#   error "Unknown Apple platform"
+				#error "Unknown Apple platform"
 			#endif
-		#elif __linux__
+		#elif defined(__linux__)
 			#define SlyvLinux
-		#elif __unix__ 
+		#elif defined(__unix__)
 			#define SlyvUnix
 		#elif defined(_POSIX_VERSION)
 			#define SlyvPOSIX
