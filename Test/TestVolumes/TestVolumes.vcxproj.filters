@@ -24,9 +24,15 @@
     <ClCompile Include="..\..\Source\SlyvString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SlyvDir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Headers\SlyvVolumes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Headers\SlyvDir.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
