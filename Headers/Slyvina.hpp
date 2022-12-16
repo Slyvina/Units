@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.14
+// version: 22.12.15
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -103,6 +103,10 @@ namespace Slyvina {
 	typedef long long int Int64;
 	typedef unsigned long long int uInt64;
 #pragma endregion
+
+	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
+
+	const double PI = 3.1415926535;
 	
 	typedef std::shared_ptr<std::vector<String>> VecString;
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
