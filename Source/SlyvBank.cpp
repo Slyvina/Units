@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 22.12.14
+// version: 22.12.15
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -187,11 +187,13 @@ namespace Slyvina {
 		Bank CreateBank(char* buf, size_t size, Endian E) {
 			auto ret = CreateBank(size, E);
 			for (size_t i = 0; i < size; i++) ret->PokeChar(i,buf[i]);
+			return ret;
 		}
 
 		Bank CreateBank(std::vector<char> buf, Endian E) {
 			auto ret = CreateBank(buf.size(), E);
 			for (size_t i = 0; i < buf.size(); i++) ret->PokeChar(i, buf[i]);
+			return ret;
 		}
 
 		Bank TurnToBank(char* buf, size_t size, Endian E) {
