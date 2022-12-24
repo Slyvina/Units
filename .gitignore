@@ -8,3 +8,11 @@
 *.pdb
 *.tlog
 Test/TestVolumes/x64/Release/TestVolumes.vcxproj.FileListAbsolute.txt
+Test/HSV_RGP_Test/HSV_RGP_Test.vcxproj.filters
+Test/HSV_RGP_Test/HSV_RGP_Test.sln
+Test/HSV_RGP_Test/HSV_RGP_Test.vcxproj
+Test/HSV_RGP_Test/HSV_RGP_Test.vcxproj.user
+Test/HSV_RGP_Test/Source.cpp
+Test/HSV_RGP_Test/x64/Debug/HSV_RGP_Test.vcxproj.FileListAbsolute.txt
+Test/HSV_RGP_Test/x64/Debug/HSV_RGP_Test.ilk
+Test/HSV_RGP_Test/x64/Debug/vc143.idb
