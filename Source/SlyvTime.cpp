@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvTime.cpp
 // Slyvina - Time
-// version: 22.12.10
+// version: 22.12.16
 // Copyright (C) 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -79,7 +79,7 @@ namespace Slyvina {
 			time(&t);
 			//strftime(buff, 256, f, &_localtime(&t));
 			auto loctime{ _localtime(&t) };
-			strftime(buff, 256, "%d %b %Y", &loctime);
+			strftime(buff, 256, f, &loctime);
 			return buff;
 		}
 
