@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvVolumes.cpp
 // Slyvina - Volumes
-// version: 22.12.14
+// version: 22.12.24
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -33,7 +33,7 @@ namespace Slyvina {
             WCHAR VROOT[5] = L"A:\\";
             for (WCHAR i = 'A'; i <= 'Z'; i++) {
                 VROOT[0] = i;
-                std::cout << (char)VROOT[0] << (char)VROOT[1] << (char)VROOT[2] << std::endl; // debug
+                //std::cout << (char)VROOT[0] << (char)VROOT[1] << (char)VROOT[2] << std::endl; // debug
             
                 BOOL bSucceeded = GetVolumeInformationW(VROOT,
                     szVolumeName,
@@ -48,7 +48,7 @@ namespace Slyvina {
                     unsigned int j = 0;
                     do {
                         VolName[j] = (char)szVolumeName[j];
-                        std::cout << j << "\t" << szVolumeName[j] << "\t" << VolName[j] << "\n";
+                        //std::cout << j << "\t" << szVolumeName[j] << "\t" << VolName[j] << "\n";
                     } while (szVolumeName[j++]);
                     char TROOT[5] = "A:\\";
                     TROOT[0] = (char)i;
