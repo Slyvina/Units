@@ -44,5 +44,7 @@ namespace Slyvina {
 		int AskInt(std::string Cat, std::string Key, std::string Question);
 		int AskInt(std::string Cat, std::string Key, std::string Question, int DefaultValue);
 
+
+		std::vector<std::string>* AskList(GINIE Data, std::string Cat, std::string Key, std::string Question,uint32 minanswers=1);
 	}
 }

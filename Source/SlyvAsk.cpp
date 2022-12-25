@@ -36,6 +36,11 @@ namespace Slyvina {
 			exit(100);
 		}
 
+		/// <summary>
+		/// Assert
+		/// </summary>
+		/// <param name="condition"></param>
+		/// <param name="msg"></param>
 		static void Ass(bool condition, string msg) {
 			if (!condition) Err(msg);
 		}
@@ -91,6 +96,23 @@ namespace Slyvina {
 		int AskInt(std::string Cat, std::string Key, std::string Question) { return AskInt(AskGINIE, Cat, Key, Question, false); }
 		int AskInt(std::string Cat, std::string Key, std::string Question, int D) { return AskInt(AskGINIE, Cat, Key, Question, D); }
 
+		std::vector<std::string>* AskList(GINIE Data, std::string Cat, std::string Key, std::string Question,uint32 minanswers) {
+			if (!Data->HasList(Cat, Key)) {
+				QCol->Yellow(Question + "\n");
+				QCol->LMagenta("Enter you answers, whiteline will end the sequence. Minimal answers needed: " + std::to_string(minanswers)+"\n");
+				//QCol->Doing("Debug", Cat + "::" + Key);
+				auto ret = Data->List(Cat, Key);
+				do {
+					QCol->Cyan("");
+					auto answer = Trim(ReadLine(TrSPrintF("%03d> ",ret->size()+1)));
+					if (answer.size()) {
+						Data->Add(Cat, Key, answer);
+					} else if (ret->size() >= minanswers) return ret;
+				} while (true);
+			}
+			return Data->List(Cat, Key);
+		}
+
 		std::string Ask(GINIE Data, std::string Cat, std::string Key, std::string Question, std::string DefaultValue) {
 			Ass(Data!=nullptr, "Ask to NullPointerGINIE");
 			Ass(Cat.size(), "Ask to no category");
@@ -102,7 +124,7 @@ namespace Slyvina {
 				QCol->Cyan("");
 				Data->Value(Cat, Key, ReadLine());
 				if (!Data->Value(Cat, Key).size()) Data->Value(Cat, Key, DefaultValue);
-			}
+			}			
 			return Data->Value(Cat, Key);
 		}
 	}
