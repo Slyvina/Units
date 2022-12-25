@@ -90,6 +90,7 @@ namespace Slyvina {
 			void Cyan(std::string a);
 			void LCyan(std::string a);
 			void Magenta(std::string a);
+			void LMagenta(std::string a);
 			void White(std::string a);
 
 			TmpPlateQCol(QColColor c, QColReset r, std::string n);

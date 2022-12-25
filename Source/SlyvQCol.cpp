@@ -137,7 +137,7 @@ namespace Slyvina {
 		void TmpPlateQCol::Cyan(string a) { Write(qColor::Cyan, a); }
 		void TmpPlateQCol::LCyan(string a) { Write(qColor::LightCyan, a); }
 		void TmpPlateQCol::Magenta(string a) { Write(qColor::Magenta, a); }
-
+		void TmpPlateQCol::LMagenta(std::string a) { Write(qColor::LightMagenta, a); }
 		void TmpPlateQCol::White(std::string a) { Write(qColor::White, a); }
 
 		TmpPlateQCol::TmpPlateQCol(QColColor c, QColReset r, string n) {
