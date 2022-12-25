@@ -89,6 +89,7 @@ namespace Slyvina {
 				}
 				for (auto& cat : _Lists) {
 					if ((!CatDone.count(cat.first) || (!CatDone[cat.first]))) {
+						ret += "["; ret += cat.first; ret += "]\n";
 						for (auto& lst : cat.second) {
 							ret += "*list:" + lst.first + "\n";
 							for (auto item : lst.second) { ret += "\t" + item + "\n"; }
@@ -180,6 +181,14 @@ namespace Slyvina {
 				if (_Lists[cat].count(key) && (!force)) return;
 				_Lists[cat][key] = std::vector<std::string>();
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
+			}
+
+			inline bool HasList(std::string cat, std::string key) {
+				S2U(cat); S2U(key);
+				//std::cout << "?> cat:" << cat << _Lists.count(cat) << std::endl; // debug only!
+				if (!_Lists.count(cat)) return false;
+				//std::cout << "?>" << _Lists[cat].count(key) << std::endl; // debug only!
+				return _Lists[cat].count(key);
 			}
 
 			/// <summary>
