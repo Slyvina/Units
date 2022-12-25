@@ -70,7 +70,7 @@ namespace Slyvina {
 					}
 					expectflag = "";
 				} else if (Prefixed(a, "-")) {
-					string flag = Right(a, a.size() - 1);
+					string flag = Right(a, a.size() - 1);					
 					if (CFG.flagtype[flag] == "BOOL") {
 						ret.bool_flags[flag] = (CFG.defaultvalue[flag] == "FALSE");
 					} else {
