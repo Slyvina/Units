@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.15
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.04
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -105,6 +105,8 @@ namespace Slyvina {
 #pragma endregion
 
 	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
+	inline std::string lboolstring(bool k) { if (k) return "true"; else return "false"; }
+	inline std::string uboolstring(bool k) { if (k) return "TRUE"; else return "FALSE"; }
 
 	const double PI = 3.1415926535;
 	
