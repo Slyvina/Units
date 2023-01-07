@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.13
-// Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
+// version: 23.01.07
+// Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -47,8 +47,14 @@ namespace Slyvina {
 		std::string CurrentDir();
 		void ChangeDir(std::string dir);
 
+		/// <summary>
+		/// Check the size of a file
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns>File size in bytes</returns>
 		std::ifstream::pos_type FileSize(std::string filename);
 		std::string FileDate(std::string FileName);
+		time_t FileTimeStamp(std::string FileName);
 
 
 		class True_OutFile;

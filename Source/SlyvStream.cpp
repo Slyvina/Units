@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.13
-// Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
+// version: 23.01.07
+// Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -210,6 +210,9 @@ namespace Slyvina {
 		}
 
 		std::ifstream::pos_type FileSize(std::string filename) {
+#ifdef _WIN32
+			filename = ChReplace(filename, '/', '\\');
+#endif
 			std::ifstream in(filename.c_str(), std::ifstream::ate | std::ifstream::binary);
 			return in.tellg();
 		}
@@ -225,6 +228,16 @@ namespace Slyvina {
 			strftime(datestring, sizeof(datestring), "%m-%d-%Y %H.%M.%S", &tm);
 			std::string ret{ datestring };
 			return ChReplace(ret, '.', ':');
+		}
+
+		time_t FileTimeStamp(std::string FileName) {
+			struct stat st;  // declaration of the stat
+			struct tm tm; //declaration of tm pointer
+
+			char filename1[500]; strcpy_s(filename1, FileName.c_str());
+			char datestring[256];
+			stat(filename1, &st);
+			return st.st_mtime;
 		}
 
 		OutFile WriteFile(string fname, int endian) {
