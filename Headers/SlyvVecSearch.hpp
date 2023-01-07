@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvVecSearch.hpp
 // Slyvina - Vector Search
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.04
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -19,6 +19,7 @@
 // EndLic
 
 #pragma once
+//#include <iostream>
 
 #include <vector>
 #include <memory>
@@ -27,7 +28,11 @@ namespace Slyvina {
 	namespace Units {
 
 		template <class MyType> inline bool VecSearch(std::vector<MyType>* HayStack, MyType Needle) {
-			for (auto N : *HayStack) if (N == Needle) return true;
+			//for (auto N : *HayStack) 
+			for (auto N : *HayStack) {
+				//std::cout << "VecSearch: HayItem=" << N << "; Needle=" << Needle << "\n";
+				if (N == Needle) return true;
+			}
 			return false;
 		}
 
