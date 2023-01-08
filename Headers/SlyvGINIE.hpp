@@ -22,6 +22,7 @@
 #include <Slyvina.hpp>
 #include <SlyvStream.hpp>
 #include <SlyvString.hpp>
+#include <SlyvVecSearch.hpp>
 #include <string>
 #include <algorithm>
 
@@ -162,6 +163,8 @@ namespace Slyvina {
 				_Lists[cat][key].push_back(value);
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
 			}
+
+			inline void AddNew(std::string cat, std::string key, std::string value) { Add(cat, key, value, true); }
 
 			/// <summary>
 			/// Pointer to the list with these settings. Best is to only use this for reading purposes and not for writing. At least not when you set the AutoSave variable.
