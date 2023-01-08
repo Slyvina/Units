@@ -40,5 +40,16 @@ namespace Slyvina {
 
 		template <class MyType> inline bool VecSearch(std::shared_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack->get(), Needle); }
 		template <class MyType> inline bool VecSearch(std::unique_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack->get(), Needle); }
+
+		template <class MyType> inline MyType VecPop(std::vector<MyType>*VecToPop) { 
+			if (!VecToPop->size()) return MyType{};
+			MyType Ret{ (*VecToPop)[VecToPop->size() - 1] };
+			VecToPop->pop_back();
+			return Ret;
+		}
+
+		template <class MyType> inline MyType VecPop(std::vector<MyType> VecToPop) { return VecPop(&VecToPop); }
+		template <class MyType> inline MyType VecPop(std::shared_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop->get()); }
+		template <class MyType> inline MyType VecPop(std::unique_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop->get()); }
 	}
 }
