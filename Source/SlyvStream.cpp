@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 23.01.07
+// version: 23.01.09
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -154,6 +154,7 @@ namespace Slyvina {
 		}
 
 		bool DirectoryExists(string folderName) {
+			if (Suffixed(folderName, "/")) folderName = Left(folderName, folderName.size() - 1);
 			return DirectoryExistsC(folderName.c_str());
 		}
 
