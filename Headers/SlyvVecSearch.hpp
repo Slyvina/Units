@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvVecSearch.hpp
 // Slyvina - Vector Search
-// version: 23.01.04
+// version: 23.01.09
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
