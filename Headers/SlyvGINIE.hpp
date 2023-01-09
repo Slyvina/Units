@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.09
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -145,6 +145,17 @@ namespace Slyvina {
 				Trans2Upper(key);
 				if (!_Values.count(cat)) return false;
 				return _Values[cat].count(key);
+			}
+
+			/// <summary>
+			/// Will define a value, but only if it doesn't already exist!
+			/// </summary>
+			/// <param name="cat"></param>
+			/// <param name="key"></param>
+			/// <param name="value"></param>
+			inline std::string NewValue(std::string cat, std::string key, std::string value) {
+				if (!HasValue(cat, key)) Value(cat, key, value);
+				return Value(cat, key);
 			}
 
 			/// <summary>
