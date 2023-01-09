@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvQCol.hpp
 // Slyvina - Quick Colors (header)
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.09
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -77,6 +77,8 @@ namespace Slyvina {
 			std::string Name;
 			void Doing(std::string a, std::string b, std::string ending = "\n");
 			void Doing(std::string a, int b, std::string ending = "\n");
+			void OnlyVal(std::string a, int b, std::string ending = "\n") { if (b) Doing(a, b, ending); }
+			void OnlyVal(std::string a, uint64 b, std::string ending = "\n") { if (b) Doing(a, std::to_string(b), ending); }
 			void Write(qColor c, std::string w);
 			void Error(std::string msg);
 			void Warn(std::string msg);
