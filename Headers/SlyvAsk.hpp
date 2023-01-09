@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvAsk.hpp
 // Ask (Header)
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.09
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -37,6 +37,8 @@ namespace Slyvina {
 
 		bool Yes(GINIE Data, std::string Cat, std::string Key, std::string Question);
 		//bool Yes(std::shared_ptr<GINIE> Data, std::string Cat, std::string Key, std::string Question);
+
+		bool QuickYes(std::string Question);
 
 
 		int AskInt(GINIE Data, std::string Cat, std::string Key, std::string Question, bool AllowDefault = false, int DefaultValue = 0);

@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvAsk.cpp
 // Ask
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.09
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -64,6 +64,17 @@ namespace Slyvina {
 				Data->Value(Cat, Key, Upper(ReadLine()));
 			}
 			return (Data->Value(Cat, Key))[0] == 'Y';
+		}
+
+		bool QuickYes(std::string Question) {
+			std::string Antwoord{ "" };
+			while (!Antwoord.size()) {
+				QCol->Yellow(Question);
+				QCol->Cyan(" ? ");
+				QCol->LGreen("<Y/N> ");
+				Antwoord= Upper(ReadLine());
+			}
+			return Antwoord[0] == 'Y';
 		}
 
 		//bool Yes(std::shared_ptr<GINIE> Data, std::string Cat, std::string Key, std::string Question) { return Yes(Data.get(), Cat, Key, Question); }
