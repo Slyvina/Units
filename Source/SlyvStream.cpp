@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 23.01.09
+// version: 23.01.10
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -18,6 +18,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 // I hope I can make this code as portable as possible, so I am not interested in using Microsoft's own solutions that are non-standard!
+
 #ifdef _WIN32
 #include <windows.h>
 #include <direct.h>
@@ -421,6 +422,17 @@ namespace Slyvina {
 			REND(uint64);
 			return ce.ul;
 		}
+
+		std::string True_InFile::ReadLine() {
+			std::string ret{ "" };
+			while (true) {
+				if (EndOfFile()) return ret;
+				char r{ ReadChar() };
+				if (r == '\n') return ret;
+				else if (r != '\r') ret += r;
+			}
+		}
+		
 
 		string True_InFile::ReadString(int l) {
 			char* buf;
