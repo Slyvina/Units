@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 22.12.25
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.10
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -20,6 +20,7 @@
 #include <iostream>
 //#include "../Headers/Platform.hpp"
 #include <SlyvQCol.hpp>
+#include <SlyvString.hpp>
 
 #ifdef SlyvWindows
 #include <Windows.h>
@@ -107,7 +108,8 @@ namespace Slyvina {
 
 		void TmpPlateQCol::Write(qColor c, std::string w) {
 			Color(c, qColor::Black);
-			printf(w.c_str());
+			//printf(StReplace(w,"%","%%").c_str());
+			printf("%s", w.c_str());
 		}
 
 		void TmpPlateQCol::Doing(string a, string b, string cl) {
