@@ -115,7 +115,8 @@ namespace Slyvina {
 		void TmpPlateQCol::Doing(string a, string b, string cl) {
 			Write(Doing1, a + ":");
 			for (auto i = a.size(); i < DoingTab; ++i) printf(" ");
-			Write(Doing2, b + cl);
+			Write(Doing2, b);
+			printf(cl.c_str());
 		}
 		void TmpPlateQCol::Doing(string a, int b, string cl) { Doing(a, to_string(b), cl); }
 
