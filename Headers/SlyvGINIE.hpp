@@ -173,6 +173,15 @@ namespace Slyvina {
 				return Value(cat, key);
 			}
 
+			inline VecString Values(std::string cat){
+				auto ret{ NewVecString() };
+				Trans2Upper(cat);
+				if (_Values.count(cat)) {
+					for (auto k : _Values[cat]) ret->push_back(k.first);
+				}
+				return ret;
+			}
+
 			/// <summary>
 			/// Add to a list (if the list doesn't yet exist, it will be created)
 			/// </summary>
