@@ -228,7 +228,7 @@ namespace Slyvina {
 			/// <param name="merge">If set to true the content will be merged with the existing data. If set to false, the existing data will be disposed</param>
 			inline void Parse(std::string source, bool merge = false) {
 				if (!merge) { _Values.clear(); _Lists.clear(); }
-				auto src{ Split(source,'\n') };
+				auto src{ Split(StReplace(source,"\r",""),'\n') };
 				std::string cat{ "" };
 				std::string list{ "" };
 				for (size_t i = 0; i < src->size(); ++i) {
