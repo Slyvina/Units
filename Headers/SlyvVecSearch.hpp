@@ -38,8 +38,8 @@ namespace Slyvina {
 
 		template <class MyType> inline bool VecSearch(std::vector<MyType> HayStack, MyType Needle) { return VecSearch(&HayStack, Needle); }
 
-		template <class MyType> inline bool VecSearch(std::shared_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack->get(), Needle); }
-		template <class MyType> inline bool VecSearch(std::unique_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack->get(), Needle); }
+		template <class MyType> inline bool VecSearch(std::shared_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack.get(), Needle); }
+		template <class MyType> inline bool VecSearch(std::unique_ptr<std::vector<MyType>> HayStack, MyType Needle) { return VecSearch(HayStack.get(), Needle); }
 
 		template <class MyType> inline MyType VecPop(std::vector<MyType>*VecToPop) { 
 			if (!VecToPop->size()) return MyType{};
@@ -49,7 +49,12 @@ namespace Slyvina {
 		}
 
 		template <class MyType> inline MyType VecPop(std::vector<MyType> VecToPop) { return VecPop(&VecToPop); }
-		template <class MyType> inline MyType VecPop(std::shared_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop->get()); }
-		template <class MyType> inline MyType VecPop(std::unique_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop->get()); }
+		template <class MyType> inline MyType VecPop(std::shared_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop.get()); }
+		template <class MyType> inline MyType VecPop(std::unique_ptr<std::vector<MyType>> VecToPop) { return VecPop(VecToPop.get()); }
+
+		template <class MyType> inline void VecPushUnique(std::vector<MyType>* Vec, MyType Item) { if (!VecSearch(Vec, Item)) Vec->push_back(Item); }
+		template <class MyType> inline void VecPushUnique(std::vector<MyType> Vec, MyType Item) { VecPushUnique(&Vec, Item); }
+		template <class MyType> inline void VecPushUnique(std::unique_ptr<std::vector<MyType>> Vec, MyType Item) { VecPushUnique(Vec.get(), Item); }
+		template <class MyType> inline void VecPushUnique(std::shared_ptr<std::vector<MyType>> Vec, MyType Item) { VecPushUnique(Vec.get(), Item); }
 	}
 }
