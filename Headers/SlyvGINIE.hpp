@@ -23,6 +23,7 @@
 #include <SlyvStream.hpp>
 #include <SlyvString.hpp>
 #include <SlyvVecSearch.hpp>
+#include <SlyvSTOI.hpp>
 #include <string>
 #include <algorithm>
 
@@ -136,6 +137,16 @@ namespace Slyvina {
 				if (!_Values.count(cat)) return "";
 				if (!_Values[cat].count(key)) return "";
 				return _Values[cat][key];
+			}
+
+			/// <summary>
+			/// Gets a value and tries to parse it into an integer
+			/// </summary>
+			/// <param name="cat"></param>
+			/// <param name="key"></param>
+			/// <returns>Integer value. Returns 0 if failed</returns>
+			inline int IntValue(std::string cat, std::string key) {
+				return ToInt(Value(cat, key));
 			}
 
 			/// <summary>
