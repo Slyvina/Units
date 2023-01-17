@@ -20,6 +20,7 @@
 
 #include <string>
 #include <time.h>
+#include "SlyvTime.hpp"
 using namespace std;
 namespace Slyvina {
 	namespace Units {
@@ -51,6 +52,12 @@ namespace Slyvina {
 			time_t t;
 			time(&t);
 			return _localtime(&t);
+		}
+
+		time_t TimeStamp() {
+			time_t t;
+			time(&t);
+			return t;
 		}
 
 		string CurrentDate() {

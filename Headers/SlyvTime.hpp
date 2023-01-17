@@ -30,5 +30,6 @@ namespace Slyvina {
 		std::string QTimeF(const char* f);
 		tm _localtime(time_t* fuck);
 		tm LocalTime();
+		time_t TimeStamp();
 	}
 }
