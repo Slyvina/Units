@@ -174,5 +174,7 @@ namespace Slyvina {
 
 		std::wstring ToWString(const std::string& s);
 		std::string FromWString(std::wstring ws);
+
+		std::string Repeat(std::string s, uint64 times);
 	}
 }

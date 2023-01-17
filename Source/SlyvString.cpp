@@ -58,6 +58,12 @@ namespace Slyvina {
 			return RetString;			
 		}
 
+		std::string Repeat(std::string s, uint64 times) {
+			std::string ret{ "" };
+			while (times--) ret += s;
+			return ret;
+		}
+
 		std::string Mid(std::string str, unsigned int start, unsigned int length) {
 			{
 				std::string ret = "";
