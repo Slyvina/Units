@@ -128,6 +128,10 @@ namespace Slyvina {
 			/// <param name="key"></param>
 			/// <returns>The value</returns>
 			inline std::string Value(std::string cat, std::string key) {
+				if (!this) {
+					std::cout << "\x7\x1b[31mERROR!\x1b[0m <NULLGINIE>->Value(\"" << cat << "\", \"" << key << "\"): Trying to get a value from NULL!";
+					return "";
+				}
 				S2U(cat); S2U(key);
 				if (!_Values.count(cat)) return "";
 				if (!_Values[cat].count(key)) return "";
