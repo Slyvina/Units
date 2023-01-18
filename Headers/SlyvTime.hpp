@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvTime.hpp
 // Slyvina - Time (header)
-// version: 22.12.09
-// Copyright (C) 2021, 2022 Jeroen P. Broks
+// version: 23.01.17
+// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
