@@ -122,6 +122,13 @@ namespace Slyvina {
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
 			}
 
+			inline void Value(std::string cat, std::string key, int64 value) {
+				Value(cat, key, std::to_string(value));
+			}
+			inline void Value(std::string cat, std::string key, int32 value) {
+				Value(cat, key, std::to_string(value));
+			}
+
 			/// <summary>
 			/// Get a value
 			/// </summary>
