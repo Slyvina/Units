@@ -66,6 +66,11 @@ namespace Slyvina {
 			std::string AutoSave{ "" }; // When you put a file name into this, GINIE will save all modifications automatically to it once they are made.
 			std::string AutoSaveHeader{ "" }; // Wehn set a comment header will be added to automatically saved files.
 
+			inline void Clear() {
+				_Values.clear();
+				_Lists.clear();
+			}
+
 			inline std::string UnParse(std::string Header = "") {
 				std::string ret{ "" };
 				if (Header.size()) {
