@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvAsk.cpp
 // Ask
-// version: 23.01.09
+// version: 23.03.06
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -136,6 +136,21 @@ namespace Slyvina {
 				Data->Value(Cat, Key, ReadLine());
 				if (!Data->Value(Cat, Key).size()) Data->Value(Cat, Key, DefaultValue);
 			}			
+			return Data->Value(Cat, Key);
+		}
+
+		std::string Ask(UGINIE Data, std::string Cat, std::string Key, std::string Question, std::string DefaultValue) {
+			Ass(Data != nullptr, "Ask to NullPointerGINIE");
+			Ass(Cat.size(), "Ask to no category");
+			Ass(Key.size(), "Ask to no key");
+			if (!Question.size()) Question = ":>";
+			while (!Data->Value(Cat, Key).size()) {
+				if (DefaultValue.size()) QCol->Magenta(TrSPrintF("[%s] ", DefaultValue.c_str()));
+				QCol->Yellow(Question + " ");
+				QCol->Cyan("");
+				Data->Value(Cat, Key, ReadLine());
+				if (!Data->Value(Cat, Key).size()) Data->Value(Cat, Key, DefaultValue);
+			}
 			return Data->Value(Cat, Key);
 		}
 	}
