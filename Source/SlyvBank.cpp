@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 22.12.15
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.03.07
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -178,6 +178,10 @@ namespace Slyvina {
 
 		void _Bank::chcpy(char* buf, size_t pos, size_t sz) {
 			for (size_t i = 0; i < sz; i++) buf[i] = PeekChar(pos + i);
+		}
+
+		void _Bank::GetChars(char* buf, size_t sz) {
+			for (size_t i = 0; i < sz; i++) buf[i] = ReadChar();
 		}
 		
 		Bank CreateBank(size_t size, Endian E) {

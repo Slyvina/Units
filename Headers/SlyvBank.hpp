@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 22.12.14
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.03.07
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -90,6 +90,13 @@ namespace Slyvina {
 			inline int32 ReadInt() { return ReadInt32(); }
 			inline bool ReadBoolean() { return ReadByte() > 0; }
 			inline bool ReadBool() { return ReadByte() > 0; }
+
+			/// <summary>
+			/// Reads characters and puts them in a char array. Please note, there is NO protection whatsoever against overwriting memory that should not be overwritten, so handle with care!
+			/// </summary>
+			/// <param name="c"></param>
+			/// <param name="size"></param>
+			void GetChars(char* c, size_t size);
 
 			void chcpy(char* buf, size_t pos, size_t sz);
 			void chcpy(char* buf, size_t sz);
