@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.01.17
+// version: 23.03.06
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -118,7 +118,7 @@ namespace Slyvina {
 			/// <param name="key"></param>
 			/// <param name="value"></param>
 			inline void Value(std::string cat, std::string key, std::string value) {
-				S2U(cat); S2U(key);
+				S2U(cat); S2U(key); value = Trim(value);
 				if ((!_Values.count(cat)) && value == "") return;
 				if ((!_Values[cat].count(key)) && value == "") return;
 				if (_Values[cat][key] == value) return;
@@ -148,7 +148,7 @@ namespace Slyvina {
 				S2U(cat); S2U(key);
 				if (!_Values.count(cat)) return "";
 				if (!_Values[cat].count(key)) return "";
-				return _Values[cat][key];
+				return Trim(_Values[cat][key]); 
 			}
 
 			/// <summary>
