@@ -32,10 +32,15 @@ namespace Slyvina {
 		//using namespace std;
 		bool FileExists(char* file);
 		bool FileExists(std::string file);
-		std::string FLoadString(std::string file); // The F prefix is because MicroSoft has a macro with the same name.
+		std::string FLoadString(std::string file,bool NoNull=false); // The F prefix is because MicroSoft has a macro with the same name.
 		VecString LoadLines(std::string file);
 		void LoadChars(std::vector<char>* vec, std::string file);
 		void SaveString(std::string file, std::string stringvalue);
+
+		/// <summary>
+		/// Loads a character buffer. Use with care, as the system does allocate memory which should be released after!
+		/// </summary>
+		char* LoadCharBuf(std::string File);
 
 		bool DirectoryExistsC(const char* folderName);
 		bool DirectoryExists(std::string folderName);

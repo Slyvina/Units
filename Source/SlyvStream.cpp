@@ -95,12 +95,27 @@ namespace Slyvina {
 		}
 
 #undef LoadString
-		string FLoadString(string file) {
-			std::ifstream ifs(file);
-			std::string content((std::istreambuf_iterator<char>(ifs)),
-				(std::istreambuf_iterator<char>()));
-			// cout << "LOADED FROM FILE: " << file << "\n" << content << "\END\n";
-			return content;
+		string FLoadString(string file,bool NoNull) {
+			if (NoNull) {
+				std::string ret{""};
+				try {
+					auto B{ ReadFile(file) };
+					for (size_t i = 0; i < B->Size(); i++) {
+						auto C{ B->ReadChar() };
+						if (C <= 0) ret += "<" + std::to_string((int)C) + ">"; else ret += C;
+					}
+					B->Close();
+				} catch (std::exception e) {
+					printf("\x1b[31mERROR:\x1b[0m\7\tFLoadString(\"%s\",true): %s\n", file.c_str(), e.what());
+				}
+				return ret;
+			} else {
+				std::ifstream ifs(file);
+				std::string content((std::istreambuf_iterator<char>(ifs)),
+					(std::istreambuf_iterator<char>()));
+				// cout << "LOADED FROM FILE: " << file << "\n" << content << "\END\n";
+				return content;
+			}
 		}
 
 		void LoadChars(vector<char>* vec, std::string file) {
@@ -126,6 +141,13 @@ namespace Slyvina {
 				fclose(fp);
 			}
 #endif
+		}
+
+		char* LoadCharBuf(std::string File) {
+			vector<char> vec;
+			LoadChars(&vec, File);
+			char* ret = new char[vec.size()];
+			return ret;
 		}
 
 		void SaveString(string file, string stringvalue) {
