@@ -119,5 +119,8 @@ namespace Slyvina {
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
 	template<class MyType> inline std::shared_ptr<std::vector<MyType>> NewVector() { return std::make_shared<std::vector<MyType>>(); }
+
+	inline std::string CYear(uint32 oy, uint32 yn) { if (oy > yn) return "?"; if (oy < yn) return std::to_string(oy) + "-" + std::to_string(yn); return std::to_string(yn); }
+	inline std::string CYear(uint32 oy, std::string yn) { return CYear(oy, std::stoi(yn)); }
 	
 }
