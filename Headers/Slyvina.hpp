@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 23.01.04
+// version: 23.05.11
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -44,11 +44,15 @@
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
+
 		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 			#define SlyvWindows	
+			#define SlyvPlat "Windows"           
 			#ifdef _WIN64
 				#define SlyvWin64
+				#define SlyvXPlat "Windows 64"  
 			#else
+				#define SlyvXPlat "Windows 32"  	
 				#define SlyvWin32
 			#endif
 		#elif defined(__APPLE__)
@@ -56,23 +60,35 @@
 			#ifdef TARGET_IPHONE_SIMULATOR
 				#define SlyvIPhoneEmulator
 				#define SlyvIPhone
+				#define SlyvPlat "iPhone"
+				#define SlyvXPlat "iPhone Emulator"
 			#elif defined(TARGET_OS_IPHONE)
 				#define SlyvIPhone
 				#define SlyvIPhoneReal
-		    #elif defined(TARGET_OS_MAC)
+				#define SlyvPlat "iPhone"
+				#define SlyvXPlat "iPhone"
+			#elif defined(TARGET_OS_MAC)
 				#define SlyvMacOS
 				#define SlyvMac
+				#define SlyvPlat "Mac"
+				#define SlyvXPlat "Mac"
 			#else
 				#error "Unknown Apple platform"
 			#endif
 		#elif defined(__linux__)
+			#define SlyvPlat "Linux"
+			#define SlyvXPlat "Linux"
 			#define SlyvLinux
 		#elif defined(__unix__)
 			#define SlyvUnix
+			#define SlyvPlat "Unix"
+			#define SlyvXPlat "Unix"
 		#elif defined(_POSIX_VERSION)
+			#define SlyvPlat "POSIX"
+			#define SlyvXPlat "POSIX"
 			#define SlyvPOSIX
 		#else
-		#   error "Unknown compiler"
+			#error "Unknown compiler"
 		#endif		
 
 namespace Slyvina {
@@ -107,6 +123,13 @@ namespace Slyvina {
 	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
 	inline std::string lboolstring(bool k) { if (k) return "true"; else return "false"; }
 	inline std::string uboolstring(bool k) { if (k) return "TRUE"; else return "FALSE"; }
+
+	inline std::string Platform(bool compact = true) {
+		if (compact)
+			return SlyvPlat;
+		else
+			return SlyvXPlat;
+	}
 
 	const double PI = 3.1415926535;
 	

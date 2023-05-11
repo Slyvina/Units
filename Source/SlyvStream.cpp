@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 23.01.10
+// version: 23.05.11
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages

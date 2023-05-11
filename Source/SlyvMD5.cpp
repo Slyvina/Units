@@ -16,7 +16,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-// Version 23.01.04
+// Version 23.05.11
 // EndLic
 // This is an adapted version of a simple MD5 hasher written in C.
 // In respect for the original code the license is MIT.
