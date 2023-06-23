@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvMKL.hpp
 // MKL for Slyvina (header)
-// version: 23.05.11
+// version: 23.06.23
 // Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -20,6 +20,7 @@
 #pragma once
 
 #include <Slyvina.hpp>
+#include <SlyvString.hpp>
 #include <algorithm>
 #include <iostream>
 
@@ -79,6 +80,7 @@ namespace Slyvina {
 		inline void MKL_VersionP(std::string File, std::string DTE) {
 			static std::map<std::string, uint32> months{ {"JAN",1},{"FEB",2},{"MAR",3},{"APR",4},{"MAY",5},{"JUN",6},{"JUL",7},{"AUG",8},{"SEP",9},{"OCT",10},{"NOV",11},{"DEC",12} };
 			std::transform(DTE.begin(), DTE.end(), DTE.begin(), ::toupper);
+			DTE = StReplace(DTE,"  ", " ");
 			std::string DTEA[3]{ "","","" };
 			{
 				byte idx{ 0 };
