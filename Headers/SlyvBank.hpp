@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 23.03.07
+// version: 23.06.23
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -81,6 +81,7 @@ namespace Slyvina {
 
 			inline char ReadChar() { return PeekChar(_pos++); }
 			inline byte ReadByte() { return PeekChar(_pos++); }
+			inline byte ReadByte(byte& b) { b = ReadByte(); return b; }
 			inline int16 ReadInt16() { auto r = PeekInt16(_pos); _pos += sizeof(int16); return r; }
 			inline int32 ReadInt32() { auto r = PeekInt32(_pos); _pos += sizeof(int32); return r; }
 			inline int64 ReadInt64() { auto r = PeekInt64(_pos); _pos += sizeof(int64); return r; }
@@ -108,6 +109,21 @@ namespace Slyvina {
 			/// <returns></returns>
 			std::string ReadString(size_t sz = 0);
 
+			/// <summary>
+			/// Reads a string with null terminator.
+			/// </summary>
+			/// <param name="sz">When 0 it just keeps reading until the null terminator is found, otherwise it will read number of bytes regardless of the terminator</param>
+			/// <returns></returns>
+			std::string ReadNullString(size_t sz = 0);
+
+			/// <summary>
+			/// Reads a string with null terminator.
+			/// </summary>
+			/// <param name="str">String buffer</param>
+			/// <param name="bufsize">Size of the string buffer</param>
+			/// <param name="blocksize">Block size. If not set size of the string will be used</param>
+			void ReadNullString(char* str, size_t bufsize, size_t blocksize = 0);
+
 			inline bool Expandable() { return _Expandable; }
 
 			inline void WriteChar(char c) { PokeChar(_pos++, c); }
@@ -115,6 +131,8 @@ namespace Slyvina {
 			inline void WriteInt16(int16 i) { PokeInt16(_pos, i); _pos += sizeof(int16); }
 			inline void WriteInt32(int32 i) { PokeInt32(_pos, i); _pos += sizeof(int32); }
 			inline void WriteInt64(int64 i) { PokeInt64(_pos, i); _pos += sizeof(int64); }
+			inline void WriteUInt32(uint32 i) { PokeUInt32(_pos, i); _pos += sizeof(uint32); }
+			inline void WriteUInt64(uint64 i) { PokeUInt64(_pos, i); _pos += sizeof(uint64); }
 			inline void WriteInt(int32 i) { WriteInt32(i); }
 
 			inline void WriteString(std::string value, bool raw=false) {
@@ -122,8 +140,14 @@ namespace Slyvina {
 				for (int i = 0; i < value.size(); ++i) WriteChar(value[i]);
 			}
 
-			inline void WriteChars(char* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteChar(cb[i]); }
-			inline void WriteBytes(byte* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteByte(cb[i]); }
+			/// <summary>
+			/// Writes a C style string with null terminator at the end.
+			/// </summary>
+			/// <param name="bufsize">If set it will make the block always as long as bufsize regardless of the length of the string</param>
+			void WriteNullString(std::string str, size_t bufsize = 0);
+
+			inline void WriteChars(const char* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteChar(cb[i]); }
+			inline void WriteBytes(const byte* cb, size_t s) { for (size_t i = 0; i < s; i++) WriteByte(cb[i]); }
 			inline void WriteChars(std::vector<char> cb) { for (auto c : cb) WriteChar(c); }
 			inline void WriteChars(std::vector<char>* cb) { for (auto c : *cb) WriteChar(c); }
 
@@ -131,12 +155,14 @@ namespace Slyvina {
 			inline void Write(byte b) { WriteByte(b); }
 			inline void Write(int16 i) {WriteInt16(i); }
 			inline void Write(int32 i) { WriteInt32(i); }
-			inline void Write(int64 i) { WriteInt32(i); }
+			inline void Write(int64 i) { WriteInt64(i); }
+			inline void Write(uint32 i) { WriteUInt32(i); }
+			inline void Write(uint64 i) { WriteUInt64(i); }
 			inline void Write(std::string str,bool raw=false) { WriteString(str,raw); }
 			inline void Write(std::vector<char> &vc) { for (char c : vc) WriteChar(c); }
 			inline void Write(std::vector<byte> &vc) { for (char c : vc) WriteByte(c); }
-			inline void Write(char* cb, size_t s) { WriteChars(cb, s); }
-			inline void Write(byte* cb, size_t s) { WriteBytes(cb, s); }
+			inline void Write(const char* cb, size_t s) { WriteChars(cb, s); }
+			inline void Write(const byte* cb, size_t s) { WriteBytes(cb, s); }
 			
 			void WriteStringMap(StringMap sm);
 			inline void Write(StringMap sm) { WriteStringMap(sm); }
