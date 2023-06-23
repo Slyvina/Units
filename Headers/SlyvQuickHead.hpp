@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvQuickHead.hpp
 // Slyvina Quick Head (header)
-// version: 23.05.11
-// Copyright (C) Slyvina Quick Head (header) Jeroen P. Broks
+// version: 23.06.23
+// Copyright (C) Slyvina Quick Head (header), 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
