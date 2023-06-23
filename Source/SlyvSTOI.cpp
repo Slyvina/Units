@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvSTOI.cpp
 // Slyvina - Alternate STOI
-// version: 22.12.15
-// Copyright (C) 2021, 2022 Jeroen P. Broks
+// version: 23.06.23
+// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -24,6 +24,7 @@
 #include <string>
 #include <SlyvString.hpp>
 #include <math.h>
+#include "SlyvSTOI.hpp"
 
 #define eReturn(ErrMsg,retvalue) {STOI_Error = ErrMsg; return retvalue;}
 
@@ -85,6 +86,34 @@ namespace Slyvina {
             default:        return (unsigned int)TrueToInt(s, 10);
             }
         }
+
+        bool IsInt(std::string s) {
+            if (!s.size()) return false;
+            for (size_t i = 0; i < s.size(); i++) {
+                if (s[i] < '0' || s[i]>'9') {
+                    if (i > 0 && s[i] != '-')
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        bool IsNum(std::string s) {
+            bool point{ false };
+            if (!s.size()) return false;
+            for (size_t i = 0; i < s.size(); i++) {
+                if (s[i] < '0' || s[i]>'9') {
+                    if (s[i] == '.') {
+                        if (point) return false;
+                        point = true;
+                    } else if (i > 0 && s[i] != '-') {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
 
 
 
