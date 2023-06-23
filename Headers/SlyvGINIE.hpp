@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.03.06
+// version: 23.06.23
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -224,6 +224,13 @@ namespace Slyvina {
 				return &_Lists[cat][key];
 			}
 
+			inline size_t ListCount(std::string cat, std::string key) {
+				S2U(cat); S2U(key);
+				if (!_Lists.count(cat)) return 0;
+				if (!_Lists[cat].count(key)) return 0;
+				return _Lists[cat][key].size();
+			}
+
 			/// <summary>
 			/// Creates a list unless it already exists. (If you set the 'force' parameter to true a new list will be created anyway).
 			/// </summary>
@@ -248,6 +255,7 @@ namespace Slyvina {
 			/// <param name="source">Source code to be parsed and processed</param>
 			/// <param name="merge">If set to true the content will be merged with the existing data. If set to false, the existing data will be disposed</param>
 			inline void Parse(std::string source, bool merge = false) {
+				if (!this) std::cout << "WARNING! Trying to parse into a null-GINIE!\n";
 				if (!merge) { _Values.clear(); _Lists.clear(); }
 				auto src{ Split(StReplace(source,"\r",""),'\n') };
 				std::string cat{ "" };
@@ -292,6 +300,7 @@ namespace Slyvina {
 			/// <param name="merge">If set to true the content will be merged with the existing data. If set to false, the existing data will be disposed</param>
 			void FromFile(std::string f, bool merge = false) {
 				if (!FileExists(f)) { std::cout << "GINIE ERROR! File not found! (" << f << ")\n"; return; }
+				if (!this) std::cout << "GINIE ERROR! Trying to parse into null! Expect an exception to be thrown!\n";
 				Parse(FLoadString(f), merge);
 			}
 
