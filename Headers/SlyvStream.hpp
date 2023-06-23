@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 23.05.11
+// version: 23.06.23
 // Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -17,6 +17,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 #include <string>
 #include <vector>
@@ -135,6 +136,7 @@ namespace Slyvina {
 			void Close();
 			char ReadChar();
 			byte ReadByte();
+			inline byte ReadByte(byte& b) { b = ReadByte(); return b; } // I know this looks a bit odd, but I don't like "while(a=St->ReadByte())" counting on it to go right.
 			int32 ReadInt();
 			int16 ReadInt16();
 			int64 ReadLong();
