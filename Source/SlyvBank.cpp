@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 23.03.07
+// version: 23.06.23
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -141,6 +141,38 @@ namespace Slyvina {
 			std::string ret{ c_ret };
 			delete[] c_ret;
 			return ret;
+		}
+
+		std::string _Bank::ReadNullString(size_t sz) {
+			std::string ret{ "" };
+			if (sz) {
+				auto cstr{ new char[sz] };
+				for (size_t i = 0; i < sz; i++) cstr[sz] = ReadChar();
+				ret = cstr;
+				delete[] cstr;
+			} else {
+				char ch;
+				while (ch = ReadChar()) ret += ch;
+			}
+			return ret;
+		}
+
+		void _Bank::ReadNullString(char* str, size_t bufsize, size_t blocksize) {
+			if (blocksize) blocksize = bufsize;
+			for (size_t i = 0; i < blocksize; i++) {
+				auto ch{ ReadChar() };
+				if (i == bufsize - 1) str[i] = 0;
+				else if (i < bufsize) str[i] = ch;
+			}
+			if (bufsize > blocksize) str[blocksize] = 0;
+		}
+
+		void _Bank::WriteNullString(std::string str,size_t bufsize) {
+			if (!bufsize) bufsize = str.size() + 1;
+			for (size_t i = 0; i < bufsize - 1; i++) {
+				if (i < str.size()) Write(str[i]); else Write('\0');
+			} 
+			Write('\0');
 		}
 
 		void _Bank::WriteStringMap(StringMap sm) {
