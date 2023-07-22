@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/DieParse.cpp
 // Die Parse
-// version: 23.06.23
+// version: 23.07.22
 // Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -21,7 +21,7 @@
 #include <SlyvRandom.hpp>
 #include <SlyvString.hpp>
 
-#define DieParseTest
+#undef DieParseTest
 
 #ifdef DieParseTest
 #include <iostream>
