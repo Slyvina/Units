@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.06.23
+// version: 23.07.19
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -151,6 +151,8 @@ namespace Slyvina {
 				return Trim(_Values[cat][key]); 
 			}
 
+			//inline std::string operator[](std::string cat, std::string key) { return Value(cat, key); }
+
 			/// <summary>
 			/// Gets a value and tries to parse it into an integer
 			/// </summary>
@@ -159,6 +161,15 @@ namespace Slyvina {
 			/// <returns>Integer value. Returns 0 if failed</returns>
 			inline int IntValue(std::string cat, std::string key) {
 				return ToInt(Value(cat, key));
+			}
+
+			inline bool BoolValue(std::string cat, std::string key) {
+				auto V = Upper(Value(cat, key));
+				return (V == "TRUE" || V == "YES");
+			}
+
+			inline bool BoolValue(std::string cat, std::string key,bool V) {
+				Value(cat, key, boolstring(V));
 			}
 
 			/// <summary>
