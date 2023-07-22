@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvQCol.hpp
 // Slyvina - Quick Colors (header)
-// version: 23.01.09
+// version: 23.07.22
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -93,6 +93,7 @@ namespace Slyvina {
 			void LCyan(std::string a);
 			void Magenta(std::string a);
 			void LMagenta(std::string a);
+			void Grey(std::string a);
 			void White(std::string a);
 
 			TmpPlateQCol(QColColor c, QColReset r, std::string n);

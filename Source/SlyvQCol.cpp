@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 23.01.17
+// version: 23.07.22
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -141,6 +141,7 @@ namespace Slyvina {
 		void TmpPlateQCol::LCyan(string a) { Write(qColor::LightCyan, a); }
 		void TmpPlateQCol::Magenta(string a) { Write(qColor::Magenta, a); }
 		void TmpPlateQCol::LMagenta(std::string a) { Write(qColor::LightMagenta, a); }
+		void TmpPlateQCol::Grey(string a) { Write(qColor::Grey, a); }
 		void TmpPlateQCol::White(std::string a) { Write(qColor::White, a); }
 
 		TmpPlateQCol::TmpPlateQCol(QColColor c, QColReset r, string n) {
