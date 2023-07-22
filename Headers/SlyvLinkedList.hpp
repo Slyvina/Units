@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvLinkedList.hpp
 // Linked List
-// version: 23.06.23
+// version: 23.07.19
 // Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
