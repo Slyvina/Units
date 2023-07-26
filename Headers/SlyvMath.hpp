@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvMath.hpp
 // Extra Math Routines
-// version: 23.07.19
+// version: 23.07.22
 // Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -18,16 +18,30 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
+
+#undef SlyvMathDebug
+
+#ifdef SlyvMathDebug
+#include <stdio.h>
+#endif
+
 #include <cmath>
+
+
 
 namespace Slyvina {
 	namespace Units {
 
 		const double pi{ 3.14159265359 };
 
-		inline double DegSin(double i) { return (sin(i * (180 * pi))); }
+		inline double DegSin(double i) { 
+#ifdef SlyvMathDebug
+			printf("DegSin(%f) -> %f\n", i, sin(i * (pi / 180)));
+#endif
+			return (sin(i * (pi / 180)));
+		}
 		inline double DegSin(int i) { return DegSin((double)i); }
-		inline double DegCos(double i) { return (cos(i * (180 * pi))); }
+		inline double DegCos(double i) { return (cos(i * (pi / 180))); }
 		inline double DegCos(int i) { return DegCos((double)i); };
 	}
 }
