@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.07.19
+// version: 23.07.26
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -168,7 +168,7 @@ namespace Slyvina {
 				return (V == "TRUE" || V == "YES");
 			}
 
-			inline bool BoolValue(std::string cat, std::string key,bool V) {
+			inline void BoolValue(std::string cat, std::string key,bool V) {
 				Value(cat, key, boolstring(V));
 			}
 
@@ -183,6 +183,11 @@ namespace Slyvina {
 				Trans2Upper(key);
 				if (!_Values.count(cat)) return false;
 				return _Values[cat].count(key);
+			}
+
+			inline bool HasCat(std::string cat) {
+				Trans2Upper(cat);
+				return _Values.count(cat) || _Lists.count(cat);
 			}
 
 			/// <summary>
