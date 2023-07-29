@@ -37,6 +37,7 @@ namespace Slyvina {
 
 
 		bool Yes(GINIE Data, std::string Cat, std::string Key, std::string Question);
+		bool Yes(std::string Cat, std::string Key, std::string Question);
 		//bool Yes(std::shared_ptr<GINIE> Data, std::string Cat, std::string Key, std::string Question);
 
 		bool QuickYes(std::string Question);

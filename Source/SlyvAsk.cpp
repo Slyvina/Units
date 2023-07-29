@@ -66,6 +66,8 @@ namespace Slyvina {
 			return (Data->Value(Cat, Key))[0] == 'Y';
 		}
 
+		bool Yes(std::string Cat, std::string Key, std::string Question) { return Yes(AskGINIE, Cat, Key, Question); }
+
 		bool QuickYes(std::string Question) {
 			std::string Antwoord{ "" };
 			while (!Antwoord.size()) {
