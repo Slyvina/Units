@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvAsk.cpp
 // Ask
-// version: 23.07.29
+// version: 23.09.26
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -87,15 +87,18 @@ namespace Slyvina {
 				ret = ToInt(Data->Value(Cat, Key));
 				if (STOI_Error.size()) {
 					QCol->Error("Data error in [\"" + Cat + "\", \"" + Key + "\"](\"" + Data->Value(Cat, Key) + "\") -> " + STOI_Error);
-					Data->Value(Cat, Key);
+					Data->Value(Cat, Key, "");
+					
 				} else return ret;
 			}
 			while (true) {
 				auto DV = std::to_string(DefaultValue); if (!AllowDefault) DV = "";
 				auto v = Ask(Data, Cat, Key, Question, DV);
 				ret = ToInt(Data->Value(Cat, Key));
-				if (STOI_Error.size())
+				if (STOI_Error.size()) {
 					QCol->Error(STOI_Error);
+					Data->Value(Cat, Key, "");
+				}
 				else return ret;
 
 			}
