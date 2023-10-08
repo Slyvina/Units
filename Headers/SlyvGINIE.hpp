@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.07.26
+// version: 23.10.08
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -57,9 +57,9 @@ namespace Slyvina {
 		typedef std::unique_ptr<RawGINIE> UGINIE;
 
 		class RawGINIE {
-		private:
-			std::map<std::string, std::map<std::string, std::string>> _Values;
-			std::map<std::string, std::map<std::string, std::vector<std::string>>> _Lists;
+		private:		
+			std::map<std::string, std::map<std::string, std::string>> _Values{};		
+			std::map<std::string, std::map<std::string, std::vector<std::string>>> _Lists{};
 			inline static void S2U(std::string& str) { if (!str.size()) str = "NAMELESS"; std::transform(str.begin(), str.end(), str.begin(), ::toupper); }
 		public:
 
@@ -217,17 +217,19 @@ namespace Slyvina {
 			/// <param name="key"></param>
 			/// <param name="value"></param>
 			/// <param name="unique"></param>
-			inline void Add(std::string cat, std::string key, std::string value, bool unique = false) {
+			inline void Add(std::string cat, std::string key, std::string value, bool sort=false, bool unique = false) {
 				S2U(cat); S2U(key);
 				if (value == "") return;
 				if (unique) {
 					for (auto k : _Lists[cat][key]) if (k == value) return;
 				}
 				_Lists[cat][key].push_back(value);
+				if (sort) 
+					std::sort(_Lists[cat][key].begin(), _Lists[cat][key].end());
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
 			}
 
-			inline void AddNew(std::string cat, std::string key, std::string value) { Add(cat, key, value, true); }
+			inline void AddNew(std::string cat, std::string key, std::string value, bool sort=false) { Add(cat, key, value, sort, true); }
 
 			/// <summary>
 			/// Pointer to the list with these settings. Best is to only use this for reading purposes and not for writing. At least not when you set the AutoSave variable.
@@ -299,7 +301,7 @@ namespace Slyvina {
 						list = line.substr(6);
 						if (!list.size()) { std::cout << "GINIE ERROR! Namelist list in line " << linenum << "\n"; return; }
 					} else {
-						if (!cat.size()) { std::cout << "GINIE ERROR! Categoryless value definition in line " << linenum << "\n"; return; }
+						if (!cat.size()) { std::cout << "GINIE ERROR! Categoryless value definition in line " << linenum << "\nLine:" << line << "\n"; return; }
 						auto p = FindFirst(line, '=');
 						if (p < 0) { std::cout << "GINIE ERROR! Syntax error in line " << linenum << "\n"; return; }
 						auto k{ Trim(line.substr(0,p)) };
