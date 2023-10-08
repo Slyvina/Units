@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 23.05.11
+// version: 23.09.28
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -28,6 +28,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include <map>
 #include <vector>
 
@@ -146,4 +147,9 @@ namespace Slyvina {
 	inline std::string CYear(uint32 oy, uint32 yn) { if (oy > yn) return "?"; if (oy < yn) return std::to_string(oy) + "-" + std::to_string(yn); return std::to_string(yn); }
 	inline std::string CYear(uint32 oy, std::string yn) { return CYear(oy, std::stoi(yn)); }
 	
+	template<class MyType> inline void SortVector(std::vector<MyType>* v) { std::sort(v->begin(), v->end()); }
+	inline void SortVecString(VecString v) {
+		if (!v) { std::cout << "SortVecString(nullptr): Cannot sort!\n\r"; return; }
+		std::sort(v->begin(), v->end()); 
+	}
 }
