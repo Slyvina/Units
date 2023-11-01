@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvDijkstra.cpp
 // Dijkstra
-// version: 23.10.08
+// version: 23.11.01
 // Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages

@@ -15,7 +15,7 @@
 // with basically comes down to the same lack of
 // restriction the public domain offers. (YAY!)
 // ***********************************************************
-// Version 23.10.08
+// Version 23.11.01
 // EndLic
 #include "../../Headers/SlyvQCol.hpp"
 #include "../../Headers/SlyvSTOI.hpp"
