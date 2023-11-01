@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 23.09.28
+// version: 23.11.01
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -151,5 +151,19 @@ namespace Slyvina {
 	inline void SortVecString(VecString v) {
 		if (!v) { std::cout << "SortVecString(nullptr): Cannot sort!\n\r"; return; }
 		std::sort(v->begin(), v->end()); 
+	}
+	template<class MyType> inline bool VectorContains(std::vector<MyType>& HayStack, MyType Needle) {
+		for (auto Hay : HayStack) if (Needle == Hay) return true;
+		return false;
+	}
+	inline bool VectorContains(VecString HayStack, std::string Needle) {
+		for (auto Hay : *HayStack) if (Needle == Hay) return true;
+		return false;
+	}
+	template<class MyType> inline void VectorAddUnique(std::vector<MyType>& MyVec, MyType Value) {
+		if (!VectorContains(MyVec,Value)) MyVec.push_back(Value);
+	}
+	inline void VectorAddUnique(VecString MyVec, std::string Value) {
+		if (!VectorContains(MyVec,Value)) MyVec->push_back(Value);
 	}
 }
