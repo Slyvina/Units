@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.10.08
+// version: 23.11.01
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -142,7 +142,7 @@ namespace Slyvina {
 			/// <returns>The value</returns>
 			inline std::string Value(std::string cat, std::string key) {
 				if (!this) {
-					std::cout << "\x7\x1b[31mERROR!\x1b[0m <NULLGINIE>->Value(\"" << cat << "\", \"" << key << "\"): Trying to get a value from NULL!";
+					std::cout << "\x7\x1b[31mERROR!\x1b[0m <NULLGINIE>->Value(\"" << cat << "\", \"" << key << "\"): Trying to get a value from NULL!\n";
 					return "";
 				}
 				S2U(cat); S2U(key);
@@ -230,6 +230,27 @@ namespace Slyvina {
 			}
 
 			inline void AddNew(std::string cat, std::string key, std::string value, bool sort=false) { Add(cat, key, value, sort, true); }
+
+			inline void Remove(std::string cat, std::string key, std::string value, int times = -1,bool ignorecase=false) {
+				S2U(cat); S2U(key);
+				auto V = NewVecString();
+				bool match{ false };
+				bool removals{ false };
+				for (auto chkv : _Lists[cat][key]) {
+					if (ignorecase)
+						match = Upper(chkv) == Upper(value);
+					else
+						match = chkv == value;
+					removals = removals || match;
+					if (!match) V->push_back(chkv);
+					times = std::max(-1, --times);
+					if (times == 0) break;
+				}
+				if (removals) {
+					_Lists[cat][key] = *V;
+					if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
+				}
+			}
 
 			/// <summary>
 			/// Pointer to the list with these settings. Best is to only use this for reading purposes and not for writing. At least not when you set the AutoSave variable.
@@ -322,6 +343,14 @@ namespace Slyvina {
 				Parse(FLoadString(f), merge);
 			}
 
+			VecString Categories() {
+				auto Ret{ NewVecString() };
+				for (auto l : _Values) Ret->push_back(l.first);
+				for (auto l : _Lists) Ret->push_back(l.first);
+				SortVecString(Ret);
+				return Ret;
+			}
+
 			inline RawGINIE() {};
 			inline RawGINIE(GINIE_Read r, std::string src, std::string autosv = "", std::string autosvh = "") {
 				switch (r) {
@@ -342,6 +371,22 @@ namespace Slyvina {
 		/// <param name="autosvh"></param>
 		/// <returns></returns>
 		inline GINIE LoadGINIE(std::string src, std::string autosv = "", std::string autosvh = "") { return std::make_shared<RawGINIE>(GINIE_Read::File, src, autosv, autosvh); }
+
+		/// <summary>
+		/// Loads a GINIE file (creates it if it doesn't yet exist), parses it and returns it as a shared pointer.
+		/// </summary>
+		/// <param name="src"></param>
+		/// <param name="autosv"></param>
+		/// <param name="autosvh"></param>
+		///  <returns></returns>
+		inline GINIE LoadOptGINIE(std::string src, std::string autosv = "", std::string autosvh = "") {
+			if (!FileExists(src)) {
+				auto d{ ExtractDir(src) };
+				if (!DirectoryExists(d)) MakeDir(d);
+				SaveString(src, "# Creating new GINIE: " + src);
+			}
+			return LoadGINIE(src, autosv, autosvh);
+		}
 
 		/// <summary>
 		/// Loads a GINIE file, parses it and returns it as a unique pointer.
