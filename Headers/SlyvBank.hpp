@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 23.06.23
+// version: 23.11.07
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -45,6 +45,8 @@ namespace Slyvina {
 			_Bank(Endian SetEndian = Endian::Little);
 
 			~_Bank();
+
+			static void DefineDefaultBankPanic(BankPanic p);
 
 			void PokeChar(size_t position, char value);
 			void PokeByte(size_t position, byte value);
@@ -136,7 +138,7 @@ namespace Slyvina {
 			inline void WriteInt(int32 i) { WriteInt32(i); }
 
 			inline void WriteString(std::string value, bool raw=false) {
-				if (!raw) WriteInt32(value.size());
+				if (!raw) WriteInt32((int)value.size());
 				for (int i = 0; i < value.size(); ++i) WriteChar(value[i]);
 			}
 
@@ -216,6 +218,7 @@ namespace Slyvina {
 
 	UBank CreateUBank(size_t size, Endian E = Endian::Little);
 	UBank CreateUXBank();
+	
 	
 	
 	}
