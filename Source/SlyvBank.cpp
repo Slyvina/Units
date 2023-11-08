@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 23.06.23
+// version: 23.11.07
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -82,6 +82,7 @@ namespace Slyvina {
 				delete[] _buffer;
 			// Expandable uses a shared pointer, so no need to release that.
 		}
+		void _Bank::DefineDefaultBankPanic(BankPanic p) { _DefPanic = p; }
 		void _Bank::PokeChar(size_t position, char value) {
 			if (_Expandable) {
 				while (position >= _xbuffer->size()) _xbuffer->push_back('\0');
