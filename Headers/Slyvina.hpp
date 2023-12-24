@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 23.11.01
+// version: 23.11.21
 // Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -166,4 +166,16 @@ namespace Slyvina {
 	inline void VectorAddUnique(VecString MyVec, std::string Value) {
 		if (!VectorContains(MyVec,Value)) MyVec->push_back(Value);
 	}
+
+	inline bool VecHasString(std::vector<String>* Haystack, String Needle, bool ignorecase = true) {
+		if (ignorecase)  std::transform(Needle.begin(), Needle.end(), Needle.begin(), ::toupper);
+		for (auto _hay : *Haystack) {
+			auto hay = _hay; if (ignorecase)  std::transform(hay.begin(), hay.end(), hay.begin(), ::toupper);
+			if (hay == Needle) return true;
+		}
+		return false;
+	}
+
+	inline bool VecHasString(std::vector<String>HayStack, String Needle, bool ignorecase = true) { return VecHasString(&HayStack, Needle, ignorecase); }
+	inline bool VecHasString(VecString HayStack, String Needle, bool ignorecase = true) { return VecHasString(HayStack.get(), Needle, ignorecase); }
 }
