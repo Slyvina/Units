@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 23.11.01
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -201,6 +201,11 @@ namespace Slyvina {
 				return Value(cat, key);
 			}
 
+			inline int NewValue(std::string cat, std::string key, int value) {
+				NewValue(cat, key, std::to_string(value));
+				return IntValue(cat, key);
+			}
+
 			inline VecString Values(std::string cat){
 				auto ret{ NewVecString() };
 				Trans2Upper(cat);
@@ -316,7 +321,7 @@ namespace Slyvina {
 						else
 							Add(cat, list, line);
 					} else if (line[0] == '[' && line[line.size() - 1] == ']') {
-						cat = Mid(line, 2, line.size() - 2);
+						cat = Mid(line, 2, (unsigned int)line.size() - 2);
 					} else if (Prefixed(Upper(line), "*LIST:")) {
 						if (!cat.size()) { std::cout << "GINIE ERROR! Categoryless list started in line " << linenum << "\n"; return; }
 						list = line.substr(6);
