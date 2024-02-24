@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvRequestFile.cpp
 // Slyvina - Request File
-// version: 22.12.09
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -159,6 +159,8 @@ static void beginPanel() {
 						 if (q == -1) { defext = 0; break; }  //000000097 | If q = -1 defext = 0; Exit
 						 defext++; //000000098 | defext:+1
 					 } // Wend
+				 } else {
+					 defext = 0; // This ain't BlitzMax after all.
 				 } // EndIf
 			 } // EndIf
 
