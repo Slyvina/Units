@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvVolumes.cpp
 // Slyvina - Volumes
-// version: 23.03.06
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -25,53 +25,68 @@
 #endif
 
 namespace Slyvina {
-    namespace Units {
-        StringMap Volumes() {
-            auto ret = NewStringMap();
+	namespace Units {
+		StringMap Volumes() {
+			auto ret = NewStringMap();
 #ifdef SlyvWindows
-            WCHAR szVolumeName[MAX_PATH];
-            WCHAR VROOT[5] = L"A:\\";
-            for (WCHAR i = 'A'; i <= 'Z'; i++) {
-                VROOT[0] = i;
-                //std::cout << (char)VROOT[0] << (char)VROOT[1] << (char)VROOT[2] << std::endl; // debug
-            
-                BOOL bSucceeded = GetVolumeInformationW(VROOT,
-                    szVolumeName,
-                    MAX_PATH,
-                    NULL,
-                    NULL,
-                    NULL,
-                    NULL,
-                    0);
-                if (bSucceeded) {
-                    char VolName[MAX_PATH];
-                    unsigned int j = 0;
-                    do {
-                        VolName[j] = (char)szVolumeName[j];
-                        //std::cout << j << "\t" << szVolumeName[j] << "\t" << VolName[j] << "\n";
-                    } while (szVolumeName[j++]);
-                    char TROOT[5] = "A:\\";
-                    TROOT[0] = (char)i;
-                    (*ret)[VolName] = TROOT;
-                }
-            }
+			WCHAR szVolumeName[MAX_PATH];
+			WCHAR VROOT[5] = L"A:\\";
+			for (WCHAR i = 'A'; i <= 'Z'; i++) {
+				VROOT[0] = i;
+				//std::cout << (char)VROOT[0] << (char)VROOT[1] << (char)VROOT[2] << std::endl; // debug
+			
+				BOOL bSucceeded = GetVolumeInformationW(VROOT,
+					szVolumeName,
+					MAX_PATH,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					0);
+				if (bSucceeded) {
+					char VolName[MAX_PATH];
+					unsigned int j = 0;
+					do {
+						VolName[j] = (char)szVolumeName[j];
+						//std::cout << j << "\t" << szVolumeName[j] << "\t" << VolName[j] << "\n";
+					} while (szVolumeName[j++]);
+					char TROOT[5] = "A:\\";
+					TROOT[0] = (char)i;
+					(*ret)[VolName] = TROOT;
+				}
+			}
 #else
 #error Volumes is not yet properly set up for this platform.
 #endif
-            return ret;
-        }
-        std::string AVolPath(std::string path,bool ignorecase) {
-            path = ChReplace(path, '\\', '/');
-            static auto Vols = Volumes();
-            for (auto vk : *Vols) {
-                if (
-                    (ignorecase && Prefixed(Upper(path), Upper(vk.first + ":"))) ||
-                    (Prefixed(path, vk.first + ":"))
-                    ) {
-                    return StReplace(ChReplace(vk.second + path.substr(vk.first.size() + 1), '\\', '/'),"//","/");
-                }
-            }
-            return path;
-        }
-    }
+			return ret;
+		}
+
+		std::string AVolPath(std::string path,bool ignorecase) {
+			path = ChReplace(path, '\\', '/');
+			static auto SVols{ Volumes() };
+			static auto Vols = SVols.get();
+			if (Vols == nullptr) {
+				std::cout << "\7\x1b[31mERROR!> \x1b[0m " << " Slyvina::Units::AVolPath(\"" << path << "\"," << boolstring(ignorecase) << "): Scanning for volumes gave a null pointer!\n"; 
+				return "";
+			}
+			if ((uint64)Vols == 0xFFFFFFFFFFFFFFFF) {
+				std::cout << "\7\x1b[31mERROR!> \x1b[0m " << " Slyvina::Units::AVolPath(\"" << path << "\"," << boolstring(ignorecase) << "): Scanning for volumes gave a illegal pointer!\n";
+				return "";
+			}
+			try {
+				for (auto vk : *Vols) {
+					if (
+						(ignorecase && Prefixed(Upper(path), Upper(vk.first + ":"))) ||
+						(Prefixed(path, vk.first + ":"))
+						) {
+						return StReplace(ChReplace(vk.second + path.substr(vk.first.size() + 1), '\\', '/'), "//", "/");
+					}
+				}
+			} catch (std::runtime_error e) {
+				std::cout << "\7\x1b[31mERROR!> \x1b[0m " << " Slyvina::Units::AVolPath(\"" << path << "\"," << boolstring(ignorecase) << " Exception thrown by C++:" << e.what() << "\n";
+				return "";
+			}
+			return path;
+		}
+	}
 }
