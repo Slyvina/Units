@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvBank.hpp
 // Slyvina - Banks (header)
-// version: 23.11.07
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.02.24
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -133,6 +133,7 @@ namespace Slyvina {
 			inline void WriteInt16(int16 i) { PokeInt16(_pos, i); _pos += sizeof(int16); }
 			inline void WriteInt32(int32 i) { PokeInt32(_pos, i); _pos += sizeof(int32); }
 			inline void WriteInt64(int64 i) { PokeInt64(_pos, i); _pos += sizeof(int64); }
+			inline void WriteUInt16(uint16 i) { PokeUInt16(_pos, i); _pos += sizeof(uint16); }
 			inline void WriteUInt32(uint32 i) { PokeUInt32(_pos, i); _pos += sizeof(uint32); }
 			inline void WriteUInt64(uint64 i) { PokeUInt64(_pos, i); _pos += sizeof(uint64); }
 			inline void WriteInt(int32 i) { WriteInt32(i); }
