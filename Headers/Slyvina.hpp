@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 23.11.21
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -138,7 +138,7 @@ namespace Slyvina {
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
 
 	typedef std::shared_ptr<std::map<std::string, std::string>> StringMap;
-	inline StringMap NewStringMap() { return std::make_shared<std::map<std::string, std::string>>(); }
+	inline StringMap NewStringMap() { return std::shared_ptr<std::map<std::string, std::string>>(new std::map<std::string,std::string>()); }
 	
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
