@@ -130,7 +130,7 @@ namespace Slyvina {
 		}
 
 		std::string Ask(GINIE Data, std::string Cat, std::string Key, std::string Question, std::string DefaultValue) {
-			Ass(Data!=nullptr, "Ask to NullPointerGINIE");
+			Ass(Data!=nullptr, "Ask(nullptr, \""+Cat+"\", \""+Key+"\", \""+Question+"\", \""+DefaultValue+"\");  Ask to NullPointerGINIE");
 			Ass(Cat.size(), "Ask to no category");
 			Ass(Key.size(), "Ask to no key");
 			if (!Question.size()) Question = ":>";
