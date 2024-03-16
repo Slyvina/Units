@@ -62,6 +62,14 @@ namespace Slyvina {
 		std::string FileDate(std::string FileName);
 		time_t FileTimeStamp(std::string FileName);
 
+		/// <summary>
+		/// Copy a file
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="tar"></param>
+		/// <returns>True is succesful</returns>
+		bool FileCopy(std::string original, std::string tar);
+
 
 		class True_OutFile;
 		typedef std::shared_ptr<True_OutFile> OutFile;
