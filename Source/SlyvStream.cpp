@@ -272,6 +272,26 @@ namespace Slyvina {
 			return make_shared<True_InFile>(fname, endian);
 		}
 
+		bool FileCopy(std::string original, std::string tar) {
+			if (!FileExists(original)) return false;
+			auto dt{ ExtractDir(tar) };
+			if (!DirectoryExists(dt)) MakeDir(dt);
+			/*
+			vector<char>buf{};
+			LoadChars(&buf, original);
+			//if (!buf) return false;
+			auto out{ WriteFile(tar) };
+			for (auto c : buf) out->Write(c);
+			out->Close();
+			*/
+			auto fci{ ReadFile(original) };
+			auto fco{ WriteFile(tar) };
+			for (size_t p = 0; p < fci->Size(); p++) fco->Write(fci->ReadByte());
+			fci->Close();
+			fco->Close();
+			return true;
+		}
+
 
 		VecString LoadLines(string file) {
 			return StringToLines(FLoadString(file));
