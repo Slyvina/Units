@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvRandom.hpp
 // Slyvina - Random
-// version: 22.12.18
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.03.22
+// Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -34,13 +34,17 @@ namespace Slyvina {
 		class _CRandom {
 		private:
 			int _seed{ 0 };
+			unsigned int _lastseed;
 		public:			
 			inline void Seed(unsigned int seed = 0) {
 				if (seed == 0U)
 					Seed(time(NULL));
-				else 
+				else {
+					_lastseed = seed;
 					srand(seed);
+				}
 			}
+			inline unsigned int GetLastSetSeed() { return _lastseed; }
 			int Get(unsigned int Max) { return rand() % (Max + 1); }
 			int Get(int Min, int Max) {
 				auto r = Max - Min;
