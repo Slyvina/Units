@@ -151,16 +151,38 @@ namespace Slyvina {
             std::sort(ret->begin(), ret->end());
             return ret;
 #else                                                                                                                                 
-            //#pragma message("WARNING! FileList is not yet supported by this platform! An empty vector will be returned in stead!")                
+            //#pragma message("WARNING! FileList is not yet supported by this platform! An empty vector will be returned in stead!")    
+            auto ret{ NewVecString() };
             namespace fs = std::filesystem;
             for (const auto & entry : fs::directory_iterator(Dir)) {
                 //std::cout << entry.path() << std::endl;
                 std::string 
                     ep{entry.path()},
                     cp{ep.substr(Dir.size())}; while(cp.size() && cp[0]=='/') cp=cp.substr(1);
-                std::cout<<ep<<" -> "<<cp<<"\n";
-            }        
-            return NewVecString(); //std::vector<std::string>();
+                //std::cout<<ep<<" -> "<<cp<<"\n";                
+                allow = allowhidden || (cp.size() && cp[0]!=".");
+                switch(want) {
+                    case DirWant::FilesAndDirectories:
+                        //allow = true;
+                        break;
+                    case DirWant::Files:
+                        allow = allow && IsFile(ep);
+                        break;
+                    case DirWant::Directory:
+                        allow = allow && IsDir(ep);
+                        break;
+                    case DirWant::Tree:
+                        if (allow && IsDir(ep)) {
+                            auto add = FileList(Dir + "/" + found, DirWant::Tree, allowhidden, addprefix + found + "/");
+                            for (auto a : *add) ret->push_back(a);
+                            allow = false;
+                        }
+                    break;
+                }
+                if (allow) { ret->push_back(addprefix + cp); }
+            } 
+            std::sort(ret->begin(), ret->end());
+            return ret;
 #endif                                                                                                                                
         }
 
