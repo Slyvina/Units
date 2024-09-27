@@ -58,6 +58,10 @@ namespace Slyvina {
 
 #endif                                                                                                                                
 
+#ifndef ForWindows
+#include <sys/stat.h>
+#else
+
         bool IsDir(std::string pth) {
 #ifdef ForWindows                                                                                                                     
             using namespace std;
@@ -84,8 +88,12 @@ namespace Slyvina {
             else
                 return false;
 #else                                                                                                                                 
-#pragma message("WARNING! IsFile is not yet supported by this platform! An false therefore will be returned in stead!")               
-            return false;
+            //#pragma message("WARNING! IsFile is not yet supported by this platform! An false therefore will be returned in stead!")               
+            //return false;
+            struct stat s;
+            if ( lstat(pth.c_str(), &s) == 0 ) {
+                return S_ISREG(s.st_mode);
+            }
 #endif                                                                                                                                
 
         }
