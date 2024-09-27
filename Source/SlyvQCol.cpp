@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 24.07.18
+// version: 24.09.27
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
