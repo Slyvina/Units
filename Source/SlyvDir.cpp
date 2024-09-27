@@ -157,7 +157,7 @@ namespace Slyvina {
                 //std::cout << entry.path() << std::endl;
                 std::string 
                     ep{entry.path()},
-                    cp{ep.substr(Dir.size()}; while(cp.size() && cp[0]=='/') cp=cp.substr(1);
+                    cp{ep.substr(Dir.size())}; while(cp.size() && cp[0]=='/') cp=cp.substr(1);
                 std::cout<<ep<<" -> "<<cp<<"\n";
             }        
             return NewVecString(); //std::vector<std::string>();
