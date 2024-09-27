@@ -92,6 +92,14 @@
 			#error "Unknown compiler"
 		#endif		
 
+#ifdef SlyvWindows
+	// Needed or the VS19 compiler will (against all rules) reject compilation!
+	#define sprintf sprintf_s
+#else
+	// Too lazy to reset all MicroSoft's shitty obligations for Windows! Fuck it!
+	#define sprintf_s sprintf
+#endif
+
 namespace Slyvina {
 
 	typedef std::string String;
