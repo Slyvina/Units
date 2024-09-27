@@ -160,7 +160,7 @@ namespace Slyvina {
                     ep{entry.path()},
                     cp{ep.substr(Dir.size())}; while(cp.size() && cp[0]=='/') cp=cp.substr(1);
                 //std::cout<<ep<<" -> "<<cp<<"\n";                
-                allow = allowhidden || (cp.size() && cp[0]!=".");
+                bool allow { allowhidden || (cp.size() && cp[0]!=".")};
                 switch(want) {
                     case DirWant::FilesAndDirectories:
                         //allow = true;
