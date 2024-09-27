@@ -154,7 +154,9 @@ namespace Slyvina {
             //#pragma message("WARNING! FileList is not yet supported by this platform! An empty vector will be returned in stead!")                
             namespace fs = std::filesystem;
             for (const auto & entry : fs::directory_iterator(Dir)) {
-                std::cout << entry.path() << std::endl;
+                //std::cout << entry.path() << std::endl;
+                std::string ep{entry.path()}; ep=ep.substr(ep,1);
+                std::cout<<ep<<"\n";
             }        
             return NewVecString(); //std::vector<std::string>();
 #endif                                                                                                                                
