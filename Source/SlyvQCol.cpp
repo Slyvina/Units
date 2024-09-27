@@ -46,7 +46,7 @@ namespace Slyvina {
 				bg{ (byte)b };
 #ifndef SlyvWindows
 			qColErrorShow("This driver only works in Windows!");
-			return
+			return;
 #else
 			auto hConsole{ GetStdHandle(STD_OUTPUT_HANDLE) };
 			SetConsoleTextAttribute(hConsole, fg + (bg * 16));
