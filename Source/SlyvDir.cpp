@@ -73,7 +73,12 @@ namespace Slyvina {
             else
                 return false;
 #else                                                                                                                                 
-#pragma message("WARNING! IsDir is not yet supported by this platform! An empty vector will be returned in stead!")                   
+            //#pragma message("WARNING! IsDir is not yet supported by this platform! An empty vector will be returned in stead!")                   
+            //return false;
+            struct stat s;
+            if ( lstat(pth.c_str(), &s) == 0 ) {
+                return S_ISDIR(s.st_mode);
+            }
             return false;
 #endif                                                                                                                                
         }
