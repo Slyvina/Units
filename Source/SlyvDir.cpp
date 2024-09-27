@@ -60,7 +60,7 @@ namespace Slyvina {
 
 #ifndef ForWindows
 #include <sys/stat.h>
-#else
+#endif
 
         bool IsDir(std::string pth) {
 #ifdef ForWindows                                                                                                                     
