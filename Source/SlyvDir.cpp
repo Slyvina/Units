@@ -23,7 +23,9 @@
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)                                                        
 #define ForWindows                                                                                                                    
-#include <Windows.h>                                                                                                                  
+#include <Windows.h>  
+#else
+#include <filesystem>
 #endif
 namespace Slyvina {
     namespace Units {
@@ -149,7 +151,11 @@ namespace Slyvina {
             std::sort(ret->begin(), ret->end());
             return ret;
 #else                                                                                                                                 
-#pragma message("WARNING! FileList is not yet supported by this platform! An empty vector will be returned in stead!")                
+            //#pragma message("WARNING! FileList is not yet supported by this platform! An empty vector will be returned in stead!")                
+            namespace fs = std::filesystem;
+            for (const auto & entry : fs::directory_iterator(Dir)) {
+                std::cout << entry.path() << std::endl;
+            }        
             return NewVecString(); //std::vector<std::string>();
 #endif                                                                                                                                
         }
