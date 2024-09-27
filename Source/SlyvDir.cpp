@@ -155,7 +155,7 @@ namespace Slyvina {
             namespace fs = std::filesystem;
             for (const auto & entry : fs::directory_iterator(Dir)) {
                 //std::cout << entry.path() << std::endl;
-                std::string ep{entry.path()}; ep=ep.substr(1);
+                std::string ep{entry.path()}; 
                 std::cout<<ep<<"\n";
             }        
             return NewVecString(); //std::vector<std::string>();
