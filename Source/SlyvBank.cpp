@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
-// version: 23.11.07
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.07.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -88,7 +88,7 @@ namespace Slyvina {
 				while (position >= _xbuffer->size()) _xbuffer->push_back('\0');
 				(*_xbuffer)[position] = value;
 			} else {
-				if (position < _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return; }
+				if (position >= _sz) { Panic("W:Position out of range(" + to_string(position) + " / " + to_string(_sz) + ")"); return; }
 				_buffer[position] = value;
 			}
 		}
@@ -109,10 +109,10 @@ namespace Slyvina {
 		char _Bank::PeekChar(size_t position) {
 			if (_Expandable) {
 				auto _sz = _xbuffer->size();
-				if (position > _sz ) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
+				if (position >= _sz ) { Panic("R:Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
 				return (*_xbuffer)[position];
 			} else {
-				if (position > _sz) { Panic("Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
+				if (position >= _sz) { Panic("R:Position out of range (" + to_string(position) + "/" + to_string(_sz) + ")"); return 0; }
 				return _buffer[position];
 			}
 		}

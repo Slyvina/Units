@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvMKL.hpp
 // MKL for Slyvina (header)
-// version: 23.06.23
-// Copyright (C) 2023 Jeroen P. Broks
+// version: 24.07.18
+// Copyright (C) 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,6 +17,8 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
+
 #pragma once
 
 #include <Slyvina.hpp>
@@ -24,10 +26,30 @@
 #include <algorithm>
 #include <iostream>
 
+//#define vVersion2
+
+namespace Slyvina {
+
+#ifdef vVersion2
+	class _TrueMKL; typedef std::shared_ptr<_TrueMKL> TrueMKL;
+	class MKL_Version; 
+	class MKL_Lic;
+
+class MKL_Version { public: MKL_Version(std::string, std::string); };
+class MKL_Lic { public: MKL_Lic(std::string, std::string); };
+
+					  std::string MKL_All(bool full = true);
+					  std::string MKL_AllANSI(bool full = true);
+					  std::string MKL_Highest();
+
+#else
+
+
+
+#pragma region Old
 // This line must be present in any of the source files when using MKL as long as it's only found ONCE in an entire project. The same file as were int main() is found could be a good idea.
 #define MKL_Init std::map<std::string, Slyvina::Units::TMKL> Slyvina::Units::MKL_Register{Slyvina::Units::_MKL_Init()};
 
-namespace Slyvina {
 	namespace Units {
 		class TMKL {
 		public:
@@ -129,4 +151,7 @@ namespace Slyvina {
 		}
 	}
 
+
+#pragma endregion
+#endif
 }

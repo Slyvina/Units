@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvQCol.hpp
 // Slyvina - Quick Colors (header)
-// version: 23.07.22
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.07.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -29,6 +29,8 @@
 */
 
 #pragma once
+
+
 #include <string>
 //#include "../Headers/QuickTypes.hpp"
 #include "Slyvina.hpp"
@@ -105,3 +107,6 @@ namespace Slyvina {
 			* QCol;
 	}
 }
+
+// Apparently this is needed for some silly reason!
+#define QCol Slyvina::Units::QCol

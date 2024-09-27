@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 23.07.22
-// Copyright (C) 2022, 2023 Jeroen P. Broks
+// version: 24.07.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -131,18 +131,18 @@ namespace Slyvina {
 			cout << endl;
 		}
 
-		void TmpPlateQCol::Green(string a) { Write(qColor::Green, a); }
-		void TmpPlateQCol::LGreen(string a) { Write(qColor::LightGreen, a); }
-		void TmpPlateQCol::Red(string a) { Write(qColor::Red, a); }
-		void TmpPlateQCol::Pink(string a) { Write(qColor::Pink, a); }
-		void TmpPlateQCol::Dark(string a) { Write(qColor::DarkGrey, a); }
-		void TmpPlateQCol::Yellow(string a) { Write(qColor::Yellow, a); }
-		void TmpPlateQCol::Cyan(string a) { Write(qColor::Cyan, a); }
-		void TmpPlateQCol::LCyan(string a) { Write(qColor::LightCyan, a); }
-		void TmpPlateQCol::Magenta(string a) { Write(qColor::Magenta, a); }
-		void TmpPlateQCol::LMagenta(std::string a) { Write(qColor::LightMagenta, a); }
-		void TmpPlateQCol::Grey(string a) { Write(qColor::Grey, a); }
-		void TmpPlateQCol::White(std::string a) { Write(qColor::White, a); }
+		void TmpPlateQCol::Green(string a="") { Write(qColor::Green, a); }
+		void TmpPlateQCol::LGreen(string a="") { Write(qColor::LightGreen, a); }
+		void TmpPlateQCol::Red(string a="") { Write(qColor::Red, a); }
+		void TmpPlateQCol::Pink(string a="") { Write(qColor::Pink, a); }
+		void TmpPlateQCol::Dark(string a="") { Write(qColor::DarkGrey, a); }
+		void TmpPlateQCol::Yellow(string a="") { Write(qColor::Yellow, a); }
+		void TmpPlateQCol::Cyan(string a="") { Write(qColor::Cyan, a); }
+		void TmpPlateQCol::LCyan(string a="") { Write(qColor::LightCyan, a); }
+		void TmpPlateQCol::Magenta(string a="") { Write(qColor::Magenta, a); }
+		void TmpPlateQCol::LMagenta(std::string a="") { Write(qColor::LightMagenta, a); }
+		void TmpPlateQCol::Grey(string a="") { Write(qColor::Grey, a); }
+		void TmpPlateQCol::White(std::string a="") { Write(qColor::White, a); }
 
 		TmpPlateQCol::TmpPlateQCol(QColColor c, QColReset r, string n) {
 			Color = c;

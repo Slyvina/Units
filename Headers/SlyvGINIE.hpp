@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 24.02.18
+// version: 24.09.24
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -170,6 +170,12 @@ namespace Slyvina {
 
 			inline void BoolValue(std::string cat, std::string key,bool V) {
 				Value(cat, key, boolstring(V));
+			}
+
+			inline int IncValue(std::string cat, std::string key, int icv = 1) {
+				auto iv{ IntValue(cat,key) };
+				Value(cat, key, iv+icv);
+				return IntValue(cat, key);
 			}
 
 			/// <summary>
