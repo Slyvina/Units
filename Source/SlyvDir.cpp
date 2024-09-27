@@ -94,6 +94,7 @@ namespace Slyvina {
             if ( lstat(pth.c_str(), &s) == 0 ) {
                 return S_ISREG(s.st_mode);
             }
+            return false;
 #endif                                                                                                                                
 
         }
