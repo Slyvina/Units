@@ -101,7 +101,10 @@ namespace Slyvina {
 #ifdef SlyvWindows
 			* QCol{ &WinQCol };
 #else
+			#undef QCol
 			* QCol{ &ANSI };
+			#define QCol Slyvina::Units::QCol
+			// GCC wouldn't accept this otherwise, you know!
 #endif
 
 
