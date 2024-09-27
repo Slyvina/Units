@@ -173,7 +173,7 @@ namespace Slyvina {
                         break;
                     case DirWant::Tree:
                         if (allow && IsDir(ep)) {
-                            auto add = FileList(Dir + "/" + found, DirWant::Tree, allowhidden, addprefix + found + "/");
+                            auto add = FileList(ep, DirWant::Tree, allowhidden, addprefix + cp + "/");
                             for (auto a : *add) ret->push_back(a);
                             allow = false;
                         }
