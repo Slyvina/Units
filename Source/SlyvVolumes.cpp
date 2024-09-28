@@ -22,6 +22,8 @@
 
 #ifdef SlyvWindows
 #include <windows.h>
+#elif SlyvLinux
+#include <mntent.h>
 #endif
 
 namespace Slyvina {
