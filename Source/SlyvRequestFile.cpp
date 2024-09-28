@@ -49,6 +49,15 @@ static void beginPanel() {
 			 return _LFQError;
 		 }
 
+		 String RequestFile(String Caption, String InitDir, String Filter, bool Save) {
+			 auto UDF{ RequestFileDriver::Using().UseRequestFile };
+			 if (!UDF) {
+				 _LFQError = "No ReqestFile function defined!";
+				 return "";
+			 }
+			 return UDF(Caption, InitDir, Filter, Save);
+		 }
+
 #ifdef SlyvWindows
 		 String OFNA_Err(DWORD a) {
 			 //switch (CommDlgExtendedError()) {
