@@ -29,7 +29,8 @@ namespace Slyvina {
 
 		class RequestFileDriver {
 		private:
-			static RequestFileDriver Using;
+			static RequestFileDriver _Using;
+			std::map<std::string, std::string> _Data{};
 		public:
 			DelegateRequestFile UseRequestFile{ nullptr };
 			DelegateRequestDir UseRequestDir{ nullptr };
@@ -37,6 +38,7 @@ namespace Slyvina {
 			static void Use(RequestFileDriver drv);
 			inline static void Use(DelegateRequestFile URF, DelegateRequestDir URD) { Use(RequestFileDriver(URF, URD)); }
 			inline void Use() { Use(*this); }
+			inline static RequestFileDriver& Using() {return _Using;	}
 		};
 
 
