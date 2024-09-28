@@ -95,9 +95,11 @@
 #ifdef SlyvWindows
 	// Needed or the VS19 compiler will (against all rules) reject compilation!
 	#define sprintf sprintf_s
+	#define strcpy strcpy_s
 #else
 	// Too lazy to reset all MicroSoft's shitty obligations for Windows! Fuck it!
 	#define sprintf_s sprintf
+	#define strcpy_s strcpy
 #endif
 
 namespace Slyvina {
