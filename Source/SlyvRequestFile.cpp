@@ -18,11 +18,9 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 
-// No reason why this should not work, but somehow Visual C++ finds one!
-//#include <SlyvRequestFile.hpp>
-#include "../Headers/SlyvRequestFile.hpp"
-//#include <SlyvString.hpp>
-#include "../Headers/SlyvString.hpp"
+#include <SlyvRequestFile.hpp>
+#include <SlyvString.hpp>
+#include <SlyvConInput.hpp>
 
 #ifdef SlyvWindows
 #include <Windows.h>
@@ -234,6 +232,19 @@ static void beginPanel() {
 //			 return "";
 		 }
 #endif
+#pragma endregion
+
+#pragma region "Text Console Driver"
+		 static String Txt_RequestFile(String Caption, String InitDir, String Filter, bool Save) {			 
+			 return Trim(ReadLine(Caption + ": "));
+		 }
+		 static String Txt_RequestDir(String Caption, String InitDir) {
+			 return Trim(ReadLine(Caption + ": "));
+		 }
+
+		 static RequestFileDriver RequestFileText{ Txt_RequestFile,Txt_RequestDir };
+		 void RQF_Text() { RequestFileText.Use(); }
+#pragma enregion
 
 		 void RequestFileDriver::Use(RequestFileDriver drv) { _Using = drv; }
 
