@@ -83,9 +83,9 @@ static void beginPanel() {
 		 }
 #endif
 
-		 String RequestFile(String Caption, String InitDir, String Filter, bool save) {
-			 _LFQError = "";
 #ifdef SlyvWindows
+		 static String Win_RequestFile(String Caption, String InitDir, String Filter, bool save) {
+			 _LFQError = "";
 			 /*
 			 char filename[MAX_PATH];
 			 std::wstring wCaption = std::wstring(Caption.begin(),Caption.end());
@@ -220,16 +220,16 @@ static void beginPanel() {
 			 }
 			 endPanel();
 			 return str;
-#else
-			 _LFQError = "File requester not (yet) available on this platform";
-			 return "";
-#endif
+//#else
+//			 _LFQError = "File requester not (yet) available on this platform";
+//			 return "";
 		 }
+#endif
 
 		 void RequestFileDriver::Use(RequestFileDriver drv) { _Using = drv; }
 
 #if defined(SlyvWindows)
-		 RequestFileDriver RequestFileDriver::Using{nullptr, nullptr};
+		 RequestFileDriver RequestFileDriver::_Using{Win_RequestFile, nullptr};
 #elif define(SlyvLinux)
 		 RequestFileDriver RequestFileDriver::_Using{nullptr, nullptr};
 #else
