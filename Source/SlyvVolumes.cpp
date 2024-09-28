@@ -72,7 +72,7 @@ namespace Slyvina {
 			}
 			while (NULL != (ent = getmntent(aFile))) {
 				//printf("%s %s\n", ent->mnt_fsname, ent->mnt_dir);
-				string d{ent->mtt_dir},clean{StripDir(d)};
+				std::string d{ent->mtt_dir},clean{StripDir(d)};
 				if(d!="/") (*ret)[clean]=d+"/";
 			}
 			endmntent(aFile);
