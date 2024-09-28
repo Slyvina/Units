@@ -23,6 +23,21 @@
 namespace Slyvina {
 	namespace Units {
 
+		typedef String(*DelegateRequestFile) (String Caption, String InitDir, String Filter, bool Save);
+		typedef String(*DelegateRequestDir) (String Caption, String InitDir);
+
+		class RequestFileDriver {
+		private:
+		public:
+			DelegateRequestFile UseRequestFile{ nullptr };
+			DelegateRequestDir UseRequestDir{ nullptr };
+			RequestFileDriver(DelegateRequestFile URF, DelegateRequestDir URD) { UseRequestFile = URF; UseRequestDir = URD; }
+			static void Use(RequestFileDriver drv);
+			static void Use(DelegateRequestFile URF, DelegateRequestDir URD) { Use(RequestFileDriver(URF, URD)); }
+			void Use() { Use(*this); }
+		};
+
+
 		/// <summary>
 		/// Contains an empty string if the last FileRequest call had no errors, otherwise it contains the error message.
 		/// </summary>
