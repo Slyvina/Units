@@ -26,7 +26,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define QS4Windows
 #define MDIR _mkdir
-#elif
+#else
 #define MDIR mkdir
 #endif
 
