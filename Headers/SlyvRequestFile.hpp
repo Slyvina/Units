@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvRequestFile.hpp
 // fsdf
-// version: 22.12.09
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.09.28
+// Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,6 +17,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 #include "Slyvina.hpp"
 
@@ -28,13 +29,14 @@ namespace Slyvina {
 
 		class RequestFileDriver {
 		private:
+			static RequestFileDriver Using;
 		public:
 			DelegateRequestFile UseRequestFile{ nullptr };
 			DelegateRequestDir UseRequestDir{ nullptr };
 			RequestFileDriver(DelegateRequestFile URF, DelegateRequestDir URD) { UseRequestFile = URF; UseRequestDir = URD; }
 			static void Use(RequestFileDriver drv);
-			static void Use(DelegateRequestFile URF, DelegateRequestDir URD) { Use(RequestFileDriver(URF, URD)); }
-			void Use() { Use(*this); }
+			inline static void Use(DelegateRequestFile URF, DelegateRequestDir URD) { Use(RequestFileDriver(URF, URD)); }
+			inline void Use() { Use(*this); }
 		};
 
 

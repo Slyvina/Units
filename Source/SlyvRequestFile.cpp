@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvRequestFile.cpp
 // Slyvina - Request File
-// version: 24.02.18
+// version: 24.09.28
 // Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -17,8 +17,12 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
-#include <SlyvRequestFile.hpp>
-#include <SlyvString.hpp>
+
+// No reason why this should not work, but somehow Visual C++ finds one!
+//#include <SlyvRequestFile.hpp>
+#include "../Headers/SlyvRequestFile.hpp"
+//#include <SlyvString.hpp>
+#include "../Headers/SlyvString.hpp"
 
 #ifdef SlyvWindows
 #include <Windows.h>
@@ -212,5 +216,16 @@ static void beginPanel() {
 			 return "";
 #endif
 		 }
+
+		 void RequestFileDriver::Use(RequestFileDriver drv) { Using = drv; }
+
+#if defined(SlyvWindows)
+		 RequestFileDriver RequestFileDriver::Using{nullptr, nullptr};
+#elif define(SlyvLinux)
+		 RequestFileDriver RequestFileDriver::Using{nullptr, nullptr};
+#else
+		 RequestFileDriver RequestFileDriver::Using{nullptr, nullptr};
+#pragma message "WARNING! This platform is not known to Slyvina's File Request function"
+#endif
 	 }
  }
