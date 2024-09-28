@@ -280,7 +280,7 @@ static void beginPanel() {
 #if defined(SlyvWindows)
 		 RequestFileDriver RequestFileDriver::_Using{Win_RequestFile, nullptr};
 #elif define(SlyvLinux)
-		 RequestFileDriver RequestFileDriver::_Using{nullptr, nullptr};
+		 RequestFileDriver RequestFileDriver::_Using{ RequestFileText}; // For now this will have to do.
 #else
 		 RequestFileDriver RequestFileDriver::_Using{nullptr, nullptr};
 #pragma message "WARNING! This platform is not known to Slyvina's File Request function"
