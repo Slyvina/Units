@@ -22,6 +22,8 @@
 #include <SlyvString.hpp>
 #include <SlyvConInput.hpp>
 
+#include <stdio.h>
+
 #ifdef SlyvWindows
 #include <Windows.h>
 #include <atlstr.h>
@@ -236,15 +238,42 @@ static void beginPanel() {
 
 #pragma region "Text Console Driver"
 		 static String Txt_RequestFile(String Caption, String InitDir, String Filter, bool Save) {			 
+			 _LFQError = "";
 			 return Trim(ReadLine(Caption + ": "));
 		 }
 		 static String Txt_RequestDir(String Caption, String InitDir) {
+			 _LFQError = "";
 			 return Trim(ReadLine(Caption + ": "));
 		 }
 
 		 static RequestFileDriver RequestFileText{ Txt_RequestFile,Txt_RequestDir };
 		 void RQF_Text() { RequestFileText.Use(); }
 #pragma enregion
+
+#pragma region "popen drive"
+/*
+ class pop { public: String Need{}; RequestFileDriver Drv; };
+		static std::map<String, pop> popenreg{};
+		static String popend{};
+		 static String POPEN_RF(String Caption, String InitDir, String Filter, bool Save) {
+			 _LFQError = "";
+			 popend = Upper(popend);
+			 if (!popenreg.count(popend)) { _LFQError = "Unknown popen"; return ""; }
+			 auto& Drv{ popenreg[popend] };
+			 char retvalue[500];
+			 String Call{Drv.Drv.Data("CALL")};
+			 FILE* f = popen(Call.c_str(), "r");
+			 fgets(retvalue, 500, f);
+			 int ret = pclose(f);
+			 if (ret < 0) {
+				 //perror("file_name_dialog()");
+				 _LFQError = "open requestfile failed";
+				 return "";
+			 }
+			 return retvalue;
+		 }
+//*/
+#pragma endregion
 
 		 void RequestFileDriver::Use(RequestFileDriver drv) { _Using = drv; }
 
