@@ -24,6 +24,7 @@
 #include <windows.h>
 #elif defined(SlyvLinux)
 #include <mntent.h>
+#include <iostream>
 #endif
 
 namespace Slyvina {
@@ -59,6 +60,20 @@ namespace Slyvina {
 			}
 #elif defined(SlyvLinux)
 			(*ret)["C"]="/"; // Let's pretent we're on Windows :D
+			// Now the 'true' work
+			struct mntent *ent;
+			FILE *aFile;
+			aFile = setmntent("/proc/mounts", "r");
+			if (aFile == NULL) {
+				//perror("setmntent");
+				//exit(1);
+				std::cout << "Error reading /proc/mounts - Can therefore only list / as C:\n";
+				return ret;
+			}
+			while (NULL != (ent = getmntent(aFile))) {
+				printf("%s %s\n", ent->mnt_fsname, ent->mnt_dir);
+			}
+			endmntent(aFile);
 #else
 #error Volumes is not yet properly set up for this platform.
 #endif
