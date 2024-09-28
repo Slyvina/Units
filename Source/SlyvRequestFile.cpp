@@ -58,6 +58,15 @@ static void beginPanel() {
 			 return UDF(Caption, InitDir, Filter, Save);
 		 }
 
+		 String RequestDir(String Caption, String InitDir) {
+			 auto UDD{ RequestFileDriver::Using().UseRequestDir };
+			 if (!UDD) {
+				 _LFQError = "No ReqestDir function defined!";
+				 return "";
+			 }
+			 return UDD(Caption, InitDir);
+		 }
+#pragma region "Default Windows functions"
 #ifdef SlyvWindows
 		 String OFNA_Err(DWORD a) {
 			 //switch (CommDlgExtendedError()) {
