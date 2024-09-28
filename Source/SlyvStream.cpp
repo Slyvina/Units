@@ -37,6 +37,10 @@
 #include <vector>
 #include <iostream>
 
+#ifndef SlyvWindows
+#include <filesystem
+#endif
+
 // Slyvina
 #include <Slyvina.hpp>
 #include <SlyvString.hpp>
@@ -171,8 +175,13 @@ namespace Slyvina {
 				return FALSE;
 			}
 #else
-#pragma message("WARNING! The current DirectoryExists() function cannot work on this platform, will therefore always return false")
+			struct stat s;
+			if ( lstat(pth.c_str(), &s) == 0 ) {
+				return S_ISDIR(s.st_mode);
+			}
 			return false;
+			//#pragma message("WARNING! The current DirectoryExists() function cannot work on this platform, will therefore always return false")
+			//return false;
 #endif
 		}
 
