@@ -32,6 +32,9 @@ namespace Slyvina {
 			static RequestFileDriver _Using;
 			std::map<std::string, std::string> _Data{};
 		public:
+			inline void Data(String K, String V) { _Data[Upper(K)] = V; }
+			inline void Data(String K, int V) { Data(K, std::to_string(V)); }
+			inline String Data(String K) { return _Data[Upper(K)]; }
 			DelegateRequestFile UseRequestFile{ nullptr };
 			DelegateRequestDir UseRequestDir{ nullptr };
 			RequestFileDriver(DelegateRequestFile URF, DelegateRequestDir URD) { UseRequestFile = URF; UseRequestDir = URD; }
