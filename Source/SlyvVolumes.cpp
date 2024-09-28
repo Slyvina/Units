@@ -22,7 +22,7 @@
 
 #ifdef SlyvWindows
 #include <windows.h>
-#elif SlyvLinux
+#elif defined(SlyvLinux)
 #include <mntent.h>
 #endif
 
