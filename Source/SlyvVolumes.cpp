@@ -58,7 +58,7 @@ namespace Slyvina {
 				}
 			}
 #elif defined(SlyvLinux)
-			ret["C"]="/"; // Let's pretent we're on Windows :D
+			(*ret)["C"]="/"; // Let's pretent we're on Windows :D
 #else
 #error Volumes is not yet properly set up for this platform.
 #endif
