@@ -20,6 +20,7 @@
 
 #pragma once
 #include "Slyvina.hpp"
+#include "SlyvString.hpp"
 
 namespace Slyvina {
 	namespace Units {
@@ -70,5 +71,8 @@ namespace Slyvina {
 		/// <param name="Filter"></param>
 		/// <returns></returns>
 		inline String RequestSaveFile(String Caption = "Please enter a file name to save", String InitDir = ".", String Filter = "All:*\0") { return RequestFile(Caption, InitDir, Filter, true); }
+
+
+		void RQF_Text();
 	}
 }
