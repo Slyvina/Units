@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvRequestFile.cpp
 // Slyvina - Request File
-// version: 24.02.18
+// version: 24.09.29
 // Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -17,8 +17,12 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #include <SlyvRequestFile.hpp>
 #include <SlyvString.hpp>
+#include <SlyvConInput.hpp>
+
+#include <stdio.h>
 
 #ifdef SlyvWindows
 #include <Windows.h>
@@ -45,6 +49,24 @@ static void beginPanel() {
 			 return _LFQError;
 		 }
 
+		 String RequestFile(String Caption, String InitDir, String Filter, bool Save) {
+			 auto UDF{ RequestFileDriver::Using().UseRequestFile };
+			 if (!UDF) {
+				 _LFQError = "No ReqestFile function defined!";
+				 return "";
+			 }
+			 return UDF(Caption, InitDir, Filter, Save);
+		 }
+
+		 String RequestDir(String Caption, String InitDir) {
+			 auto UDD{ RequestFileDriver::Using().UseRequestDir };
+			 if (!UDD) {
+				 _LFQError = "No ReqestDir function defined!";
+				 return "";
+			 }
+			 return UDD(Caption, InitDir);
+		 }
+#pragma region "Default Windows functions"
 #ifdef SlyvWindows
 		 String OFNA_Err(DWORD a) {
 			 //switch (CommDlgExtendedError()) {
@@ -70,9 +92,9 @@ static void beginPanel() {
 		 }
 #endif
 
-		 String RequestFile(String Caption, String InitDir, String Filter, bool save) {
-			 _LFQError = "";
 #ifdef SlyvWindows
+		 static String Win_RequestFile(String Caption, String InitDir, String Filter, bool save) {
+			 _LFQError = "";
 			 /*
 			 char filename[MAX_PATH];
 			 std::wstring wCaption = std::wstring(Caption.begin(),Caption.end());
@@ -207,10 +229,61 @@ static void beginPanel() {
 			 }
 			 endPanel();
 			 return str;
-#else
-			 _LFQError = "File requester not (yet) available on this platform";
-			 return "";
-#endif
+//#else
+//			 _LFQError = "File requester not (yet) available on this platform";
+//			 return "";
 		 }
+#endif
+#pragma endregion
+
+#pragma region "Text Console Driver"
+		 static String Txt_RequestFile(String Caption, String InitDir, String Filter, bool Save) {			 
+			 _LFQError = "";
+			 return Trim(ReadLine(Caption + ": "));
+		 }
+		 static String Txt_RequestDir(String Caption, String InitDir) {
+			 _LFQError = "";
+			 return Trim(ReadLine(Caption + ": "));
+		 }
+
+		 static RequestFileDriver RequestFileText{ Txt_RequestFile,Txt_RequestDir };
+		 void RQF_Text() { RequestFileText.Use(); }
+#pragma enregion
+
+#pragma region "popen drive"
+/*
+ class pop { public: String Need{}; RequestFileDriver Drv; };
+		static std::map<String, pop> popenreg{};
+		static String popend{};
+		 static String POPEN_RF(String Caption, String InitDir, String Filter, bool Save) {
+			 _LFQError = "";
+			 popend = Upper(popend);
+			 if (!popenreg.count(popend)) { _LFQError = "Unknown popen"; return ""; }
+			 auto& Drv{ popenreg[popend] };
+			 char retvalue[500];
+			 String Call{Drv.Drv.Data("CALL")};
+			 FILE* f = popen(Call.c_str(), "r");
+			 fgets(retvalue, 500, f);
+			 int ret = pclose(f);
+			 if (ret < 0) {
+				 //perror("file_name_dialog()");
+				 _LFQError = "open requestfile failed";
+				 return "";
+			 }
+			 return retvalue;
+		 }
+//*/
+#pragma endregion
+
+		 void RequestFileDriver::Use(RequestFileDriver drv) { _Using = drv; }
+
+#if defined(SlyvWindows)
+		 RequestFileDriver RequestFileDriver::_Using{Win_RequestFile, nullptr};
+#elif define(SlyvLinux)
+		 RequestFileDriver RequestFileDriver::_Using{ RequestFileText}; // For now this will have to do.
+#else
+		 RequestFileDriver RequestFileDriver::_Using{nullptr, nullptr};
+#pragma message "WARNING! This platform is not known to Slyvina's File Request function"
+#endif
 	 }
  }
