@@ -27,6 +27,7 @@
 #define QS4Windows
 #define MDIR _mkdir
 #else
+#include <filesystem>
 #define MDIR mkdir
 #endif
 
