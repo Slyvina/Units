@@ -27,7 +27,8 @@
 #define QS4Windows
 #define MDIR _mkdir
 #else
-#include <filesystem>
+//#include <filesystem>
+#include "../HeadersSlyvDir.hpp"
 #define MDIR mkdir
 #endif
 
@@ -177,6 +178,8 @@ namespace Slyvina {
 				return FALSE;
 			}
 #else
+			return IsDir(folderName);
+				/*
 			struct stat s;
 			if ( lstat(pth.c_str(), &s) == 0 ) {
 				return S_ISDIR(s.st_mode);
@@ -184,6 +187,7 @@ namespace Slyvina {
 			return false;
 			//#pragma message("WARNING! The current DirectoryExists() function cannot work on this platform, will therefore always return false")
 			//return false;
+			//*/
 #endif
 		}
 
