@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 24.10.05
+// version: 24.10.06
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -195,5 +195,10 @@ namespace Slyvina {
 	inline void SlyvStrCpy(char *tar,std::string src) {
 		for (size_t i=0;i<src.size();i++) tar[i]=src[i];
 		tar[src.size()]=0;
+	}
+	inline size_t SlyvStrLen(char* str) {
+		int ret{ 0 };
+		while (str[ret++]) {} // dirty, but should work.
+		return ret;
 	}
 }

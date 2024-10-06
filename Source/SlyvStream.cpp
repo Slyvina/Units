@@ -207,7 +207,7 @@ namespace Slyvina {
 			size_t len;
 
 			snprintf(tmp, sizeof(tmp), "%s", dir);
-			len = strlen(tmp);
+			len = SlyvStrLen(tmp); //len = strlen(tmp); // Conflict between two compilers. This should shut them both up.
 			if (tmp[len - 1] == '/')
 				tmp[len - 1] = 0;
 			for (p = tmp + 1; *p; p++)
