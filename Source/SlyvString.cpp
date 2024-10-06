@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvString.cpp
 // Slyvina - Quick String Handler
-// version: 24.10.05
+// version: 24.10.06
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -385,7 +385,8 @@ namespace Slyvina {
 						if (form[2] == '\0') { /* no modifiers? */
 							//luaL_addvalue(&b);  /* keep entire std::string */
 							std::string s2; s2 = std::string(s);
-							strcpy_s(addret, s2.c_str());
+							SlyvStrCpy(addret, s2);
+							//strcpy_s(addret, s2.c_str());
 							//strcpy_s(addret, s);
 						} else {
 							//luaL_argcheck(L, l == strlen(s), arg, "std::string contains zeros");
@@ -394,7 +395,8 @@ namespace Slyvina {
 							}
 							if (!strchr(form, '.') && l >= 100) {
 								/* no precision and std::string is too long to be formatted */
-								strcpy_s(addret, s); //luaL_addvalue(&b);  /* keep entire std::string */
+								//strcpy_s(addret, s); //luaL_addvalue(&b);  /* keep entire std::string */
+								SlyvStrCpy(addret, s);
 							} else {  /* format the std::string into 'buff' */
 								//nb = l_sprintf(buff, maxitem, form, s);
 								//lua_pop(L, 1);  /* remove result from 'luaL_tolstd::string' */
