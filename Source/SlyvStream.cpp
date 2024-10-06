@@ -271,9 +271,9 @@ namespace Slyvina {
 			char datestring[256];
 			stat(filename1, &st);
 #ifdef SlyvWindows
-			tm = _localtime(st.st_mtime);
+			tm = _localtime(&st.st_mtime);
 #else 
-			tm = localtime(&st.st_mtime);
+			tm = localtime(st.st_mtime);
 #endif
 			strftime(datestring, sizeof(datestring), "%m-%d-%Y %H.%M.%S", &tm);
 			std::string ret{ datestring };
