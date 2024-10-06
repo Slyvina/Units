@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 24.10.05
+// version: 24.10.06
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -128,7 +128,7 @@ namespace Slyvina {
 			Write(Doing1, a + ":");
 			for (auto i = a.size(); i < DoingTab; ++i) printf(" ");
 			Write(Doing2, b);
-			printf(cl.c_str());
+			printf("%s",cl.c_str()); // GCC whines over this one (although it doesn't throw an error.
 		}
 		void TmpPlateQCol::Doing(string a, int b, string cl) { Doing(a, to_string(b), cl); }
 
