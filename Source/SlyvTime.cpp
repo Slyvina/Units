@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvTime.cpp
 // Slyvina - Time
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// version: 24.10.06
+// Copyright (C) 2021, 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -21,6 +21,7 @@
 #include <string>
 #include <time.h>
 #include "SlyvTime.hpp"
+#include <Slyvina.hpp>
 using namespace std;
 namespace Slyvina {
 	namespace Units {
@@ -39,6 +40,7 @@ namespace Slyvina {
 
 		// Avoid Microsoft's "unsafe" whinings.
 
+#ifdef SlyvWindows
 		tm _localtime(time_t* fuck) {
 			tm r;
 			//cout << fuck << "\n";
@@ -47,11 +49,24 @@ namespace Slyvina {
 			//localtime(fuck);
 			return r;
 		}
+#endif
 
 		tm LocalTime() {
+#ifdef SlyvWindows
 			time_t t;
 			time(&t);
 			return _localtime(&t);
+#else
+			time_t current_time;
+
+			// get the current time using time()
+			current_time = time(NULL);
+
+			// call the function localtime() that takes timestamp and convert it into localtime representation
+			tm* tm_local = localtime(&current_time);
+			tm ret{ *tm_local };
+			return ret;
+#endif
 		}
 
 		time_t TimeStamp() {
@@ -61,21 +76,28 @@ namespace Slyvina {
 		}
 
 		string CurrentDate() {
-			time_t t;
 			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
 			time(&t);
 			auto loctime{ _localtime(&t) };
+#else 
+			auto loctime{ LocalTime() };
+#endif
 			strftime(buff, 256, "%d %b %Y", &loctime);
 			//cout << "Out date\n";
 			return buff;
 		}
 
 		int CurrentYear() {
-			time_t t;
 			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
 			time(&t);
 			auto loctime{ _localtime(&t) };
-			strftime(buff, 256, "%Y", &loctime);
+#else 
+			auto loctime{ LocalTime() };
+#endif			strftime(buff, 256, "%Y", &loctime);
 			try {
 				return stoi(buff);
 			} catch (exception e) {
@@ -84,21 +106,29 @@ namespace Slyvina {
 		}
 
 		string CurrentTime() {
-			time_t t;
 			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
 			time(&t);
-			//strftime(buff, 256, "%H:%M:%S", &_localtime(&t));
 			auto loctime{ _localtime(&t) };
+#else 
+			auto loctime{ LocalTime() };
+#endif			strftime(buff, 256, "%Y", &loctime);
+
 			strftime(buff, 256, "%H:%M:%S", &loctime);
 			//cout << "Out Time\n";
 			return buff;
 		}
+
 		std::string QTimeF(const char* f) {
-			time_t t;
 			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
 			time(&t);
-			//strftime(buff, 256, f, &_localtime(&t));
 			auto loctime{ _localtime(&t) };
+#else 
+			auto loctime{ LocalTime() };
+#endif			strftime(buff, 256, "%Y", &loctime);
 			strftime(buff, 256, f, &loctime);
 			return buff;
 		}
