@@ -97,7 +97,8 @@ namespace Slyvina {
 			auto loctime{ _localtime(&t) };
 #else 
 			auto loctime{ LocalTime() };
-#endif			strftime(buff, 256, "%Y", &loctime);
+#endif			
+			strftime(buff, 256, "%Y", &loctime);
 			try {
 				return stoi(buff);
 			} catch (exception e) {
@@ -113,8 +114,7 @@ namespace Slyvina {
 			auto loctime{ _localtime(&t) };
 #else 
 			auto loctime{ LocalTime() };
-#endif			strftime(buff, 256, "%Y", &loctime);
-
+#endif						
 			strftime(buff, 256, "%H:%M:%S", &loctime);
 			//cout << "Out Time\n";
 			return buff;
@@ -128,7 +128,7 @@ namespace Slyvina {
 			auto loctime{ _localtime(&t) };
 #else 
 			auto loctime{ LocalTime() };
-#endif			strftime(buff, 256, "%Y", &loctime);
+#endif						
 			strftime(buff, 256, f, &loctime);
 			return buff;
 		}
