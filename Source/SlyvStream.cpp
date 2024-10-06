@@ -25,12 +25,12 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_WARNINGS
 #define QS4Windows
-#define MDIR _mkdir
+#define MDIR(d) _mkdir(d)
 #else
 //#include <filesystem>
 #include "../Headers/SlyvDir.hpp"
 #include <sys/stat.h>
-#define MDIR mkdir
+#define MDIR mkdir(d,0777)
 #endif
 
 // Base C/C++ stuff
