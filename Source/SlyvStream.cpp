@@ -270,7 +270,11 @@ namespace Slyvina {
 			char filename1[500]; SlyvStrCpy(filename1, FileName); //strcpy_s(filename1, FileName.c_str());
 			char datestring[256];
 			stat(filename1, &st);
+#ifdef SlyvWindows
 			tm = _localtime(&st.st_mtime);
+#else 
+			tm = localtime(&current_time);
+#endif
 			strftime(datestring, sizeof(datestring), "%m-%d-%Y %H.%M.%S", &tm);
 			std::string ret{ datestring };
 			return ChReplace(ret, '.', ':');
