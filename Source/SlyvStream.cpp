@@ -30,7 +30,7 @@
 //#include <filesystem>
 #include "../Headers/SlyvDir.hpp"
 #include <sys/stat.h>
-#define MDIR mkdir(d,0777)
+#define MDIR(d) mkdir(d,0777)
 #endif
 
 // Base C/C++ stuff
