@@ -29,6 +29,7 @@
 #else
 //#include <filesystem>
 #include "../Headers/SlyvDir.hpp"
+#include <sys/stat.h>
 #define MDIR mkdir
 #endif
 
