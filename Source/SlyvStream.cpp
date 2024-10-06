@@ -93,7 +93,8 @@ namespace Slyvina {
 #ifdef QS4Windows
 			strcpy_s(af, file.c_str());
 #else
-			strcpy(af, file.c_str());
+			//strcpy(af, file.c_str());
+			SlyvStrCpy(af, file);
 #endif
 			return FileExists(af);
 		}
