@@ -240,20 +240,9 @@ namespace Slyvina {
 			std::free(cwd);
 			return working_directory;
 #else
-			// Define a buffer 
-			const size_t size = 1024;
-			// Allocate a character array to store the directory path
-			char buffer[size];
-
-			// Call _getcwd to get the current working directory and store it in buffer
-			if (getcwd(buffer, size) != NULL) {
-				// print the current working directory
-				std::cout << "Current working directory: " << buffer << std::endl;
-			} else {
-				// If _getcwd returns NULL, print an error message
-				std::cerr << "Error getting current working directory" << std::endl;
-			}
-			return buffer;
+			std::filesystem::path cwd = std::filesystem::current_path();// "filename.txt";
+			//std::cout << cwd.string() << "\n";
+			return cwd.string();
 		}
 #endif
 
