@@ -273,7 +273,7 @@ namespace Slyvina {
 #ifdef SlyvWindows
 			tm = _localtime(&st.st_mtime);
 #else 
-			tm = localtime(&current_time);
+			tm = localtime(&st.st_mtime);
 #endif
 			strftime(datestring, sizeof(datestring), "%m-%d-%Y %H.%M.%S", &tm);
 			std::string ret{ datestring };
