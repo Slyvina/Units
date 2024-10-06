@@ -27,7 +27,7 @@
 #define QS4Windows
 #define MDIR(d) _mkdir(d)
 #else
-//#include <filesystem>
+#include <filesystem>
 #include "../Headers/SlyvDir.hpp"
 #include <sys/stat.h>
 #define MDIR(d) mkdir(d,0777)
@@ -234,12 +234,28 @@ namespace Slyvina {
 		}
 
 		std::string CurrentDir() {
+#ifdef SlyvWindows
 			char* cwd = _getcwd(0, 0); // **** microsoft specific ****
 			std::string working_directory{ ChReplace(cwd,'\\','/') };
 			std::free(cwd);
 			return working_directory;
+#else
+			// Define a buffer 
+			const size_t size = 1024;
+			// Allocate a character array to store the directory path
+			char buffer[size];
 
+			// Call _getcwd to get the current working directory and store it in buffer
+			if (getcwd(buffer, size) != NULL) {
+				// print the current working directory
+				std::cout << "Current working directory: " << buffer << std::endl;
+			} else {
+				// If _getcwd returns NULL, print an error message
+				std::cerr << "Error getting current working directory" << std::endl;
+			}
+			return buffer;
 		}
+#endif
 
 		void ChangeDir(std::string dir) {
 #ifdef _WIN32
