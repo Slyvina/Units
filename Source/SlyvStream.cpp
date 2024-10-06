@@ -267,7 +267,7 @@ namespace Slyvina {
 			struct stat st;  // declaration of the stat
 			struct tm tm; //declaration of tm pointer
 
-			char filename1[500]; strcpy_s(filename1, FileName.c_str());
+			char filename1[500]; SlyvStrCpy(filename1, FileName); //strcpy_s(filename1, FileName.c_str());
 			char datestring[256];
 			stat(filename1, &st);
 			tm = _localtime(&st.st_mtime);
@@ -280,7 +280,7 @@ namespace Slyvina {
 			struct stat st;  // declaration of the stat
 			struct tm tm; //declaration of tm pointer
 
-			char filename1[500]; strcpy_s(filename1, FileName.c_str());
+			char filename1[500]; SlyvStrCpy(filename1, FileName); //strcpy_s(filename1, FileName.c_str());
 			char datestring[256];
 			stat(filename1, &st);
 			return st.st_mtime;
