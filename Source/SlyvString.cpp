@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvString.cpp
 // Slyvina - Quick String Handler
-// version: 24.09.28
+// version: 24.10.05
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -63,6 +63,21 @@ namespace Slyvina {
 			std::string ret{ "" };
 			while (times--) ret += s;
 			return ret;
+		}
+
+		std::string EOLNType(std::string a) {			
+				std::string ret = "LF";
+				auto i = IndexOf(a,'\r'); if (i < 0) return "LF";
+				if (i == a.size() - 1 || Mid(a, i + 2, 1) != "\n") return "CR";
+				if (Mid(a, i + 2,1) == "\n") ret = "CRLF";
+				return ret;
+		
+		}
+
+		int64 IndexOf(std::string s, char c) {			
+			for (uint64 i = 0; i < s.size(); i++)
+				if (s[i] == c) return i;
+			return -1;
 		}
 
 		std::string Mid(std::string str, unsigned int start, unsigned int length) {

@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvQCol.cpp
 // Slyvina - Quick Colors
-// version: 24.09.27
+// version: 24.10.05
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -17,14 +17,21 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
+#if defined(_MSC_VER) && defined(SlyvWindows)
+#define QCOLVS
+#endif
+
+//#ifdef SlyvWindows
+#ifdef QCOLVS
+#include <Windows.h>
+#endif
+
 #include <iostream>
 //#include "../Headers/Platform.hpp"
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
 
-#ifdef SlyvWindows
-#include <Windows.h>
-#endif
 
 using namespace std;
 
@@ -44,8 +51,9 @@ namespace Slyvina {
 			auto
 				fg{ (byte)f },
 				bg{ (byte)b };
-#ifndef SlyvWindows
-			err("This driver only works in Windows!");
+//#ifndef SlyvWindows
+#ifndef QCOLVS
+			err("This driver only works in Windows when compiled with visual C++!");
 			return;
 #else
 			auto hConsole{ GetStdHandle(STD_OUTPUT_HANDLE) };
@@ -98,7 +106,8 @@ namespace Slyvina {
 		TmpPlateQCol
 			WinQCol{ Win_Color,Win_Reset,"Windows Console" },
 			ANSI{ ANSI_Color,ANSI_Reset, "ANSI" },
-#ifdef SlyvWindows
+//#ifdef SlyvWindows
+#ifdef QCOLVS
 			* QCol{ &WinQCol };
 #else
 			#undef QCol
@@ -142,6 +151,8 @@ namespace Slyvina {
 		void TmpPlateQCol::Yellow(string a="") { Write(qColor::Yellow, a); }
 		void TmpPlateQCol::Cyan(string a="") { Write(qColor::Cyan, a); }
 		void TmpPlateQCol::LCyan(string a="") { Write(qColor::LightCyan, a); }
+		void TmpPlateQCol::Blue(string a = "") { Write(qColor::Blue, a); }
+		void TmpPlateQCol::LBlue(string a = "") { Write(qColor::LightBlue, a); }
 		void TmpPlateQCol::Magenta(string a="") { Write(qColor::Magenta, a); }
 		void TmpPlateQCol::LMagenta(std::string a="") { Write(qColor::LightMagenta, a); }
 		void TmpPlateQCol::Grey(string a="") { Write(qColor::Grey, a); }

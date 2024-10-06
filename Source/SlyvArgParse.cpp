@@ -1,8 +1,8 @@
 // Lic:
 // Units/Source/SlyvArgParse.cpp
 // Slyvina - Arg Parser
-// version: 22.12.25
-// Copyright (C) 2020, 2022 Jeroen P. Broks
+// version: 24.10.05
+// Copyright (C) 2020, 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -48,6 +48,11 @@ namespace Slyvina {
 			ParsedArg ret;
 			map<string, bool> reqflagset;
 			string expectflag = "";
+			for (auto d:CFG.defaultvalue) {
+				if (CFG.flagtype[d.first] == "INT") ret.int_flags[d.first] = ToInt(d.second);
+				else if (CFG.flagtype[d.first] == "STRING") ret.string_flags[d.first] = d.second;
+				else if (CFG.flagtype[d.first] == "BOOL") ret.bool_flags[d.first] = d.second == "TRUE";
+			}
 			for (int i = 0; i < l; i++) {
 				string a = args[i];
 				if (i == 0) {

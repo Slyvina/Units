@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvQCol.hpp
 // Slyvina - Quick Colors (header)
-// version: 24.07.18
+// version: 24.10.05
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -92,6 +92,8 @@ namespace Slyvina {
 			void Dark(std::string a);
 			void Yellow(std::string a);
 			void Cyan(std::string a);
+			void LBlue(std::string a);
+			void Blue(std::string a);
 			void LCyan(std::string a);
 			void Magenta(std::string a);
 			void LMagenta(std::string a);

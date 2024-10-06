@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvConInput.hpp
 // Slyvina - Console Input
-// version: 22.12.16
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.10.06
+// Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,28 +18,41 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
+//#include <cstring>
+//#include <string.h>
 #include <Slyvina.hpp>
 
+namespace Slyvina {
+	namespace Units {
+		/// <summary>
+		/// Quickly reads input from the console and return it as a tring
+		/// </summary>
+		/// <param name="Question">You can pop a question on the screen if you like</param>
+		/// <returns></returns>
+		inline std::string ReadLine(std::string Question = "") {
+			std::cout << Question;
+			std::string str;
+			std::getline(std::cin, str);
+			return str;
+		}
 
-/// <summary>
-/// Quickly reads input from the console and return it as a tring
-/// </summary>
-/// <param name="Question">You can pop a question on the screen if you like</param>
-/// <returns></returns>
-inline std::string ReadLine(std::string Question="") {
-	std::cout << Question;
-	std::string str;
-	std::getline(std::cin, str);
-	return str;
-}
-
-/// <summary>
-/// Similar to ReadLine(), however, this one has been adapted to easy work with pure C-strings, in other words, char arrays.
-/// </summary>
-/// <param name="ret"></param>
-/// <param name="Question"></param>
-inline void CReadLine(char* ret, const char* Question) {
-	if (!sizeof(ret)) return;
-	auto _ret{ ReadLine(Question) };
-	strcpy_s(ret, _ret.size(), _ret.c_str());
+		/// <summary>
+		/// Similar to ReadLine(), however, this one has been adapted to easy work with pure C-strings, in other words, char arrays.
+		/// </summary>
+		/// <param name="ret"></param>
+		/// <param name="Question"></param>
+		inline void CReadLine(char* ret, const char* Question) {
+			if (!sizeof(ret)) return;
+			auto _ret{ ReadLine(Question) };
+			/*
+				#ifndef _MSC_VER
+				//strcpy(ret,  _ret.c_str());
+				std::cout<< "ERROR!\tAs GCC simply REFUSED to compile this for no fucking reason, I cannot grand any support for this! Fuck it!\n";
+				#else
+				strcpy_s(ret, _ret.size(), _ret.c_str());
+				#endif
+				//*/
+			SlyvStrCpy(ret, _ret);
+		}
+	}
 }

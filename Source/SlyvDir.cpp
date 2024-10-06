@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvDir.cpp
 // Slyvina - Directory
-// version: 24.09.27
+// version: 24.10.05
 // Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -21,7 +21,7 @@
 #include <iostream>                                                                                                                   
 #include <SlyvDir.hpp>
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)                                                        
+#if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__) ) && defined(_MSC_VER)
 #define ForWindows                                                                                                                    
 #include <Windows.h>  
 #else

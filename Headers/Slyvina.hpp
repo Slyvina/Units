@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 24.09.28
+// version: 24.10.05
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -92,15 +92,17 @@
 			#error "Unknown compiler"
 		#endif		
 
-#ifdef SlyvWindows
+//#ifdef SlyvWindows
+#ifdef _MSC_VER
 	// Needed or the VS19 compiler will (against all rules) reject compilation!
 	#define sprintf sprintf_s
-	#define strcpy strcpy_s
+	//#define strcpy strcpy_s
 #else
 	// Too lazy to reset all MicroSoft's shitty obligations for Windows! Fuck it!
 	#define sprintf_s sprintf
-	#define strcpy_s strcpy
+	//#define strcpy_s strcpy
 #endif
+
 
 namespace Slyvina {
 
@@ -188,4 +190,10 @@ namespace Slyvina {
 
 	inline bool VecHasString(std::vector<String>HayStack, String Needle, bool ignorecase = true) { return VecHasString(&HayStack, Needle, ignorecase); }
 	inline bool VecHasString(VecString HayStack, String Needle, bool ignorecase = true) { return VecHasString(HayStack.get(), Needle, ignorecase); }
+	
+	// FUCK YOU, MICROSOFT!
+	inline void SlyvStrCpy(char *tar,std::string src) {
+		for (size_t i=0;i<src.size();i++) tar[i]=src[i];
+		tar[src.size()]=0;
+	}
 }

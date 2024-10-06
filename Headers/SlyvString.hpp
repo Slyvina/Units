@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvString.hpp
 // Slyvina - Quick String Handler (header)
-// version: 24.02.18
+// version: 24.10.05
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -176,5 +176,15 @@ namespace Slyvina {
 		std::string FromWString(std::wstring ws);
 
 		std::string Repeat(std::string s, uint64 times);
+
+		std::string EOLNType(std::string s);
+
+		/// <summary>
+		/// Tries to find the index of a character in a string
+		/// </summary>
+		/// <param name="s">Haystack</param>
+		/// <param name="c">Needle</param>
+		/// <returns>The index of the first occurance of the character and -1 if not found at all.</returns>
+		int64 IndexOf(std::string s, char c);
 	}
 }
