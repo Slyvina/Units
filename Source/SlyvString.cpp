@@ -45,18 +45,18 @@ namespace Slyvina {
 			return ret;
 		}
 
-		
+
 		std::string FromWString(std::wstring wString) {
 			//std::string convLPCWSTRtoString(LPCWSTR wString) {
 			//auto size = wcslen(wString) + 1;
 			auto size = wString.size();
 			char* cString = new char[size];
 			for (size_t i = 0; i < size; i++) {
-				 cString[i] = wString[i];							
+				cString[i] = wString[i];
 			}
 			std::string RetString{ cString };
 			delete[] cString;
-			return RetString;			
+			return RetString;
 		}
 
 		std::string Repeat(std::string s, uint64 times) {
@@ -74,7 +74,7 @@ namespace Slyvina {
 		
 		}
 
-		int64 IndexOf(std::string s, char c) {			
+		int64 IndexOf(std::string s, char c) {
 			for (uint64 i = 0; i < s.size(); i++)
 				if (s[i] == c) return i;
 			return -1;
@@ -131,7 +131,7 @@ namespace Slyvina {
 		}
 
 		std::string StReplace(std::string mystr, std::string ori, std::string subst) {
-			{				
+			{
 				std::string ret = "";
 				auto olen = mystr.size();
 				auto slen = ori.size();
@@ -148,7 +148,7 @@ namespace Slyvina {
 					}
 				}
 				return ret;
-				
+
 			}
 		}
 		std::string CSReplace(std::string mystr, char ori, std::string subst) {
@@ -235,7 +235,7 @@ namespace Slyvina {
 					ret += str[i];
 			}
 			if (ret == "") return ""; // No need to go on if the std::string's empty now!
-			
+
 			while (
 				ret[ret.size() - 1] == ' ' ||
 				ret[ret.size() - 1] == '\t' ||
