@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 24.10.06
+// version: 24.10.08
 // Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -244,8 +244,8 @@ namespace Slyvina {
 			std::filesystem::path cwd = std::filesystem::current_path();// "filename.txt";
 			//std::cout << cwd.string() << "\n";
 			return cwd.string();
-		}
 #endif
+		}
 
 		void ChangeDir(std::string dir) {
 #ifdef _WIN32

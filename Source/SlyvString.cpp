@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvString.cpp
 // Slyvina - Quick String Handler
-// version: 24.10.06
+// version: 24.10.08
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
