@@ -152,7 +152,7 @@ namespace Slyvina {
 			}
 		}
 		std::string CSReplace(std::string mystr, char ori, std::string subst) {
-			std::string ret;
+			std::string ret{ "" };
 			for (unsigned int i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori)
 					ret += subst;
