@@ -422,5 +422,20 @@ namespace Slyvina {
 			return ret;
 		}
 #pragma endregion
+		__csa::__csa(std::vector<std::string> vs) {
+			//for (auto s : vs) maxstrsize = std::max(maxstrsize, s.size());
+			arraylen = vs.size();
+			str = new char*[arraylen];
+			for (size_t i = 0; i < arraylen; i++) {
+				str[i] = new char[vs[i].size() + 1];
+				std::cout << i << "/" << vs.size()<<"/"<< vs[i] << "\n";
+				SlyvStrCpy(str[i], vs[i]);
+			}
+		}
+		__csa::~__csa() {
+			if (!str) return; // no data, no cleanup.
+			for (size_t i = 0; i < arraylen; i++) delete[] str[i];
+			delete[] str;
+		}
 	}
 }

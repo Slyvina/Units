@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvString.hpp
 // Slyvina - Quick String Handler (header)
-// version: 24.10.05
+// version: 24.10.08
 // Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -186,5 +186,23 @@ namespace Slyvina {
 		/// <param name="c">Needle</param>
 		/// <returns>The index of the first occurance of the character and -1 if not found at all.</returns>
 		int64 IndexOf(std::string s, char c);
+
+
+		class __csa {
+		private:
+			size_t maxstrsize{ 0 };
+			size_t arraylen{ 0 };
+		public:
+			size_t size() { return arraylen; }
+			char** str{ nullptr };
+			__csa() {} // merely must exist
+			__csa(std::vector <std::string> vs);
+			~__csa();
+		};
+
+		inline std::shared_ptr<__csa> SCSA(std::vector<std::string> vs) { return std::shared_ptr<__csa>(new __csa(vs)); }
+		inline std::shared_ptr<__csa> SCSA(VecString vs) { return std::shared_ptr<__csa>(new __csa(*vs)); }
+		inline std::unique_ptr<__csa> UCSA(std::vector<std::string> vs) { return std::unique_ptr<__csa>(new __csa(vs)); }
+		inline std::unique_ptr<__csa> UCSA(VecString vs) { return std::unique_ptr<__csa>(new __csa(*vs)); }
 	}
 }
