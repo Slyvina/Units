@@ -65,13 +65,13 @@ namespace Slyvina {
 			return ret;
 		}
 
-		std::string EOLNType(std::string a) {			
-				std::string ret = "LF";
-				auto i = IndexOf(a,'\r'); if (i < 0) return "LF";
-				if (i == a.size() - 1 || Mid(a, i + 2, 1) != "\n") return "CR";
-				if (Mid(a, i + 2,1) == "\n") ret = "CRLF";
-				return ret;
-		
+		std::string EOLNType(std::string a) {
+			std::string ret = "LF";
+			auto i = IndexOf(a, '\r'); if (i < 0) return "LF";
+			if (i == a.size() - 1 || Mid(a, i + 2, 1) != "\n") return "CR";
+			if (Mid(a, i + 2, 1) == "\n") ret = "CRLF";
+			return ret;
+
 		}
 
 		int64 IndexOf(std::string s, char c) {
