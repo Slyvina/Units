@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvDir.hpp
 // Slyvina - Directory (header)
-// version: 22.12.14
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.10.08
+// Copyright (C) 2022, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -57,5 +57,19 @@ namespace Slyvina {
 		/// <returns></returns>
 		VecString GetTree(std::string dir, bool allowhidden = false);
 
+		/// <summary>
+		/// Gets the search path
+		/// </summary>
+		/// <returns>All directories will in a different item and this will all be returned as a VecString</returns>
+		VecString EnvPath();
+
+		/// <summary>
+		/// Tries to find a file in the OS path
+		/// </summary>
+		/// <param name="File">File to find</param>
+		/// <returns>Full path name if found, and an empty string when the file was not found within the path</returns>
+		String FromPath(String File);
+
+		String Env(String EnvVar);
 	}
 }
