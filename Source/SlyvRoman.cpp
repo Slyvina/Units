@@ -19,6 +19,7 @@
 // EndLic
 
 #include <string>
+#include <math.h>
 
 namespace Slyvina {
 	namespace Units {
