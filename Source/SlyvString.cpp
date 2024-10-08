@@ -187,7 +187,7 @@ namespace Slyvina {
 		}
 
 		VecString Split(std::string str, char spltchar) {
-			auto ret=NewVecString();
+			auto ret = NewVecString();
 			unsigned int idx = 0;
 			for (int i = 0; i < str.size(); i++) {
 				if (idx >= ret->size()) ret->push_back("");
