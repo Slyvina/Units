@@ -231,7 +231,7 @@ namespace Slyvina {
 			delete[] fuckyou;
 			return ret;
 #else
-			return getenv(EnvVar.c_str();
+			return getenv(EnvVar.c_str());
 #endif 
 		}
 
