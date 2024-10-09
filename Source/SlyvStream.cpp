@@ -561,8 +561,8 @@ namespace Slyvina {
 			if (size > s) printf("ReadCString(&0x%x,%d): Error! String is only %llu bytes long", (int)c, size, s);
 			if (!nullfound) printf("ReadCString(&0x%x,%d): There is no null-terminator found!", (int)c, size);
 #else
-			// GCC wants it this way (for no reason).
-			if (size > s) printf("ReadCString(StrPtr,%d): Error! String is only %llu bytes long",  size, s);
+			// GCC wants it this way (for no reason). It also seems that sizeof is a different type in GCC than it is in VS. How odd.
+			if (size > s) printf("ReadCString(StrPtr,%d): Error! String is only %llu bytes long",  size, (uint64)s);
 			if (!nullfound) printf("ReadCString(StrPtr,%d): There is no null-terminator found!",  size);
 #endif
 
