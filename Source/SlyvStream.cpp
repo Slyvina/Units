@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvStream.cpp
 // Slyvina - Quick Stream Handler
-// version: 24.10.08
+// version: 24.10.09
 // Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -376,6 +376,10 @@ namespace Slyvina {
 			do {
 				Write(str[i]);
 			} while (str[i++]);
+		}
+		void True_OutFile::WriteLine(std::string s) {
+			Write(s, true);
+			Write('\n');
 		}
 
 		void True_OutFile::WriteChars(char* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }

@@ -1,7 +1,7 @@
 // Lic:
 // Units/Source/SlyvTime.cpp
 // Slyvina - Time
-// version: 24.10.06
+// version: 24.10.09
 // Copyright (C) 2021, 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -105,6 +105,41 @@ namespace Slyvina {
 				return 0;
 			}
 		}
+
+		int CurrentMonth() {
+			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
+			time(&t);
+			auto loctime{ _localtime(&t) };
+#else 
+			auto loctime{ LocalTime() };
+#endif			
+			strftime(buff, 256, "%m", &loctime);
+			try {
+				return stoi(buff);
+			} catch (exception e) {
+				return 0;
+			}
+		}
+
+		int CurrentDay() {
+			char buff[256];
+#ifdef SlyvWindows
+			time_t t;
+			time(&t);
+			auto loctime{ _localtime(&t) };
+#else 
+			auto loctime{ LocalTime() };
+#endif			
+			strftime(buff, 256, "%d", &loctime);
+			try {
+				return stoi(buff);
+			} catch (exception e) {
+				return 0;
+			}
+		}
+
 
 		string CurrentTime() {
 			char buff[256];

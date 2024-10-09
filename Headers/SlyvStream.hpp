@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 24.03.22
+// version: 24.10.09
 // Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -108,6 +108,9 @@ namespace Slyvina {
 			void Write(std::vector<byte> buf, bool storelength = false);
 
 			void WriteCString(const char* str);
+
+			// Writes lines (Unix style so only <LF> at the end).
+			void WriteLine(std::string s=""); 
 
 			void WriteBytes(byte* b, size_t L);
 			void WriteChars(char* b, size_t L);
