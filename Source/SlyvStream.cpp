@@ -1,22 +1,27 @@
-// Lic:
-// Units/Source/SlyvStream.cpp
-// Slyvina - Quick Stream Handler
-// version: 24.10.09
-// Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
+// License:
+// 	Units/Source/SlyvStream.cpp
+// 	Slyvina - Quick Stream Handler
+// 	version: 24.10.23
+// 
+// 	Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
+// 
 // I hope I can make this code as portable as possible, so I am not interested in using Microsoft's own solutions that are non-standard!
 
 #ifdef _WIN32
@@ -268,7 +273,7 @@ namespace Slyvina {
 			struct tm tm; //declaration of tm pointer
 
 			char filename1[500]; SlyvStrCpy(filename1, FileName); //strcpy_s(filename1, FileName.c_str());
-			char datestring[256];
+			char datestring[256];  //over provisioned
 			stat(filename1, &st);
 #ifdef SlyvWindows
 			tm = _localtime(&st.st_mtime);
@@ -293,6 +298,9 @@ namespace Slyvina {
 
 		OutFile WriteFile(string fname, int endian) {
 			return make_shared<True_OutFile>(fname, endian);
+		}
+		OutFile AppendFile(std::string fname, int endian) {
+			return make_shared<True_OutFile>(fname, endian, true);
 		}
 
 		InFile ReadFile(std::string fname, int endian) {
@@ -339,8 +347,12 @@ namespace Slyvina {
 		bool True_OutFile::endmatch() { return (!endian) || (endian == sysendian); }
 
 
-		True_OutFile::True_OutFile(std::string _filename, int _endian) {
-			stream = std::ofstream(_filename.c_str(), std::ios::binary);
+		True_OutFile::True_OutFile(std::string _filename, int _endian,bool append) {
+			if (append && FileExists(_filename)) {
+				Written = FileSize(_filename);
+				stream = std::ofstream(_filename.c_str(), std::ios::binary | std::ios::app);
+			} else
+				stream = std::ofstream(_filename.c_str(), std::ios::binary);
 			FileName = _filename;
 			// What endian type does the CPU have?
 			_ce ce; ce.i = 256;
@@ -373,7 +385,7 @@ namespace Slyvina {
 
 		void True_OutFile::WriteCString(const char* str) {
 			unsigned int i = 0;
-			do {
+			do { // unsafe escape
 				Write(str[i]);
 			} while (str[i++]);
 		}
@@ -385,7 +397,7 @@ namespace Slyvina {
 		void True_OutFile::WriteChars(char* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
 		void True_OutFile::WriteBytes(byte* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
 
-		unsigned long long True_OutFile::Size() {
+		unsigned long long True_OutFile::Size() {			
 			return Written;
 		}
 
@@ -428,6 +440,7 @@ namespace Slyvina {
 		uint64 True_InFile::Position() {
 			return stream.tellg();
 		}
+		
 
 		True_InFile::True_InFile(std::string _filename, int endian) {
 			size = FileSize(_filename);
@@ -540,33 +553,33 @@ namespace Slyvina {
 
 		void True_InFile::ReadCString(char* c) {
 			uint64 s{ sizeof(c) };
-			uint64 voorbij{ 0 };
+			//uint64 voorbij{ 0 };
 			uint64 i = 0;
 			char rc;
 			do {
 				rc = ReadChar();
-				if (i < s) c[i] = rc; else voorbij++;
+				if (i < s) c[i] = rc; //else voorbij++;
 				i++;
 			} while (rc);
-			if (voorbij) {
-				cout << "ReadCString request went " << voorbij << " character(s) past the char* length (" << s << ")\n";
-			}
+			//if (voorbij) {
+			//	cout << "ReadCString request went " << voorbij << " character(s) past the char* length (" << s << ")\n";
+			//}
 		}
 
-		void True_InFile::ReadCString(char* c, int size) {
+		void True_InFile::ReadCString(char* c, int size,bool stoponnull) {
 			bool nullfound{ false };
 			auto s{ sizeof(c) };
-			for (uint64 i = 0; i < size; i++) {
+			for (uint64 i = 0; i < size || (stoponnull && nullfound); i++) {
 				auto ch{ ReadChar() };
 				nullfound = nullfound || (!ch);
-				if (i < s) c[i] = ch;
+				/*if (i < s)*/ c[i] = ch;
 			}
 #ifdef SlyvWindows
-			if (size > s) printf("ReadCString(&0x%x,%d): Error! String is only %llu bytes long", (int)c, size, s);
+			//if (size > s) printf("ReadCString(&0x%x,%d): Error! String is only %llu bytes long", (int)c, size, s);
 			if (!nullfound) printf("ReadCString(&0x%x,%d): There is no null-terminator found!", (int)c, size);
 #else
 			// GCC wants it this way (for no reason). It also seems that sizeof is a different type in GCC than it is in VS. How odd.
-			if (size > s) printf("ReadCString(StrPtr,%d): Error! String is only %llu bytes long",  size, (uint64)s);
+			//if (size > s) printf("ReadCString(StrPtr,%d): Error! String is only %llu bytes long",  size, (uint64)s);
 			if (!nullfound) printf("ReadCString(StrPtr,%d): There is no null-terminator found!",  size);
 #endif
 
@@ -579,7 +592,8 @@ namespace Slyvina {
 				r = ReadChar();
 				if (!r) return ret;
 				ret += r;
-			} while (true);
+			} while (!EndOfFile());
+			return ret;
 		}
 
 		bool True_InFile::EndOfFile() {

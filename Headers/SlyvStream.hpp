@@ -1,22 +1,26 @@
-// Lic:
-// Units/Headers/SlyvStream.hpp
-// Slyvina - Quick Stream Handler
-// version: 24.10.09
-// Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
+// License:
+// 	Units/Headers/SlyvStream.hpp
+// 	Slyvina - Quick Stream Handler
+// 	version: 24.10.23
+// 
+// 	Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
 
 #pragma once
 #include <string>
@@ -74,6 +78,7 @@ namespace Slyvina {
 		class True_OutFile;
 		typedef std::shared_ptr<True_OutFile> OutFile;
 		OutFile WriteFile(std::string fname, int endian = 1);
+		OutFile AppendFile(std::string fname, int endian = 1);
 
 		class True_OutFile {
 		private:
@@ -92,7 +97,7 @@ namespace Slyvina {
 			/// </summary>
 			bool AutoClose{ true };
 
-			True_OutFile(std::string _filename, int endian = 1);
+			True_OutFile(std::string _filename, int endian = 1,bool append=false);
 			~True_OutFile();
 			void Write(char c);
 			void Write(unsigned char c);
@@ -127,6 +132,7 @@ namespace Slyvina {
 		typedef std::shared_ptr<True_InFile> InFile;
 		InFile ReadFile(std::string fname, int endian = 1);
 
+
 		class True_InFile {
 		private:
 			std::string FileName;
@@ -140,7 +146,7 @@ namespace Slyvina {
 		public:
 			uint64 Size();
 			void Seek(uint64 position);
-			inline void Position(uint64 p) { Seek(p); }
+			inline void Position(uint64 p) { Seek(p); read = p; }
 			uint64 Position();
 			True_InFile(std::string _filename, int endian = 1);
 			~True_InFile();
@@ -159,8 +165,8 @@ namespace Slyvina {
 			void ReadChars(char* c, int size = 0);
 			std::shared_ptr<std::vector<char>> ReadChars(int size);
 			std::shared_ptr<std::vector<byte>> ReadBytes(int size);
-			void ReadCString(char* c);
-			void ReadCString(char* c, int size);
+			void ReadCString(char* c); // Unsafe C string reader
+			void ReadCString(char* c, int size, bool stoponnull=false); // Safe (sort of) C string reader
 			std::string ReadCString();
 			bool EndOfFile();
 		};

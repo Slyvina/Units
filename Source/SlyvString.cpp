@@ -1,22 +1,27 @@
-// Lic:
-// Units/Source/SlyvString.cpp
-// Slyvina - Quick String Handler
-// version: 24.10.08
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
+// License:
+// 	Units/Source/SlyvString.cpp
+// 	Slyvina - Quick String Handler
+// 	version: 24.10.23
+// 
+// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
+
 #include <cstdarg>
 #include <cstring>
 #include <SlyvString.hpp>
@@ -81,28 +86,27 @@ namespace Slyvina {
 		}
 
 		std::string Mid(std::string str, unsigned int start, unsigned int length) {
-			{
-				std::string ret = "";
-				int istart = start - 1;
-				if (start < 1) return ""; // NOT ALLOWED!!!
-				for (int i = istart; i < istart + length && i < str.size(); i++) {
-					ret += str[i];
-				}
-				return ret;
+			return (start < 1) ? "" : str.substr(start - 1, length); // Lower than 1 for start not allowed;
+			/*
+			std::string ret = "";
+			int istart = start - 1;
+			for (int i = istart; i < istart + length && i < str.size(); i++) {
+				ret += str[i];
 			}
+			return ret;
+			//*/
 		}
 		std::string Mid(std::string str, unsigned int start, unsigned int length, std::string newstring) {
-			{
-				std::string ret = str;
-				int istart = start - 1;
-				for (int i = 0; i < newstring.size(); i++) {
-					if (i = ret.size())
-						ret += newstring[i];
-					else
-						ret[i + istart] = newstring[i];
-				}
-				return ret;
+
+			std::string ret = str;
+			int istart = start - 1;
+			for (int i = 0; i < newstring.size(); i++) {
+				if (i == ret.size())
+					ret += newstring[i];
+				else
+					ret[i + istart] = newstring[i];
 			}
+			return ret;
 		}
 
 		int FindLast(std::string str, char ch) {
@@ -110,7 +114,7 @@ namespace Slyvina {
 			do {
 				i--;
 			} while (i > 0 && str[i] != ch);
-			return i;
+			return str[i] != ch ? -1 : i;
 		}
 
 		int FindLast(std::string haystack, std::string needle) {
@@ -118,46 +122,45 @@ namespace Slyvina {
 			if (i < 0) return -1;
 			do {
 				i--;
-			} while (i > 0 && Mid(haystack, i, needle.size()) != needle);
-			return i;
+				//} while (i > 0 && Mid(haystack, i, needle.size()) != needle);
+			} while (i > 0 && haystack.substr(i, needle.size()) != needle);
+			return haystack.substr(i, needle.size()) != needle ? -1 : i;
 		}
 
 		// dah fuck?
 		std::string ChReplace(std::string mystr, char ori, char subst) {
-			for (unsigned int i = 0; i < mystr.size(); i++) {
+			for (size_t i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori) mystr[i] = subst;
 			}
 			return mystr;
 		}
 
 		std::string StReplace(std::string mystr, std::string ori, std::string subst) {
-			{
-				std::string ret = "";
-				auto olen = mystr.size();
-				auto slen = ori.size();
-				unsigned p = 1;
-				while (p <= olen) {
-					if ((p - 1) + slen <= olen && Mid(mystr, p, slen) == ori) {
-						//cout << p << "\t" << ori << "\t" << subst << "\t" << mystr << "\t" << ret << endl; // debug only
-						ret += subst;
-						p += slen;
-						//cout << p << ":"<<olen<<endl;
-					} else {
-						ret += mystr[p - 1];
-						p++;
-					}
+			std::string ret = "";
+			auto olen = mystr.size();
+			auto slen = ori.size();
+			unsigned p = 1;
+			while (p <= olen) {
+				if ((p - 1) + slen <= olen && Mid(mystr, p, slen) == ori) {
+					//cout << p << "\t" << ori << "\t" << subst << "\t" << mystr << "\t" << ret << endl; // debug only
+					ret += subst;
+					p += slen;
+					//cout << p << ":"<<olen<<endl;
+				} else {
+					ret += mystr[p - 1];
+					p++;
 				}
-				return ret;
-
 			}
+			return ret;
 		}
+
 		std::string CSReplace(std::string mystr, char ori, std::string subst) {
 			std::string ret{ "" };
 			for (unsigned int i = 0; i < mystr.size(); i++) {
 				if (mystr[i] == ori)
 					ret += subst;
 				else
-					ret += mystr[i];
+					ret += mystr[i];				
 			}
 			return ret;
 		}
@@ -265,6 +268,18 @@ namespace Slyvina {
 			return file.substr(lastdot + 1); //left(file, lastdot);
 		}
 
+		std::string TabStr(std::string s, uint32 t, bool notruncate) {
+			auto ret = s;
+			while (ret.size() < t) ret += " ";
+			if (notruncate) return ret;
+			return Left(ret, t);
+		}
+
+		bool StrContains(String HayStack, String Needle) {
+			for (int i = 0; i < HayStack.size() - Needle.size(); i++)
+				if (Mid(HayStack, i + 1, Needle.size()) == Needle) return true;
+			return false;
+		}
 
 
 #pragma region TrSprintF

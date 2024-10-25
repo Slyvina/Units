@@ -1,22 +1,26 @@
-// Lic:
-// Units/Headers/Slyvina.hpp
-// Slyvina - Core Header
-// version: 24.10.06
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
+// License:
+// 	Units/Headers/Slyvina.hpp
+// 	Slyvina - Core Header
+// 	version: 24.10.20
+// 
+// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
 
 #pragma once
 
@@ -133,15 +137,18 @@ namespace Slyvina {
 	typedef unsigned long long int uInt64;
 #pragma endregion
 
-	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
-	inline std::string lboolstring(bool k) { if (k) return "true"; else return "false"; }
-	inline std::string uboolstring(bool k) { if (k) return "TRUE"; else return "FALSE"; }
+	inline std::string boolstring(bool k) { return k ? "True" : "False"; }
+	inline std::string lboolstring(bool k) { return k ? "true" : "false"; }
+	inline std::string uboolstring(bool k) { return k ? "TRUE" : "FALSE"; }
 
 	inline std::string Platform(bool compact = true) {
+		/* 
 		if (compact)
 			return SlyvPlat;
 		else
 			return SlyvXPlat;
+		//*/
+		return compact ? SlyvPlat : SlyvXPlat;
 	}
 
 	const double PI = 3.1415926535;

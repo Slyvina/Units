@@ -1,22 +1,26 @@
-// Lic:
-// Units/Headers/SlyvString.hpp
-// Slyvina - Quick String Handler (header)
-// version: 24.10.08
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
+// License:
+// 	Units/Headers/SlyvString.hpp
+// 	Slyvina - Quick String Handler (header)
+// 	version: 24.10.23
+// 
+// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
 
 #pragma once
 #include <algorithm>
@@ -186,6 +190,17 @@ namespace Slyvina {
 		/// <param name="c">Needle</param>
 		/// <returns>The index of the first occurance of the character and -1 if not found at all.</returns>
 		int64 IndexOf(std::string s, char c);
+
+		/// <summary>
+		/// Returns a string and fills it up with spaces in accordace of the s value
+		/// </summary>
+		/// <param name="s">string</param>
+		/// <param name="t">tab</param>
+		/// <param name="notruncate">when false truncates</param>
+		/// <returns></returns>
+		std::string TabStr(std::string s, uint32 t = 10, bool notruncate = false);
+
+		bool StrContains(String HayStack, String Needle);
 
 
 		class __csa {

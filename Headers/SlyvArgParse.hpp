@@ -26,37 +26,37 @@
 #include <string>
 #include <map>
 
-
+#include <Slyvina.hpp>
 
 namespace Slyvina {
 	namespace Units {
 
-		using namespace std;
+		//using namespace std;
 
 		typedef struct {
-			string myexe;
-			map<string, bool> bool_flags;
-			map<string, string> string_flags;
-			map<string, int> int_flags;
-			vector<string> arguments;
+			String myexe;
+			std::map<String, bool> bool_flags;
+			std::map<String, String> string_flags;
+			std::map<String, int> int_flags;
+			std::vector<String> arguments;
 		} ParsedArg;
 
 		typedef struct {
-			map<string, string> flagtype;
-			map<string, string> defaultvalue;
-			map<string, bool> required;
+			std::map<String, String> flagtype;
+			std::map<String, String> defaultvalue;
+			std::map<String, bool> required;
 		} FlagConfig;
 
 
 		ParsedArg ParseArg(int l, char* args[], FlagConfig& CFG);
-		void AddFlag_Bool(FlagConfig& CFG, string name, bool defaultvalue);
-		void AddFlag_String(FlagConfig& CFG, string name, string defaultvalue, bool req = false);
-		void AddFlag_Int(FlagConfig& CFG, string name, int defaultvalue, bool req = false);
+		void AddFlag_Bool(FlagConfig& CFG, String name, bool defaultvalue);
+		void AddFlag_String(FlagConfig& CFG, String name, String defaultvalue, bool req = false);
+		void AddFlag_Int(FlagConfig& CFG, String name, int defaultvalue, bool req = false);
 
-		inline void AddFlag(FlagConfig& CFG, string name, bool defaultvalue) { AddFlag_Bool(CFG, name, defaultvalue); }
-		inline void AddFlag(FlagConfig& CFG, string name, string defaultvalue, bool req = false) { AddFlag_String(CFG, name, defaultvalue, req); }
-		inline void AddFlag(FlagConfig& CFG, string name, int defaultvalue, bool req = false) { AddFlag_Int(CFG, name, defaultvalue, req); }
+		inline void AddFlag(FlagConfig& CFG, String name, bool defaultvalue) { AddFlag_Bool(CFG, name, defaultvalue); }
+		inline void AddFlag(FlagConfig& CFG, String name, String defaultvalue, bool req = false) { AddFlag_String(CFG, name, defaultvalue, req); }
+		inline void AddFlag(FlagConfig& CFG, String name, int defaultvalue, bool req = false) { AddFlag_Int(CFG, name, defaultvalue, req); }
 
-		string ParseArgReport();
+		String ParseArgReport();
 	}
 }

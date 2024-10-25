@@ -1,3 +1,26 @@
+// License:
+// 	Units/Source/SlyvBank.cpp
+// 	Slyvina - Banking
+// 	version: 24.10.20
+// 
+// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
 // Lic:
 // Units/Source/SlyvBank.cpp
 // Slyvina - Banking
@@ -102,9 +125,9 @@ namespace Slyvina {
 		void _Bank::PokeInt16(size_t position, int16 value) { MPoke(position, int16, i16, value); }
 		void _Bank::PokeInt32(size_t position, int32 value) { MPoke(position, int32, i32, value); }
 		void _Bank::PokeInt64(size_t position, int64 value) { MPoke(position, int64, i64, value); }
-		void _Bank::PokeUInt16(size_t position, uint16 value) { MPoke(position, uint16, i16, value); }
-		void _Bank::PokeUInt32(size_t position, uint32 value) { MPoke(position, uint32, i32, value); }
-		void _Bank::PokeUInt64(size_t position, uint64 value) { MPoke(position, uint64, i64, value); }
+		void _Bank::PokeUInt16(size_t position, uint16 value) { MPoke(position, uint16, ui16, value); }
+		void _Bank::PokeUInt32(size_t position, uint32 value) { MPoke(position, uint32, ui32, value); }
+		void _Bank::PokeUInt64(size_t position, uint64 value) { MPoke(position, uint64, ui64, value); }
 
 		char _Bank::PeekChar(size_t position) {
 			if (_Expandable) {
@@ -165,7 +188,7 @@ namespace Slyvina {
 				if (i == bufsize - 1) str[i] = 0;
 				else if (i < bufsize) str[i] = ch;
 			}
-			if (bufsize > blocksize) str[blocksize] = 0;
+			if (bufsize > blocksize) str[blocksize] = 0; // Review: Is this right?
 		}
 
 		void _Bank::WriteNullString(std::string str,size_t bufsize) {
