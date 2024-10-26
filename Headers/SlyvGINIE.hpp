@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
-// 	version: 24.10.20
+// 	version: 24.10.26
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -150,12 +150,30 @@ namespace Slyvina {
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
 			}
 
+			/// <summary>
+			/// Define an int (64) value
+			/// </summary>
+			/// <param name="cat"></param>
+			/// <param name="key"></param>
+			/// <param name="value"></param>
 			inline void Value(std::string cat, std::string key, int64 value) {
 				Value(cat, key, std::to_string(value));
 			}
+#ifdef SlyvWindows
+			/// <summary>
+			/// Define an int (32) value
+			/// </summary>
+			/// <param name="cat"></param>
+			/// <param name="key"></param>
+			/// <param name="value"></param>
 			inline void Value(std::string cat, std::string key, int32 value) {
+				// Windows DEMANDS it this way and Linux FORBIDS it this way. Hopefully this compromises.
 				Value(cat, key, std::to_string(value));
 			}
+#endif
+		
+			// More specified as some compilers are really terrible on this!
+
 			inline void Int64Value(std::string cat, std::string key, int64 value) {
 				Value(cat, key, std::to_string(value));
 			}
