@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvQCol.cpp
 // 	Slyvina - Quick Colors
-// 	version: 24.10.23
+// 	version: 24.10.30
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -21,25 +21,6 @@
 // 	   misrepresented as being the original software.
 // 	3. This notice may not be removed or altered from any source distribution.
 // End License
-// Lic:
-// Units/Source/SlyvQCol.cpp
-// Slyvina - Quick Colors
-// version: 24.10.06
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
 
 #include <Slyvina.hpp>
 #if defined(_MSC_VER) && defined(SlyvWindows)
@@ -115,7 +96,7 @@ namespace Slyvina {
 			}
 		}
 
-		static void ANSI_Color(qColor f, qColor b) {
+		static void ANSI_Color2(qColor f, qColor b) {
 			if ((int)f < 0 || (int)f>15) { err("Foreground out of bounds!"); return; }
 			if ((int)b < 0 || (int)b>15) { err("Background out of bounds!"); return; }
 			auto
@@ -123,13 +104,19 @@ namespace Slyvina {
 				bg{ W2A(b) };
 			printf("\x1b[%dm\x1b[%dm", 30 + fg, 40 + bg);
 		}
+		static void ANSI_Color1(qColor f) {
+			if ((int)f < 0 || (int)f>15) { err("Foreground out of bounds!"); return; }
+			auto
+				fg{ W2A(f) };
+			printf("\x1b[%dm", 30 + fg);
+		}
 
 		static void ANSI_Reset() { printf("\x1b[0m"); }
 #pragma endregion
 
 		TmpPlateQCol
 			WinQCol{ Win_Color,Win_Reset,"Windows Console" },
-			ANSI{ ANSI_Color,ANSI_Reset, "ANSI" },
+			ANSI{ ANSI_Color1, ANSI_Color2,ANSI_Reset, "ANSI" },
 //#ifdef SlyvWindows
 #ifdef QCOLVS
 			* QCol{ &WinQCol };
@@ -143,7 +130,8 @@ namespace Slyvina {
 
 
 		void TmpPlateQCol::Write(qColor c, std::string w) {
-			Color(c, qColor::Black);
+			//Color(c, qColor::Black);
+			Color(c);
 			//printf(StReplace(w,"%","%%").c_str());
 			printf("%s", w.c_str());
 		}
@@ -182,8 +170,15 @@ namespace Slyvina {
 		void TmpPlateQCol::Grey(string a) { Write(qColor::Grey, a); }
 		void TmpPlateQCol::White(std::string a) { Write(qColor::White, a); }
 
-		TmpPlateQCol::TmpPlateQCol(QColColor c, QColReset r, string n) {
-			Color = c;
+		TmpPlateQCol::TmpPlateQCol(QColColor2 c, QColReset r, string n) {
+			Color1 = nullptr;
+			Color2 = c;
+			Reset = r;
+			Name = n;
+		}
+		TmpPlateQCol::TmpPlateQCol(QColColor1 c1, QColColor2 c2, QColReset r, std::string n) {
+			Color1 = c1;
+			Color2 = c2;
 			Reset = r;
 			Name = n;
 		}

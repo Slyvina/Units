@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvQCol.hpp
 // 	Slyvina - Quick Colors (header)
-// 	version: 24.10.20
+// 	version: 24.10.30
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -21,25 +21,6 @@
 // 	   misrepresented as being the original software.
 // 	3. This notice may not be removed or altered from any source distribution.
 // End License
-// Lic:
-// Units/Headers/SlyvQCol.hpp
-// Slyvina - Quick Colors (header)
-// version: 24.10.05
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
 
 /*
 	This quick library and its header file have been designed with the thought of 
@@ -82,7 +63,8 @@ namespace Slyvina {
 		};
 
 		//typedef void (*QColWrite)(qColor c, std::string s);
-		typedef void (*QColColor)(qColor f, qColor b);
+		typedef void (*QColColor1)(qColor f);
+		typedef void (*QColColor2)(qColor f, qColor b);
 		typedef void (*QColReset)();
 
 		extern bool qColErrorShow;
@@ -98,7 +80,10 @@ namespace Slyvina {
 			qColor Error2{ qColor::Yellow };
 			QColReset Reset{ nullptr };
 			//QColWrite Write{ nullptr };
-			QColColor Color{ nullptr };
+			QColColor1 Color1{ nullptr };
+			QColColor2 Color2{ nullptr };
+			inline void Color(qColor f, qColor b) { Color2(f, b); }
+			inline void Color(qColor f) { Color1 ? Color1(f) : Color(f, qColor::Black); }
 			std::string Name;
 			void Doing(std::string a, std::string b, std::string ending = "\n");
 			void Doing(std::string a, int b, std::string ending = "\n");
@@ -123,7 +108,8 @@ namespace Slyvina {
 			void Grey(std::string a = "");
 			void White(std::string a = "");
 
-			TmpPlateQCol(QColColor c, QColReset r, std::string n);
+			TmpPlateQCol(QColColor2 c, QColReset r, std::string n);
+			TmpPlateQCol(QColColor1 c1, QColColor2 c2, QColReset r, std::string n);
 		};
 
 		extern TmpPlateQCol
