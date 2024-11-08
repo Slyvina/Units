@@ -19,6 +19,8 @@
 // Version 22.12.27
 // EndLic
 
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
