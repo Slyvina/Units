@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 24.10.23
+// 	version: 24.11.11
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -279,6 +279,14 @@ namespace Slyvina {
 			for (int i = 0; i < HayStack.size() - Needle.size(); i++)
 				if (Mid(HayStack, i + 1, Needle.size()) == Needle) return true;
 			return false;
+		}
+
+		std::string HexEscape(std::string str, std::string esc) {
+			std::string ret = "";
+			for (size_t i = 0; i < str.size(); i++) {
+				ret += esc + TrSPrintF("x%02x", str[i]);
+			}
+			return ret;
 		}
 
 

@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvString.hpp
 // 	Slyvina - Quick String Handler (header)
-// 	version: 24.10.23
+// 	version: 24.11.11
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -199,6 +199,8 @@ namespace Slyvina {
 		/// <param name="notruncate">when false truncates</param>
 		/// <returns></returns>
 		std::string TabStr(std::string s, uint32 t = 10, bool notruncate = false);
+
+		std::string HexEscape(std::string str, std::string esc = "\\");
 
 		bool StrContains(String HayStack, String Needle);
 

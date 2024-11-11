@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
-// 	version: 24.10.26
+// 	version: 24.11.11
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -73,6 +73,7 @@ namespace Slyvina {
 	namespace Units {
 
 		enum class GINIE_Read { Source, File };
+		enum class GINIE_Kill {Nothing,Values,Lists,All};
 
 		class RawGINIE;
 
@@ -93,6 +94,7 @@ namespace Slyvina {
 				_Values.clear();
 				_Lists.clear();
 			}
+
 
 			inline std::string UnParse(std::string Header = "") {
 				std::string ret{ "" };
@@ -133,6 +135,26 @@ namespace Slyvina {
 
 
 			inline void SaveSource(std::string File, std::string Header = "") { SaveString(File, UnParse(Header)); }
+
+			inline void Kill(std::string category,GINIE_Kill KT=GINIE_Kill::All) { 
+				Trans2Upper(category);
+				if (_Values.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Values)) { _Values.erase(category); if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
+				if (_Lists.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Lists)) { _Lists.erase(category); if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
+			}
+			inline void Kill(std::string category, std::string name, GINIE_Kill KT = GINIE_Kill::All) {
+				Trans2Upper(category);
+				Trans2Upper(name);
+				auto s{ false };
+				if (_Values.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Values)) {
+					if (_Values[category].count(name)) { _Values[category].erase(name); s = true; }
+					if (_Values.size() == 0) { _Values.erase(category); s = true; }
+				}
+				if (_Lists.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Lists)) {
+					if (_Lists[category].count(name)) { _Lists[category].erase(name); s = true; }
+					if (_Lists.size() == 0) { _Lists.erase(category); s = true; }
+				}
+				if (s && AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
+			}
 
 			/// <summary>
 			/// Define a value

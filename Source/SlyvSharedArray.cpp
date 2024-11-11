@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvSharedArray.cpp
 // 	Slyvina Shared Array (Error Handling)
-// 	version: 24.11.02
+// 	version: 24.11.11
 // 
 // 	Copyright (C) 2024 Jeroen P. Broks
 // 
