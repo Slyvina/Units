@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 24.11.11
+// 	version: 24.11.25
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -154,6 +154,28 @@ namespace Slyvina {
 			return ret;
 		}
 
+		// Same as StReplace, but upper and lower case will now be ignored
+		std::string StCIReplace(std::string mystr, std::string ori, std::string subst) {
+			std::string ret = "";
+			auto olen = mystr.size();
+			auto slen = ori.size();
+			auto umystr{ Upper(mystr) };
+			auto uori{ Upper(ori) };
+			unsigned p = 1;
+			while (p <= olen) {
+				if ((p - 1) + slen <= olen && Mid(umystr, p, slen) == uori) {
+					//cout << p << "\t" << ori << "\t" << subst << "\t" << mystr << "\t" << ret << endl; // debug only
+					ret += subst;
+					p += slen;
+					//cout << p << ":"<<olen<<endl;
+				} else {
+					ret += mystr[p - 1];
+					p++;
+				}
+			}
+			return ret;
+		}
+
 		std::string CSReplace(std::string mystr, char ori, std::string subst) {
 			std::string ret{ "" };
 			for (unsigned int i = 0; i < mystr.size(); i++) {
@@ -167,6 +189,7 @@ namespace Slyvina {
 
 		std::string ExtractDir(std::string file) {
 			file = ChReplace(file, '\\', '/');
+			if (IndexOf(file, '/') < 0) return "";
 			int lastslash = FindLast(file, '/');
 			if (lastslash < -1) return "";
 			return Left(file, lastslash);
@@ -174,6 +197,7 @@ namespace Slyvina {
 
 		std::string StripDir(std::string file) {
 			file = ChReplace(file, '\\', '/');
+			if (IndexOf(file, '/') < 0) return file;
 			int lastslash = FindLast(file, '/');
 			if (lastslash < -1) return file;
 			auto ret = Right(file, file.size() - lastslash);
@@ -276,8 +300,11 @@ namespace Slyvina {
 		}
 
 		bool StrContains(String HayStack, String Needle) {
-			for (int i = 0; i < HayStack.size() - Needle.size(); i++)
-				if (Mid(HayStack, i + 1, Needle.size()) == Needle) return true;
+			if (!HayStack.size()) return false;
+			if (Needle.size() > HayStack.size()) return false;
+			for (size_t i = 0; i < HayStack.size() - Needle.size(); i++)
+				//if (Mid(HayStack, i + 1, Needle.size()) == Needle) return true;
+				if (HayStack.substr(i, Needle.size()) == Needle) return true;
 			return false;
 		}
 
