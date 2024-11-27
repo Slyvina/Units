@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvRequestFile.cpp
 // 	Slyvina - Request File
-// 	version: 24.10.25
+// 	version: 24.11.27
 // 
 // 	Copyright (C) 2022, 2024 Jeroen P. Broks
 // 
@@ -50,6 +50,7 @@
 #ifdef SlyvWindows
 #include <Windows.h>
 #include <atlstr.h>
+#include <ShlObj.h>
 
 
 static HWND focHwnd;
@@ -256,6 +257,79 @@ static void beginPanel() {
 //			 _LFQError = "File requester not (yet) available on this platform";
 //			 return "";
 		 }
+
+		 static int CALLBACK BrowseForFolderCallbackA(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData) {
+			 char szPath[MAX_PATH];
+			 switch (uMsg) {
+			 case BFFM_INITIALIZED:
+				 SendMessageA(hwnd, BFFM_SETSELECTIONA, TRUE, pData);
+				 break;
+			 case BFFM_SELCHANGED:
+				 if (SHGetPathFromIDListA((LPITEMIDLIST)lp, szPath)) {
+					 SendMessageA(hwnd, BFFM_SETSTATUSTEXTA, 0, (LPARAM)szPath);
+				 }
+				 break;
+			 }
+			 return 0;
+		 }
+
+		 String Win_RequestDir(String Caption, String InitDir) {
+			 String str = "";
+			 String dir = InitDir;
+			 String text = Caption;
+			 /*
+			 bool _usew{ false };
+			 if (_usew) {
+				  LPMALLOC shm;
+				  ITEMIDLIST * idlist;
+				  BROWSEINFOW bi = { 0 };
+				  wchar_t buf[MAX_PATH], * p;
+
+				 GetFullPathNameW(bbTmpWString(dir), MAX_PATH, buf, &p);
+
+					 bi.hwndOwner = GetActiveWindow();
+				 bi.lpszTitle = bbTmpWString(text);
+				 bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+				 bi.lpfn = BrowseForFolderCallbackW;
+				 bi.lParam = (LPARAM)buf;
+				|
+				 beginPanel();
+				 idlist = SHBrowseForFolderW(&bi);
+				 endPanel();
+				|
+				 if (idlist) {
+				 SHGetPathFromIDListW(idlist, buf);
+				 str = bbStringFromWString(buf);
+									 //SHFree( idlist );     //?!?
+
+
+
+			 } else //*/
+			 {
+				 LPMALLOC shm;
+				 ITEMIDLIST* idlist;
+				 BROWSEINFOA bi = { 0 };
+				 char buf[MAX_PATH], * p;
+				 // GetFullPathNameA(bbTmpCString(dir), MAX_PATH, buf, &p);
+				 GetFullPathNameA(dir.c_str(), MAX_PATH, buf, &p);
+				 bi.hwndOwner = GetActiveWindow();
+				 bi.lpszTitle = text.c_str(); //bbTmpCString(text);
+				 bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+				 bi.lpfn = BrowseForFolderCallbackA;
+				 bi.lParam = (LPARAM)buf;
+				 beginPanel();
+				 idlist = SHBrowseForFolderA(&bi);
+				 endPanel();
+				 if (idlist) {
+					 SHGetPathFromIDListA(idlist, buf);
+					 str = buf; //bbStringFromCString(buf);
+					 //SHFree( idlist );     //?!?
+
+				 }
+
+			 }
+			 return str;
+		 }
 #endif
 #pragma endregion
 
@@ -301,7 +375,7 @@ static void beginPanel() {
 		 void RequestFileDriver::Use(RequestFileDriver drv) { _Using = drv; }
 
 #if defined(SlyvWindows)
-		 RequestFileDriver RequestFileDriver::_Using{Win_RequestFile, nullptr};
+		 RequestFileDriver RequestFileDriver::_Using{Win_RequestFile, Win_RequestDir};
 #elif defined(SlyvLinux)
 		 RequestFileDriver RequestFileDriver::_Using{ RequestFileText}; // For now this will have to do.
 #else
