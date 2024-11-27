@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
-// 	version: 24.11.11
+// 	version: 24.11.27
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -342,6 +342,12 @@ namespace Slyvina {
 				S2U(cat); S2U(key);
 				return &_Lists[cat][key];
 			}
+
+			// Replaces a list entirely with a new vector. Use with caution!
+			inline void ReplaceList(std::string cat, std::string key, std::vector<std::string>* vec) { S2U(cat); S2U(key); _Lists[cat][key] = *vec; if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
+			inline void ReplaceList(std::string cat, std::string key, std::vector<std::string> vec) { S2U(cat); S2U(key); _Lists[cat][key] = vec; if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
+			inline void ReplaceList(std::string cat, std::string key, VecString vec) { ReplaceList(cat, key, vec.get()); }
+
 
 			inline size_t ListCount(std::string cat, std::string key) {
 				S2U(cat); S2U(key);
