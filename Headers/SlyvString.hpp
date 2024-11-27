@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvString.hpp
 // 	Slyvina - Quick String Handler (header)
-// 	version: 24.11.11
+// 	version: 24.11.25
 // 
 // 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -85,6 +85,8 @@ namespace Slyvina {
 
 		std::string StReplace(std::string mystr, std::string ori, std::string subst);
 
+		std::string StCIReplace(std::string mystr, std::string ori, std::string subst);
+
 		std::string CSReplace(std::string mystr, char ori, std::string subst);
 
 
@@ -151,6 +153,15 @@ namespace Slyvina {
 		inline std::string StringJoin(std::string lnk, std::vector<std::string> strs) {
 			std::string ret{ "" };
 			for (std::string s : strs) {
+				if (ret.size()) ret += lnk;
+				ret += s;
+			}
+			return ret;
+		}
+		inline std::string StringJoin(std::string lnk, std::vector<std::string> strs,size_t max) {
+			std::string ret{ "" };
+			for(size_t i=0;i<max && i<ret.size();i++){
+				auto s{ ret[i] };
 				if (ret.size()) ret += lnk;
 				ret += s;
 			}
