@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvSTOI.cpp
 // 	Slyvina - Alternate STOI
-// 	version: 24.10.20
+// 	version: 24.11.24
 // 
 // 	Copyright (C) 2021, 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -73,7 +73,7 @@ namespace Slyvina {
 				if (p == 0)
 					ret = digi;
 				else
-					ret += digi * (pow(scale, p));
+					ret += digi * ((int)pow(scale, p));
 			}
 			eReturn("", ret);
 		}
