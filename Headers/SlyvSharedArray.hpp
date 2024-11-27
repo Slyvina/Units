@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvSharedArray.hpp
 // 	Slyvina - Shared Array
-// 	version: 24.11.02
+// 	version: 24.11.25
 // 
 // 	Copyright (C) 2024 Jeroen P. Broks
 // 
@@ -190,6 +190,11 @@ namespace Slyvina {
 					_array = new MyType[s]; 
 					for (size_t i = 0; i < s; ++i) _array[i] = a[i];
 				}
+//				inline ActArray(std::vector<MyType>& a) {
+//					_size = a.size();
+//					_array = new MyType[_size];
+//					for (size_t i = 0; i < _size; ++i) _array[i] = a[i];
+//				}
 				inline ~ActArray() { if (_array) delete[] _array; }
 			};
 		private:
@@ -231,6 +236,7 @@ namespace Slyvina {
 			inline UniqueArray() {};
 			inline UniqueArray(size_t s) { _myarray = std::unique_ptr<ActArray>(new ActArray(s)); }
 			inline UniqueArray(size_t s, const MyType* a) { _myarray = std::unique_ptr<ActArray>(new ActArray(s, a)); }
+			//inline UniqueArray(std::vector<MyType> a) { _myarray = std::unique_ptr<ActArray>(new ActArray(a)); }
 			inline MyType& operator[](size_t i) {
 				if (!_myarray) { Panic("Can't index nullarray!"); return Niks; }
 				if (i >= _myarray->_size) { Panic("Index out of bounds! (" + std::to_string(i) + "/" + std::to_string(_myarray->_size) + ")"); return Niks; }
