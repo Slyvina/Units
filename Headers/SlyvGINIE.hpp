@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
-// 	version: 24.11.27
+// 	version: 25.01.06
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -285,7 +285,16 @@ namespace Slyvina {
 				auto ret{ NewVecString() };
 				Trans2Upper(cat);
 				if (_Values.count(cat)) {
-					for (auto k : _Values[cat]) ret->push_back(k.first);
+					for (auto &k : _Values[cat]) ret->push_back(k.first);
+				}
+				return ret;
+			}
+
+			inline VecString Lists(std::string cat) {
+				auto ret{ NewVecString() };
+				Trans2Upper(cat);
+				if (_Lists.count(cat)) {
+					for (auto &k : _Lists[cat]) ret->push_back(k.first);
 				}
 				return ret;
 			}
