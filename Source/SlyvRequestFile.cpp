@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvRequestFile.cpp
 // 	Slyvina - Request File
-// 	version: 24.11.27
+// 	version: 24.12.18
 // 
 // 	Copyright (C) 2022, 2024 Jeroen P. Broks
 // 
@@ -237,6 +237,7 @@ static void beginPanel() {
 			 of.nMaxFile = MAX_PATH;
 			 of.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
 
+			 //printf("Requestfile Debug: %s\n", buf);
 			 beginPanel();
 			 if (save) {
 				 of.lpstrDefExt = "";
