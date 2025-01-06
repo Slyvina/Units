@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvStream.cpp
 // 	Slyvina - Quick Stream Handler
-// 	version: 24.11.27
+// 	version: 24.12.31
 // 
 // 	Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
 // 
@@ -200,7 +200,11 @@ namespace Slyvina {
 
 		bool DirectoryExists(string folderName) {
 			if (Suffixed(folderName, "/")) folderName = Left(folderName, folderName.size() - 1);
+#ifdef SlyvWindows
+			return DirectoryExistsC(ChReplace(folderName,'/','\\').c_str());
+#else
 			return DirectoryExistsC(folderName.c_str());
+#endif
 		}
 
 		bool MakeDir(string dir) {
