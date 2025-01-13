@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvString.hpp
 // 	Slyvina - Quick String Handler (header)
-// 	version: 24.11.25
+// 	version: 25.01.13
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -68,10 +68,10 @@ namespace Slyvina {
 			return -1;
 		}
 
-		inline int FindFirst(std::string str, std::string Needle) {			
+		inline int FindFirst(std::string str, std::string Needle) {
 				for (int i = 0; i+Needle.size()<str.size() && i < str.size(); i++)
 					if (Mid(str,i,(unsigned int)Needle.size()) == Needle) return i;
-				return -1;			
+				return -1;
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace Slyvina {
 
 		std::string CSReplace(std::string mystr, char ori, std::string subst);
 
-
+        std::string csfmt(std::string fmt,size_t l,std::string* r);
 
 		std::string ExtractDir(std::string file);
 

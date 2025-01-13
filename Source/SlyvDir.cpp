@@ -1,9 +1,9 @@
 // License:
 // 	Units/Source/SlyvDir.cpp
 // 	Slyvina - Directory
-// 	version: 24.10.30
+// 	version: 25.01.13
 // 
-// 	Copyright (C) 2022, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -27,6 +27,11 @@
 #include <iostream>                                                                                                                   
 #include <SlyvDir.hpp>
 #include <SlyvString.hpp>
+
+#ifdef FuckWindows
+// Needed because SCons would otherwise not compile!
+#include <SlyvStream.hpp>
+#endif
 
 
 #if (defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__) ) && defined(_MSC_VER)
@@ -65,7 +70,9 @@ namespace Slyvina {
 			return String;
 		}
 		//std::wstring stemp = s2ws(myString);                                                                                                
-		//LPCWSTR result = stemp.c_str();                                                                                                     
+		//LPCWSTR result = stemp.c_str();                        
+		
+		static std::string convLPCWSTRtoString(std::string wString) { return wString; }
 
 #endif                                                                                                                                
 
@@ -74,7 +81,9 @@ namespace Slyvina {
 #endif
 
 		bool IsDir(std::string pth) {
-#ifdef SlyvWindows                                                                                                                     
+#ifdef FuckWindows
+			return DirectoryExists(pth);
+#elif defined(SlyvWindows)
 			using namespace std;
 			string search_path = pth;
 			WIN32_FIND_DATA fd;
@@ -94,11 +103,17 @@ namespace Slyvina {
 #endif                                                                                                                                
 		}
 		bool IsFile(std::string pth) {
-#ifdef SlyvWindows                                                                                                                     
+#ifdef FuckWindows			
+			return FileExists(pth);
+#elif defined(SlyvWindows)
 			using namespace std;
 			string search_path = pth;
 			WIN32_FIND_DATA fd;
+			//#ifdef _WIN64
 			HANDLE hFind = ::FindFirstFile(s2ws(search_path).c_str(), &fd);
+			//#else
+			//HANDLE hfind = ::FindFirstFile(search_path.c_str(), &fd);
+		    //#endif
 			if (hFind != INVALID_HANDLE_VALUE)
 				return (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY));
 			else
@@ -117,7 +132,11 @@ namespace Slyvina {
 
 
 		VecString FileList(std::string Dir, DirWant Want, bool allowhidden, std::string addprefix) {
-#ifdef SlyvWindows                                                                                                                     
+#ifdef FuckWindows			
+			auto wDir{ChReplace(Dir,'/','\\')};
+			system(((String)"dir /b \""+Dir+"\" > \TempDir.txt").c_str());
+			return LoadLines("\TempDir.txt");
+#elif defined(SlyvWindows)
 			using namespace std;
 			//std::vector < std::string > ret;
 			auto ret{ NewVecString() };
@@ -128,7 +147,11 @@ namespace Slyvina {
 				do {
 					// read all (real) files in current folder                                                                                
 					// , delete '!' read other 2 default folder . and ..                                                                      
+					//#ifdef _WIN64
 					auto found{ convLPCWSTRtoString(fd.cFileName) };
+					//#else
+					//auto found{fd.cFileName};
+				    //#endif
 					auto allow{ false };
 					//cout << found << " / " << fd.cFileName << endl;                                                                         
 					switch (Want) {

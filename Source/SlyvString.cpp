@@ -1,9 +1,9 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 24.11.25
+// 	version: 25.01.13
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -182,7 +182,7 @@ namespace Slyvina {
 				if (mystr[i] == ori)
 					ret += subst;
 				else
-					ret += mystr[i];				
+					ret += mystr[i];
 			}
 			return ret;
 		}
@@ -316,6 +316,14 @@ namespace Slyvina {
 			return ret;
 		}
 
+		std::string csfmt(std::string fmt,size_t l,std::string* r) {
+		    auto ret{fmt};
+		    for(size_t i=0;i<l;++i) {
+                ret=StReplace(ret,"$["+std::to_string(i)+"]",r[i]);
+		    }
+		    return ret;
+		}
+
 
 #pragma region TrSprintF
 		static const char* scanformat(const char* strfrmt, char* form) {
@@ -380,7 +388,7 @@ namespace Slyvina {
 					switch (*strfrmt++) {
 					case 'c': {
 						//nb = l_sprintf(buff, maxitem, form, (int)luaL_checkinteger(L, arg));
-						//#define l_sprintf(s,sz,f,i)	((void)(sz), sprintf(s,f,i)) 
+						//#define l_sprintf(s,sz,f,i)	((void)(sz), sprintf(s,f,i))
 						//nb = ((void)(sz), sprintf_s(s, f, i));
 						auto i{ va_arg(args, int) };
 						sprintf_s(addret, form, i);
@@ -469,6 +477,11 @@ namespace Slyvina {
 			}
 			//luaL_pushresult(&b);
 			//return 1;
+			for(int i=0;i<ret.size();i++) {
+                if (ret[i]<9 || ret[i]>126) {
+                    printf("\007\x1b[91mWARNING!\n\x1b[0mTrSPrintF did contain non ASCI character (%03d/%02x) on pos %d in format: %s\n-> %s\n",ret[i],ret[i],i,fmt,ret.c_str());
+                }
+			}
 			return ret;
 		}
 #pragma endregion
