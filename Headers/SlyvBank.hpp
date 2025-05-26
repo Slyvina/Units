@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvBank.hpp
 // 	Slyvina - Banks (header)
-// 	version: 24.11.16
+// 	version: 25.03.01
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -145,7 +145,7 @@ namespace Slyvina {
 
 			inline void WriteString(std::string value, bool raw=false) {
 				if (!raw) WriteInt32((int)value.size());
-				for (int i = 0; i < value.size(); ++i) WriteChar(value[i]);
+				for (size_t i = 0; i < value.size(); ++i) WriteChar(value[i]);
 			}
 
 			/// <summary>
@@ -171,7 +171,7 @@ namespace Slyvina {
 			inline void Write(std::vector<byte> &vc) { for (char c : vc) WriteByte(c); }
 			inline void Write(const char* cb, size_t s) { WriteChars(cb, s); }
 			inline void Write(const byte* cb, size_t s) { WriteBytes(cb, s); }
-			
+
 			void WriteStringMap(StringMap sm);
 			inline void Write(StringMap sm) { WriteStringMap(sm); }
 
@@ -184,7 +184,7 @@ namespace Slyvina {
 			/// <summary>
 			/// Copy the contents of a buffer into a regular char buffer! WARNING! This variant actually allocates memory in order to get the job done, but you will have to release it yourself.
 			/// </summary>
-			char* ToChar(); 
+			char* ToChar();
 
 			/// <summary>
 			/// Tries to convert the buffer into a string
@@ -210,6 +210,7 @@ namespace Slyvina {
 	Bank CreateBank(size_t size, Endian E = Endian::Little);
 	Bank CreateBank(char* buf, size_t size, Endian E = Endian::Little);
 	Bank CreateBank(std::vector<char>, Endian E = Endian::Little);
+	Bank CreateBank(std::vector<byte>, Endian E = Endian::Little);
 
 	/// <summary>
 	/// Takes over a buffer and turns it into a bank. Please note! This routine actually copies the pointer to that buffer! Don't use this unless you know what you are doing. Also note that the memory allocated to this pointer will as a result be disposed automatically once this Bank is being disposed. If you do not want all that, this may not be the best way to go!
@@ -224,9 +225,9 @@ namespace Slyvina {
 
 	UBank CreateUBank(size_t size, Endian E = Endian::Little);
 	UBank CreateUXBank();
-	
-	
-	
+
+
+
 	}
 
 }

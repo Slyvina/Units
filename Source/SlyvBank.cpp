@@ -1,9 +1,9 @@
 // License:
 // 	Units/Source/SlyvBank.cpp
 // 	Slyvina - Banking
-// 	version: 24.11.07
+// 	version: 25.03.01
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -51,7 +51,7 @@ using namespace std;
 		case Endian::Big: return FromBig(O._fld); break; \
 		default: Panic("Illegal Endian While Peeking"); return 0;\
 	}\
-	
+
 
 
 namespace Slyvina {
@@ -78,7 +78,7 @@ namespace Slyvina {
 			_endian = SetEndian;
 			Panic = _DefPanic;
 			_Expandable = true;
-			_xbuffer = std::make_shared<vector<char>>();			
+			_xbuffer = std::make_shared<vector<char>>();
 		}
 
 		_Bank::~_Bank() {
@@ -98,7 +98,7 @@ namespace Slyvina {
 		}
 
 		void _Bank::PokeByte(size_t position, byte value) {
-			__AllNum B; 
+			__AllNum B;
 			B.bt = value;
 			PokeChar(position,B.ch);
 		}
@@ -176,7 +176,7 @@ namespace Slyvina {
 			if (!bufsize) bufsize = str.size() + 1;
 			for (size_t i = 0; i < bufsize - 1; i++) {
 				if (i < str.size()) Write(str[i]); else Write('\0');
-			} 
+			}
 			Write('\0');
 		}
 
@@ -220,7 +220,7 @@ namespace Slyvina {
 		void _Bank::GetChars(char* buf, size_t sz) {
 			for (size_t i = 0; i < sz; i++) buf[i] = ReadChar();
 		}
-		
+
 		Bank CreateBank(size_t size, Endian E) {
 			return std::make_shared<_Bank>(size,E);
 		}
@@ -234,6 +234,11 @@ namespace Slyvina {
 		Bank CreateBank(std::vector<char> buf, Endian E) {
 			auto ret = CreateBank(buf.size(), E);
 			for (size_t i = 0; i < buf.size(); i++) ret->PokeChar(i, buf[i]);
+			return ret;
+		}
+		Bank CreateBank(std::vector<byte> buf, Endian E) {
+			auto ret = CreateBank(buf.size(), E);
+			for (size_t i = 0; i < buf.size(); i++) ret->PokeByte(i, buf[i]);
 			return ret;
 		}
 

@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/Slyvina.hpp
 // 	Slyvina - Core Header
-// 	version: 24.10.20
+// 	version: 25.04.30
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -51,13 +51,13 @@
 #endif
 
 		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-			#define SlyvWindows	
-			#define SlyvPlat "Windows"           
+			#define SlyvWindows
+			#define SlyvPlat "Windows"
 			#ifdef _WIN64
 				#define SlyvWin64
-				#define SlyvXPlat "Windows 64"  
+				#define SlyvXPlat "Windows 64"
 			#else
-				#define SlyvXPlat "Windows 32"  	
+				#define SlyvXPlat "Windows 32"
 				#define SlyvWin32
 			#endif
 		#elif defined(__APPLE__)
@@ -94,7 +94,7 @@
 			#define SlyvPOSIX
 		#else
 			#error "Unknown compiler"
-		#endif		
+		#endif
 
 //#ifdef SlyvWindows
 #ifdef _MSC_VER
@@ -113,11 +113,11 @@ namespace Slyvina {
 	typedef std::string String;
 
 #pragma region Integer
-	// Please note. This only works in x64 (LittleEndian) now. 
+	// Please note. This only works in x64 (LittleEndian) now.
 	// If anything changes due to other processors,
-	// #ifdef should be used in detection and then coming up with 
+	// #ifdef should be used in detection and then coming up with
 	// new definitions are in order to make sure the definitions remain correct.
-	
+
 	typedef char Char;
 	typedef unsigned char Byte;
 	typedef unsigned char byte;
@@ -125,16 +125,22 @@ namespace Slyvina {
 	typedef short int int16;
 	typedef unsigned short int uInt16;
 	typedef unsigned short int uint16;
-	
+
 	typedef int int32;
 	typedef unsigned int uint32;
 	typedef int Int32;
 	typedef unsigned int uInt32;
-	
+
 	typedef long long int int64;
 	typedef unsigned long long int uint64;
 	typedef long long int Int64;
 	typedef unsigned long long int uInt64;
+
+	union ByteChar {
+		char ch;
+		byte bt;
+	};
+	typedef ByteChar CharByte;
 #pragma endregion
 
 	inline std::string boolstring(bool k) { return k ? "True" : "False"; }
@@ -142,7 +148,7 @@ namespace Slyvina {
 	inline std::string uboolstring(bool k) { return k ? "TRUE" : "FALSE"; }
 
 	inline std::string Platform(bool compact = true) {
-		/* 
+		/*
 		if (compact)
 			return SlyvPlat;
 		else
@@ -152,24 +158,24 @@ namespace Slyvina {
 	}
 
 	const double PI = 3.1415926535;
-	
+
 	typedef std::shared_ptr<std::vector<String>> VecString;
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
 
 	typedef std::shared_ptr<std::map<std::string, std::string>> StringMap;
 	inline StringMap NewStringMap() { return std::shared_ptr<std::map<std::string, std::string>>(new std::map<std::string,std::string>()); }
-	
+
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
 	template<class MyType> inline std::shared_ptr<std::vector<MyType>> NewVector() { return std::make_shared<std::vector<MyType>>(); }
 
 	inline std::string CYear(uint32 oy, uint32 yn) { if (oy > yn) return "?"; if (oy < yn) return std::to_string(oy) + "-" + std::to_string(yn); return std::to_string(yn); }
 	inline std::string CYear(uint32 oy, std::string yn) { return CYear(oy, std::stoi(yn)); }
-	
+
 	template<class MyType> inline void SortVector(std::vector<MyType>* v) { std::sort(v->begin(), v->end()); }
 	inline void SortVecString(VecString v) {
 		if (!v) { std::cout << "SortVecString(nullptr): Cannot sort!\n\r"; return; }
-		std::sort(v->begin(), v->end()); 
+		std::sort(v->begin(), v->end());
 	}
 	template<class MyType> inline bool VectorContains(std::vector<MyType>& HayStack, MyType Needle) {
 		for (auto Hay : HayStack) if (Needle == Hay) return true;
@@ -197,7 +203,25 @@ namespace Slyvina {
 
 	inline bool VecHasString(std::vector<String>HayStack, String Needle, bool ignorecase = true) { return VecHasString(&HayStack, Needle, ignorecase); }
 	inline bool VecHasString(VecString HayStack, String Needle, bool ignorecase = true) { return VecHasString(HayStack.get(), Needle, ignorecase); }
-	
+
+	// Will make sure all members are unique.
+	// Also note that pointer based vectors (such as unique pointers and shared pointers) may act oddly.
+	template <class MyType> inline void VecUniqueOnly(std::vector<MyType>* vec) {
+	    std::map<MyType,bool> dupecheck{};
+	    std::vector<MyType> Result{};
+	    for(size_t i1=0;i1<vec->size();i1++) for (size_t i2=0;i2<vec->size();i2++) {
+            if (i1!=i2 && (*vec)[i1]==(*vec)[i2]) {
+                if (!dupecheck.count((*vec)[i1])) {
+                    dupecheck[(*vec)[i1]]=true;
+                }
+            }
+	    }
+	    for(MyType v:*vec) { if (!dupecheck.count(v)) Result.push_back(v); }
+	    vec->clear();
+	    for(MyType v:Result) vec->push_back(v);
+	}
+	inline void VecStrUniqueOnly(VecString vec) { VecUniqueOnly<String>(vec.get()); }
+
 	// FUCK YOU, MICROSOFT!
 	inline void SlyvStrCpy(char *tar,std::string src) {
 		for (size_t i=0;i<src.size();i++) tar[i]=src[i];
@@ -207,5 +231,14 @@ namespace Slyvina {
 		int ret{ 0 };
 		while (str[ret++]) {} // dirty, but should work.
 		return ret;
+	}
+
+	inline size_t SlyvStrCmp(char *one, char* two) {
+		if (SlyvStrLen(one)!=SlyvStrLen(two)) return -1;
+		size_t r{0};
+		for(size_t i=0;one[i] && two[i];++i) {
+			if (one[i]!=two[i]) r++;
+		}
+		return r;
 	}
 }

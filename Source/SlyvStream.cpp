@@ -1,9 +1,9 @@
 // License:
 // 	Units/Source/SlyvStream.cpp
 // 	Slyvina - Quick Stream Handler
-// 	version: 24.12.31
+// 	version: 25.03.01
 // 
-// 	Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -21,7 +21,7 @@
 // 	   misrepresented as being the original software.
 // 	3. This notice may not be removed or altered from any source distribution.
 // End License
-// 
+//
 // I hope I can make this code as portable as possible, so I am not interested in using Microsoft's own solutions that are non-standard!
 
 #ifdef _WIN32
@@ -229,7 +229,7 @@ namespace Slyvina {
 					MDIR(tmp);
 					*p = '/';
 				}
-			return MDIR(tmp) != 0;; //, S_IRWXU);		
+			return MDIR(tmp) != 0;; //, S_IRWXU);
 		}
 
 		bool FileDelete(std::string file, bool noerrormsg) {
@@ -281,7 +281,7 @@ namespace Slyvina {
 			stat(filename1, &st);
 #ifdef SlyvWindows
 			tm = _localtime(&st.st_mtime);
-#else 
+#else
 			auto ptm = localtime(&st.st_mtime);
 			tm = *ptm;
 #endif
@@ -401,7 +401,7 @@ namespace Slyvina {
 		void True_OutFile::WriteChars(char* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
 		void True_OutFile::WriteBytes(byte* b, size_t L) { for (size_t i = 0; i < L; ++i) Write(b[i]); }
 
-		unsigned long long True_OutFile::Size() {			
+		unsigned long long True_OutFile::Size() {
 			return Written;
 		}
 
@@ -444,7 +444,7 @@ namespace Slyvina {
 		uint64 True_InFile::Position() {
 			return stream.tellg();
 		}
-		
+
 
 		True_InFile::True_InFile(std::string _filename, int endian) {
 			size = FileSize(_filename);
@@ -522,7 +522,7 @@ namespace Slyvina {
 				else if (r != '\r') ret += r;
 			}
 		}
-		
+
 
 		string True_InFile::ReadString(int l) {
 			char* buf;
@@ -530,9 +530,9 @@ namespace Slyvina {
 			int ln = l;
 			if (!ln) ln = ReadInt();
 			if (ln < 0) {
-				std::cout << "\x1b[91mERROR!!!\7\x1b[0m Invalid string length from ReadString() (" << ln << ")"; 
+				std::cout << "\x1b[91mERROR!!!\7\x1b[0m Invalid string length from ReadString() (" << ln << ")";
 				throw std::runtime_error("Invalid streng length!");
-				//return ""; 
+				//return "";
 			}
 			buf = new char[ln + 1];
 			buf[ln] = 0;
@@ -558,6 +558,18 @@ namespace Slyvina {
 			auto ret{ std::make_shared<vector<byte>>() };
 			for (int i = 0; i < size; i++) ret->push_back(ReadByte());
 			return ret;
+		}
+
+		void True_InFile::ReadBytes(std::vector<byte>& Buf,int size, bool clear){
+			if (clear) Buf.clear();
+			for (auto i=0; i<size; i++) Buf.push_back(ReadByte());
+		}
+
+		void LoadBytes(std::vector<byte>* vec, std::string file) {
+			auto BI{ReadFile(file)};
+			if (!BI) return;
+			BI->ReadBytes(*vec,BI->Size());
+			BI->Close();
 		}
 
 		void True_InFile::ReadCString(char* c) {

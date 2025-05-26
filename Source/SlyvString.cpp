@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 25.01.13
+// 	version: 25.01.17
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -80,8 +80,10 @@ namespace Slyvina {
 		}
 
 		int64 IndexOf(std::string s, char c) {
-			for (uint64 i = 0; i < s.size(); i++)
+			for (size_t i = 0; i < s.size(); i++) {
+                //printf("Huh %d/%d/%c\n",i,s.size(),s[i])    ;
 				if (s[i] == c) return i;
+			}
 			return -1;
 		}
 

@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvTime.hpp
 // 	Slyvina - Time (header)
-// 	version: 24.12.07 II
+// 	version: 25.03.01
 // 
-// 	Copyright (C) 2021, 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2021, 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -43,6 +43,7 @@ namespace Slyvina {
 		int CurrentMinute(); // Minute
 		int CurrentSecond(); // Second
 		std::string WeekDay(); // Day of the week fully written out.
+		inline std::string Now() { return CurrentDate()+"; "+CurrentTime(); }
 #ifdef SlyvWindows
 		tm _localtime(time_t* fuck);
 #endif

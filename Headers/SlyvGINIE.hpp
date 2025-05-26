@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
-// 	version: 25.01.06
+// 	version: 25.03.01
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -21,25 +21,6 @@
 // 	   misrepresented as being the original software.
 // 	3. This notice may not be removed or altered from any source distribution.
 // End License
-// Lic:
-// Units/Headers/SlyvGINIE.hpp
-// Slyvina - GINIE
-// version: 24.09.24
-// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
 
 #pragma once
 #include <Slyvina.hpp>
@@ -56,7 +37,7 @@
 /*
 
 GINIE = GINIE is not INI either.
-The name was a play on GINI (GINI is not INI) and is actually a completely revised workout. 
+The name was a play on GINI (GINI is not INI) and is actually a completely revised workout.
 The name is to be pronounced as "GENIE".
 
 GINIE is in most ways compatible with base config files in .ini form, whoever there are a few differences
@@ -81,8 +62,8 @@ namespace Slyvina {
 		typedef std::unique_ptr<RawGINIE> UGINIE;
 
 		class RawGINIE {
-		private:		
-			std::map<std::string, std::map<std::string, std::string>> _Values{};		
+		private:
+			std::map<std::string, std::map<std::string, std::string>> _Values{};
 			std::map<std::string, std::map<std::string, std::vector<std::string>>> _Lists{};
 			inline static void S2U(std::string& str) { if (!str.size()) str = "NAMELESS"; std::transform(str.begin(), str.end(), str.begin(), ::toupper); }
 		public:
@@ -136,7 +117,7 @@ namespace Slyvina {
 
 			inline void SaveSource(std::string File, std::string Header = "") { SaveString(File, UnParse(Header)); }
 
-			inline void Kill(std::string category,GINIE_Kill KT=GINIE_Kill::All) { 
+			inline void Kill(std::string category,GINIE_Kill KT=GINIE_Kill::All) {
 				Trans2Upper(category);
 				if (_Values.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Values)) { _Values.erase(category); if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
 				if (_Lists.count(category) && (KT == GINIE_Kill::All || KT == GINIE_Kill::Lists)) { _Lists.erase(category); if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader); }
@@ -193,7 +174,7 @@ namespace Slyvina {
 				Value(cat, key, std::to_string(value));
 			}
 #endif
-		
+
 			// More specified as some compilers are really terrible on this!
 
 			inline void Int64Value(std::string cat, std::string key, int64 value) {
@@ -217,7 +198,7 @@ namespace Slyvina {
 				S2U(cat); S2U(key);
 				if (!_Values.count(cat)) return "";
 				if (!_Values[cat].count(key)) return "";
-				return Trim(_Values[cat][key]); 
+				return Trim(_Values[cat][key]);
 			}
 
 			//inline std::string operator[](std::string cat, std::string key) { return Value(cat, key); }
@@ -313,7 +294,7 @@ namespace Slyvina {
 					for (auto k : _Lists[cat][key]) if (k == value) return;
 				}
 				_Lists[cat][key].push_back(value);
-				if (sort) 
+				if (sort)
 					std::sort(_Lists[cat][key].begin(), _Lists[cat][key].end());
 				if (AutoSave.size()) SaveSource(AutoSave, AutoSaveHeader);
 			}

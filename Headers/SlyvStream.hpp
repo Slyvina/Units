@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvStream.hpp
 // 	Slyvina - Quick Stream Handler
-// 	version: 24.10.23
+// 	version: 25.03.01
 // 
-// 	Copyright (C) 2020, 2021, 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -40,6 +40,7 @@ namespace Slyvina {
 		std::string FLoadString(std::string file,bool NoNull=false); // The F prefix is because MicroSoft has a macro with the same name.
 		VecString LoadLines(std::string file);
 		void LoadChars(std::vector<char>* vec, std::string file);
+		void LoadBytes(std::vector<char>* vec, std::string file);
 		void SaveString(std::string file, std::string stringvalue);
 
 		/// <summary>
@@ -115,7 +116,7 @@ namespace Slyvina {
 			void WriteCString(const char* str);
 
 			// Writes lines (Unix style so only <LF> at the end).
-			void WriteLine(std::string s=""); 
+			void WriteLine(std::string s="");
 
 			void WriteBytes(byte* b, size_t L);
 			void WriteChars(char* b, size_t L);
@@ -168,6 +169,7 @@ namespace Slyvina {
 			void ReadCString(char* c); // Unsafe C string reader
 			void ReadCString(char* c, int size, bool stoponnull=false); // Safe (sort of) C string reader
 			std::string ReadCString();
+			void ReadBytes(std::vector<byte>& Buf,int size, bool clear=true);
 			bool EndOfFile();
 		};
 

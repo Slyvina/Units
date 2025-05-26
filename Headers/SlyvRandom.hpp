@@ -1,9 +1,9 @@
 // License:
 // 	Units/Headers/SlyvRandom.hpp
 // 	Slyvina - Random
-// 	version: 24.10.23
+// 	version: 25.05.26
 // 
-// 	Copyright (C) 2022, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -21,25 +21,6 @@
 // 	   misrepresented as being the original software.
 // 	3. This notice may not be removed or altered from any source distribution.
 // End License
-// Lic:
-// Units/Headers/SlyvRandom.hpp
-// Slyvina - Random
-// version: 24.03.22
-// Copyright (C) 2022, 2024 Jeroen P. Broks
-// This software is provided 'as-is', without any express or implied
-// warranty.  In no event will the authors be held liable for any damages
-// arising from the use of this software.
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-// 1. The origin of this software must not be misrepresented; you must not
-// claim that you wrote the original software. If you use this software
-// in a product, an acknowledgment in the product documentation would be
-// appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-// misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-// EndLic
 
 
 /*
@@ -49,8 +30,8 @@
 
 #pragma once
 
-#include <stdlib.h> 
-#include <time.h> 
+#include <stdlib.h>
+#include <time.h>
 
 namespace Slyvina {
 	namespace Units {
@@ -58,7 +39,7 @@ namespace Slyvina {
 		private:
 			int _seed{ 0 };
 			unsigned int _lastseed=0;
-		public:			
+		public:
 			inline void Seed(unsigned int seed = 0) {
 				if (seed == 0U) {
 					_lastseed = time(NULL);
