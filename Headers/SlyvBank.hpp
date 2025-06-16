@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvBank.hpp
 // 	Slyvina - Banks (header)
-// 	version: 25.03.01
+// 	version: 25.06.16
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -122,6 +122,8 @@ namespace Slyvina {
 			/// <param name="sz">When 0 it just keeps reading until the null terminator is found, otherwise it will read number of bytes regardless of the terminator</param>
 			/// <returns></returns>
 			std::string ReadNullString(size_t sz = 0);
+
+			std::string ReadLine();
 
 			/// <summary>
 			/// Reads a string with null terminator.

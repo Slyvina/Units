@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/Slyvina.hpp
 // 	Slyvina - Core Header
-// 	version: 25.04.30
+// 	version: 25.06.16
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -227,13 +227,13 @@ namespace Slyvina {
 		for (size_t i=0;i<src.size();i++) tar[i]=src[i];
 		tar[src.size()]=0;
 	}
-	inline size_t SlyvStrLen(char* str) {
+	inline size_t SlyvStrLen(const char* str) {
 		int ret{ 0 };
 		while (str[ret++]) {} // dirty, but should work.
 		return ret;
 	}
 
-	inline size_t SlyvStrCmp(char *one, char* two) {
+	inline size_t SlyvStrCmp(const char *one, const char* two) {
 		if (SlyvStrLen(one)!=SlyvStrLen(two)) return -1;
 		size_t r{0};
 		for(size_t i=0;one[i] && two[i];++i) {

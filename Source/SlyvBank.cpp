@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvBank.cpp
 // 	Slyvina - Banking
-// 	version: 25.03.01
+// 	version: 25.06.16
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -160,6 +160,32 @@ namespace Slyvina {
 				while (ch = ReadChar()) ret += ch;
 			}
 			return ret;
+		}
+
+		std::string _Bank::ReadLine() {
+			std::string s1{};
+			char s2[5000];
+			char ch;
+			size_t pos{0};
+			s2[0]=0;
+			do {
+				ch = ReadChar();
+				switch(ch) {
+				case 0:
+				case 10:
+				case 13:
+					break;
+				default:
+					s2[pos++] = ch;
+					s2[pos  ] = 0;
+					if (pos>4995) {
+						s1+=s2;
+						pos=0;
+					}
+				}
+			} while(ch && ch!=10 && (!AtEnd()));
+			s1+=s2;
+			return s1;
 		}
 
 		void _Bank::ReadNullString(char* str, size_t bufsize, size_t blocksize) {

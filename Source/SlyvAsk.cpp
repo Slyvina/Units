@@ -1,9 +1,9 @@
 // License:
 // 	Units/Source/SlyvAsk.cpp
 // 	Ask
-// 	version: 24.10.20
+// 	version: 25.06.16
 // 
-// 	Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
+// 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
@@ -107,11 +107,11 @@ namespace Slyvina {
 		int AskInt(GINIE Data, std::string Cat, std::string Key, std::string Question, bool AllowDefault, int DefaultValue) {
 			int ret{ 0 };
 			if (Data->Value(Cat, Key).size()) {
-				ret = ToInt(Data->Value(Cat, Key));
+//				ret = ToInt(Data->Value(Cat, Key));
 				if (STOI_Error.size()) {
 					QCol->Error("Data error in [\"" + Cat + "\", \"" + Key + "\"](\"" + Data->Value(Cat, Key) + "\") -> " + STOI_Error);
 					Data->Value(Cat, Key, "");
-					
+
 				} else return ret;
 			}
 			while (true) {
@@ -121,7 +121,7 @@ namespace Slyvina {
 				if (STOI_Error.size()) {
 					QCol->Error(STOI_Error);
 					Data->Value(Cat, Key, "");
-					
+
 				} else return ret;
 			}
 			return ret;
@@ -162,7 +162,7 @@ namespace Slyvina {
 				QCol->Cyan("");
 				Data->Value(Cat, Key, ReadLine());
 				if (!Data->Value(Cat, Key).size()) Data->Value(Cat, Key, DefaultValue);
-			}			
+			}
 			return Data->Value(Cat, Key);
 		}
 

@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvStream.cpp
 // 	Slyvina - Quick Stream Handler
-// 	version: 25.03.01
+// 	version: 25.06.16
 // 
 // 	Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -528,7 +528,8 @@ namespace Slyvina {
 			char* buf;
 			string ret;
 			int ln = l;
-			if (!ln) ln = ReadInt();
+			//if (!ln) ln = ReadInt();
+			ln = ln ? ln : ReadInt();
 			if (ln < 0) {
 				std::cout << "\x1b[91mERROR!!!\7\x1b[0m Invalid string length from ReadString() (" << ln << ")";
 				throw std::runtime_error("Invalid streng length!");

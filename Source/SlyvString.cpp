@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 25.01.17
+// 	version: 25.06.16
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -218,8 +218,10 @@ namespace Slyvina {
 		VecString Split(std::string str, char spltchar) {
 			auto ret = NewVecString();
 			unsigned int idx = 0;
-			for (int i = 0; i < str.size(); i++) {
-				if (idx >= ret->size()) ret->push_back("");
+			auto strsize{str.size()};
+			size_t retsize{0};
+			for (int i = 0; i < strsize; i++) {
+				if (idx >= retsize) { ret->push_back(""); retsize=ret->size(); }
 				if (str[i] == spltchar)
 					idx++;
 				else
