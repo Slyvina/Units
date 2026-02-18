@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvBank.hpp
 // 	Slyvina - Banks (header)
-// 	version: 25.06.16
+// 	version: 25.10.12
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 

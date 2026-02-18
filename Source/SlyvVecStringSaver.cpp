@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvVecStringSaver.cpp
 // 	Vec String Saver
-// 	version: 25.06.16
+// 	version: 25.10.12
 // 
 // 	Copyright (C) 2025 Jeroen P. Broks
 // 
@@ -159,7 +159,7 @@ namespace Slyvina {
 	}
 
 	VecString LoadVecString(String File) {
-		size_t SizeB{FileSize(File)}; if (!SizeB) {std::cout << "VecString LoadVecString(\""<<File<<"\")   ->   Size turned out 0!\n"; return nullptr; }
+		size_t SizeB{(size_t)FileSize(File)}; if (!SizeB) {std::cout << "VecString LoadVecString(\""<<File<<"\")   ->   Size turned out 0!\n"; return nullptr; }
 		/*
 		auto PureB{LoadCharBuf(File)};
 		auto BankB{TurnToBank(PureB,SizeB)};

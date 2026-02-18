@@ -1,7 +1,7 @@
 // License:
 // 	Units/Headers/SlyvString.hpp
 // 	Slyvina - Quick String Handler (header)
-// 	version: 25.01.13
+// 	version: 25.10.12
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -177,6 +177,8 @@ namespace Slyvina {
 			std::string s(input.begin(), input.end());
 			return s;
 		}
+
+		std::string EnRank(int i);
 
 
 		/// <summary>

@@ -2,17 +2,17 @@
 // 	Units/Headers/SlyvGINIE.hpp
 // 	Slyvina - GINIE
 // 	version: 25.03.01
-// 
+//
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
-// 
+//
 // 	This software is provided 'as-is', without any express or implied
 // 	warranty.  In no event will the authors be held liable for any damages
 // 	arising from the use of this software.
-// 
+//
 // 	Permission is granted to anyone to use this software for any purpose,
 // 	including commercial applications, and to alter it and redistribute it
 // 	freely, subject to the following restrictions:
-// 
+//
 // 	1. The origin of this software must not be misrepresented; you must not
 // 	   claim that you wrote the original software. If you use this software
 // 	   in a product, an acknowledgment in the product documentation would be
@@ -190,13 +190,33 @@ namespace Slyvina {
 			/// <param name="cat"></param>
 			/// <param name="key"></param>
 			/// <returns>The value</returns>
-			inline std::string Value(std::string cat, std::string key) {
-				if (!this) {
-					std::cout << "\x7\x1b[31mERROR!\x1b[0m <NULLGINIE>->Value(\"" << cat << "\", \"" << key << "\"): Trying to get a value from NULL!\n";
+			inline std::string Value(std::string _cat, std::string _key) {
+				#ifdef GINIE_DEBUG
+					std::cout << "Get -> "<<_cat<<"/"<<_key<<"!\n";
+				#endif // GINIE_DEBUG
+				if (this==nullptr) {
+					std::cout << "\x7\x1b[31mERROR!\x1b[0m <NULLGINIE>->Value(\"" << _cat << "\", \"" << _key << "\"): Trying to get a value from NULL!\n";
 					return "";
 				}
-				S2U(cat); S2U(key);
+				#ifdef GINIE_DEBUG
+					std::cout << "To upper!\n";
+				#endif // GINIE_DEBUG
+				//S2U(cat); S2U(key);
+				auto
+					cat{Upper(_cat.size()?_cat:"NAMELESS")},
+					key{Upper(_key.size()?_key:"NAMELESS")};
+				#ifdef GINIE_DEBUG
+					std::cout << "Time to check things out\n";
+					std::cout << "Have category " << cat <<"!!\n";
+					std::cout << "Loop check\n";
+					for(auto&v:_Values) { std::cout << v.first << "\n"; }
+					//std::cout << " -> " << boolstring(_Values.count(cat))<<"\n";
+					std::cout << "???\n";
+				#endif // GINIE_DEBUG
 				if (!_Values.count(cat)) return "";
+				#ifdef GINIE_DEBUG
+					std::cout << "Have key " << key << " -> " << boolstring(_Values[cat].count(key))<<"\n";
+				#endif // GINIE_DEBUG
 				if (!_Values[cat].count(key)) return "";
 				return Trim(_Values[cat][key]);
 			}
@@ -346,6 +366,13 @@ namespace Slyvina {
 				return _Lists[cat][key].size();
 			}
 
+			inline void ClearList(std::string cat, std::string key) {
+				S2U(cat); S2U(key);
+				if (!_Lists.count(cat)) return ;
+				if (!_Lists[cat].count(key)) return;
+				_Lists[cat][key].clear();
+			}
+
 			/// <summary>
 			/// Creates a list unless it already exists. (If you set the 'force' parameter to true a new list will be created anyway).
 			/// </summary>
@@ -362,6 +389,18 @@ namespace Slyvina {
 				if (!_Lists.count(cat)) return false;
 				//std::cout << "?>" << _Lists[cat].count(key) << std::endl; // debug only!
 				return _Lists[cat].count(key);
+			}
+
+			inline bool ListContains(std::string cat, std::string key, std::string needle,bool IgnoreCase) {
+				S2U(cat); S2U(key);
+				//std::cout << "?> cat:" << cat << _Lists.count(cat) << std::endl; // debug only!
+				if (!_Lists.count(cat)) return false;
+				//std::cout << "?>" << _Lists[cat].count(key) << std::endl; // debug only!
+				if (IgnoreCase) needle=Upper(needle);
+				for(auto t:_Lists[cat][key]) {
+					if (needle==(IgnoreCase?Upper(t):t)) return true;
+				}
+				return false;
 			}
 
 			/// <summary>
@@ -480,7 +519,11 @@ namespace Slyvina {
 		/// <param name="autosv"></param>
 		/// <param name="autosvh"></param>
 		/// <returns></returns>
-		inline GINIE ParseGINIE(std::string src, std::string autosv = "", std::string autosvh = "") { return std::make_shared<RawGINIE>(GINIE_Read::Source, src, autosv, autosvh); }
+		inline GINIE ParseGINIE(std::string src, std::string autosv = "", std::string autosvh = "") {
+			//return std::make_shared<RawGINIE>(GINIE_Read::Source, src, autosv, autosvh);
+			auto ret{new RawGINIE(GINIE_Read::Source,src,autosv,autosvh)};
+			return std::shared_ptr<RawGINIE>(ret);
+		}
 
 		/// <summary>
 		/// Parses a GINIE source and returns it as a unique pointer

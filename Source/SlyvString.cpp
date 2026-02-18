@@ -1,7 +1,7 @@
 // License:
 // 	Units/Source/SlyvString.cpp
 // 	Slyvina - Quick String Handler
-// 	version: 25.06.16
+// 	version: 25.10.12
 // 
 // 	Copyright (C) 2022, 2023, 2024, 2025 Jeroen P. Broks
 // 
@@ -326,6 +326,17 @@ namespace Slyvina {
                 ret=StReplace(ret,"$["+std::to_string(i)+"]",r[i]);
 		    }
 		    return ret;
+		}
+
+		std::string EnRank(int i) {
+			auto e{i%10};
+			auto r{std::to_string(i)};
+			switch(e) {
+				case 1: return r + ( (i/10)%10==1?"th":"st");
+				case 2: return r + ( (i/10)%10==1?"th":"nd");
+				case 3: return r + ( (i/10)%10==1?"th":"rd");
+				default: return r+"th";
+			}
 		}
 
 
