@@ -1,3 +1,26 @@
+// License:
+// 	Units/Source/SlyvRoman.cpp
+// 	Roman Numbers
+// 	version: 26.09.12
+// 
+// 	Copyright (C) 2021, 2022, 2023, 2024, 2026 Jeroen P. Broks
+// 
+// 	This software is provided 'as-is', without any express or implied
+// 	warranty.  In no event will the authors be held liable for any damages
+// 	arising from the use of this software.
+// 
+// 	Permission is granted to anyone to use this software for any purpose,
+// 	including commercial applications, and to alter it and redistribute it
+// 	freely, subject to the following restrictions:
+// 
+// 	1. The origin of this software must not be misrepresented; you must not
+// 	   claim that you wrote the original software. If you use this software
+// 	   in a product, an acknowledgment in the product documentation would be
+// 	   appreciated but is not required.
+// 	2. Altered source versions must be plainly marked as such, and must not be
+// 	   misrepresented as being the original software.
+// 	3. This notice may not be removed or altered from any source distribution.
+// End License
 // Lic:
 // Units/Source/SlyvRoman.cpp
 // Roman Numbers
@@ -21,13 +44,22 @@
 #include <string>
 #include <math.h>
 
+#include "../Headers/SlyvRoman.hpp"
+
 namespace Slyvina {
 	namespace Units {
-		std::string ToRoman(int num) {
+		std::string ToRoman(int num,int mx) {
 			using namespace std;
 
 			if (num == 0) return "O";
-
+			
+			//if ((mx>1000) && (num>=mx)) {
+			//	std::string mret{"("};
+			//	mret+=ToRoman(num/1000,mx);
+			//	mret+=" * M)";
+			//	mret+=ToRoman(num%1000,mx);
+			//	return mret;
+			//}
 			int
 				thousand = 0,
 				hundred = 0,
@@ -49,7 +81,7 @@ namespace Slyvina {
 
 
 			// When there are too many thousands, let's cut that up then
-			if (thousand > 5)
+			if (thousand >= 5)
 				ret = "(" + ToRoman(thousand) + " * M) + ";
 			else
 				for (int i = 1; i <= thousand; ++i)
